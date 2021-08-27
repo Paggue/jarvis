@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Lara\Jarvis\Services;
 
 use Lara\Jarvis\Models\Bank;

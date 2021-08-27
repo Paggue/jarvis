@@ -84,5 +84,11 @@ class JarvisServiceProvider extends ServiceProvider
                 __DIR__ . '/../../database/migrations/create_banks_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . '_create_banks_table.php'),
             ], 'migrations');
         }
+
+        if (!class_exists('CreateSettingsTable')) {
+            $this->publishes([
+                __DIR__ . '/../../database/migrations/create_settings_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . '_create_settings_table.php'),
+            ], 'migrations');
+        }
     }
 }
