@@ -15,6 +15,8 @@ class InstallJarvisPackage extends Command
 
     public function handle()
     {
+        system('composer dump-autoload');
+
         $this->info('Installing Jarvis...');
 
         $this->info('Publishing configuration...');
@@ -77,6 +79,8 @@ class InstallJarvisPackage extends Command
         }
 
         $this->call('vendor:publish', $params);
+
+        system('composer dump-autoload');
 
     }
 }
