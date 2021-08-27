@@ -31,6 +31,8 @@ class InstallJarvisPackage extends Command
             }
         }
 
+        $this->publishMigrations();
+
         $this->info('Installed Jarvis');
     }
 
@@ -59,5 +61,22 @@ class InstallJarvisPackage extends Command
         }
 
         $this->call('vendor:publish', $params);
+    }
+
+    private function publishMigrations($forcePublish = false)
+    {
+        $this->info('Publish Migrations Jarvis');
+
+        $params = [
+            '--provider' => "Lara\Jarvis\Providers\JarvisServiceProvider",
+            '--tag' => "migrations"
+        ];
+
+        if ($forcePublish === true) {
+            $params['--force'] = true;
+        }
+
+        $this->call('vendor:publish', $params);
+
     }
 }
