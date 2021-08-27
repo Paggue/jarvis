@@ -2,10 +2,12 @@
 
 namespace Lara\Jarvis\Providers;
 
+use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Lara\Jarvis\Console\InstallJarvisPackage;
 use Lara\Jarvis\Utils\PixPayloadGenerator;
 use Illuminate\Support\Facades\Route;
+use Orchestra\Testbench\Http\Middleware\Authenticate;
 
 class JarvisServiceProvider extends ServiceProvider
 {
@@ -15,6 +17,8 @@ class JarvisServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'custom-auth');
 
+        $router = $this->app->make(Router::class);
+        $router->aliasMiddleware('auth', Authenticate::class);
 
         // Register the command if we are using the application via the CLI
         if ($this->app->runningInConsole()) {
@@ -72,6 +76,12 @@ class JarvisServiceProvider extends ServiceProvider
         if (!class_exists('CreateCommentsTable')) {
             $this->publishes([
                 __DIR__ . '/../../database/migrations/create_comments_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . '_create_comments_table.php'),
+            ], 'migrations');
+        }
+
+        if (!class_exists('CreateBanksTable')) {
+            $this->publishes([
+                __DIR__ . '/../../database/migrations/create_banks_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . '_create_banks_table.php'),
             ], 'migrations');
         }
     }

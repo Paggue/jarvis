@@ -20,3 +20,9 @@ Route::middleware('web')->group(function () {
 // CITIES AND STATES //
 Route::get('states', 'CitiesStatesController@indexStates');
 Route::get('cities', 'CitiesStatesController@indexCities');
+
+
+Route::group(['middleware' => ['auth:api']], function () {
+    // BANKS //
+    Route::get('banks', 'BankController@index');
+});

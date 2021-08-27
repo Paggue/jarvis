@@ -1,0 +1,5 @@
+env:
+  - DB_CONNECTION="testing"
+
+providers:
+  - Laravel\Passport\PassportServiceProvider

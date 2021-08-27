@@ -19,7 +19,8 @@
     "require": {
         "php": "^7.4|^8.0",
         "geekcom/validator-docs": "dev-master",
-        "illuminate/contracts": "^8.0"
+        "illuminate/contracts": "^8.0",
+        "laravel/passport": "10.x-dev"
     },
     "require-dev": {
         "orchestra/testbench": "^6.0",

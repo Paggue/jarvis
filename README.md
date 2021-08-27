@@ -1,3 +1,7 @@
+### References
+ - https://laravelpackage.com/
+ - https://packages.tools/testbench/
+
 ### Install
 - php artisan jarvis:install
 

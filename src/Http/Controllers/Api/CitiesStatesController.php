@@ -2,7 +2,7 @@
 
 namespace Lara\Jarvis\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use Lara\Jarvis\Http\Controllers\Controller;
 use Lara\Jarvis\Http\Resources\DefaultCollection;
 use Lara\Jarvis\Services\CitiesStatesService;
 use Exception;
