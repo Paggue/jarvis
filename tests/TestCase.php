@@ -5,6 +5,7 @@ namespace Lara\Jarvis\Tests;
 
 use Lara\Jarvis\Providers\JarvisServiceProvider;
 use Laravel\Passport\PassportServiceProvider;
+use OwenIt\Auditing\AuditingServiceProvider;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -21,7 +22,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         return [
             JarvisServiceProvider::class,
-            PassportServiceProvider::class
+            PassportServiceProvider::class,
+            AuditingServiceProvider::class,
         ];
     }
 

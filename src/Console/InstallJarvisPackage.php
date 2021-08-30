@@ -71,7 +71,7 @@ class InstallJarvisPackage extends Command
 
         $params = [
             '--provider' => "Lara\Jarvis\Providers\JarvisServiceProvider",
-            '--tag' => "migrations"
+            '--tag' => "jarvis-migrations"
         ];
 
         if ($forcePublish === true) {

@@ -5,6 +5,7 @@ namespace Lara\Jarvis\Providers;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Lara\Jarvis\Console\InstallJarvisPackage;
+use Lara\Jarvis\Console\PublishJarvisSeeders;
 use Lara\Jarvis\Utils\PixPayloadGenerator;
 use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\Http\Middleware\Authenticate;
@@ -31,9 +32,11 @@ class JarvisServiceProvider extends ServiceProvider
             // Export the migration
             $this->exportMigrations();
 
+            $this->exportSeeders();
 
             $this->commands([
                 InstallJarvisPackage::class,
+                PublishJarvisSeeders::class,
             ]);
         }
     }
@@ -70,25 +73,36 @@ class JarvisServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../../database/migrations/create_states_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . 1 . '_create_states_table.php'),
                 __DIR__ . '/../../database/migrations/create_cities_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . 2 . '_create_cities_table.php'),
-            ], 'migrations');
+            ], 'jarvis-migrations');
         }
 
         if (!class_exists('CreateCommentsTable')) {
             $this->publishes([
                 __DIR__ . '/../../database/migrations/create_comments_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . '_create_comments_table.php'),
-            ], 'migrations');
+            ], 'jarvis-migrations');
         }
 
         if (!class_exists('CreateBanksTable')) {
             $this->publishes([
                 __DIR__ . '/../../database/migrations/create_banks_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . '_create_banks_table.php'),
-            ], 'migrations');
+            ], 'jarvis-migrations');
         }
 
         if (!class_exists('CreateSettingsTable')) {
             $this->publishes([
                 __DIR__ . '/../../database/migrations/create_settings_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . '_create_settings_table.php'),
-            ], 'migrations');
+            ], 'jarvis-migrations');
         }
+    }
+
+    protected function exportSeeders ()
+    {
+        $this->publishes([
+            __DIR__ . '/../../database/seeders/JarvisSeeder.php' => database_path('seeders/JarvisSeeder.php'),
+        ], 'jarvis-seeders');
+
+        $this->publishes([
+            __DIR__ . '/../../database/seeders/DummySeeder.php' => database_path('seeders/DummySeeder.php'),
+        ], 'jarvis-seeders');
     }
 }
