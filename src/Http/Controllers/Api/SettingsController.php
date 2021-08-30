@@ -16,30 +16,14 @@ class SettingsController extends Controller
 
     public function __construct(SettingsService $service)
     {
-        $this->middleware("permission:settings:list")->only(["index"]);
-        $this->middleware("permission:settings:edit")->only("update");
-        $this->middleware("permission:settings:audits")->only("audits");
-
         $this->service = $service;
     }
 
-    /**
-     * Display a listing of the city resource.
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
     public function index(Request $request)
     {
         return response()->json( $this->service->index($request));
     }
 
-    /**
-     * Display a listing of the settings resource.
-     *
-     * @param Request $request
-     * @return \stdClass
-     */
     public function update(Request $request)
     {
         $data = $this->service->update($request);
@@ -47,13 +31,6 @@ class SettingsController extends Controller
 
     }
 
-    /**
-     * Retrieves the audits of the specified resource.
-     *
-     * @param Request $request
-     * @param int $id
-     * @return JsonResponse
-     */
     public function audits (Request $request, $id)
     {
         try {

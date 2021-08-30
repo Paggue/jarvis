@@ -15,6 +15,11 @@ class Setting extends Model  implements AuditableContracts
 
     const PRIVATE_KEYS = [];
 
+    protected static function newFactory()
+    {
+        return \Lara\Jarvis\Database\Factories\SettingFactory::new();
+    }
+
     public static function publicConfig ()
     {
         $settings = Setting::whereNotIn('key', self::PRIVATE_KEYS)->get();

@@ -21,7 +21,8 @@
         "php": "^7.4|^8.0",
         "geekcom/validator-docs": "dev-master",
         "illuminate/contracts": "^8.0",
-        "laravel/passport": "10.x-dev"
+        "laravel/passport": "10.x-dev",
+        "owen-it/laravel-auditing": "^12.0"
     },
     "require-dev": {
         "orchestra/testbench": "^6.0",

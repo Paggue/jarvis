@@ -6,7 +6,6 @@ use Lara\Jarvis\Models\Bank;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
 use Lara\Jarvis\Tests\TestCase;
 use Lara\Jarvis\Tests\User;
 use Laravel\Passport\Passport;

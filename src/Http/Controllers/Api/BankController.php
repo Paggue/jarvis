@@ -2,8 +2,8 @@
 
 namespace Lara\Jarvis\Http\Controllers\Api;
 
+use Illuminate\Http\JsonResponse;
 use Lara\Jarvis\Http\Controllers\Controller;
-use Lara\Jarvis\Http\Resources\DefaultCollection;
 use Lara\Jarvis\Services\BankService as Service;
 use Illuminate\Http\Request;
 
@@ -20,7 +20,8 @@ class BankController extends Controller
      * Display a listing of the city resource.
      *
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse|DefaultCollection
+     * @return JsonResponse
+     * @throws \Exception
      */
     public function index(Request $request)
     {

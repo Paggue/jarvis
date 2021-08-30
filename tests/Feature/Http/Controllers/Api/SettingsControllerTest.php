@@ -2,31 +2,28 @@
 
 namespace Tests\Feature\Http\Controllers\Api;
 
-use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Lara\Jarvis\Enums\UserRoles;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Lara\Jarvis\Models\Setting;
+use Lara\Jarvis\Tests\User;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class SettingsControllerTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
-    protected $user = null;
-    protected $guard_api = ['guard_name' => 'api'];
+    /**
+     * @var Collection|Model|mixed
+     */
+    private $user;
 
     public function setUp (): void
     {
         parent::setUp();
 
-        $role = UserRoles::SUPER_ADMIN;
-
         $this->user = User::factory()->create();
-
-        \Artisan::call('db:seed', ['-vvv' => true]);
-
-        $this->user->assignRole($role);
     }
 
     private const STRUCTURE = [
@@ -54,7 +51,6 @@ class SettingsControllerTest extends TestCase
     {
         $index = $this->json('GET', '/api/settings');
         $index->assertStatus(401);
-
 
         $store = $this->json('PUT', '/api/settings');
         $store->assertStatus(401);

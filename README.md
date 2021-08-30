@@ -22,3 +22,4 @@ https://github.com/fabiosiqueira12/pix-qrcode-estatico
  1. Add "lara/jarvis": "dev-main" to required dependencies in *composer.json*
  2. Add "repositories": [ { "type": "path", "url": "./packages/Lara/jarvis" } ] at the end of your *composer.json*
 
+####Obs.: Inside the project, use "./vendor/bin/testbench" instead of the artisan command
