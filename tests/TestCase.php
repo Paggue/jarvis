@@ -16,6 +16,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         parent::setUp();
         $this->withHeaders(['Accept' => 'application/json']);
 
+
     }
 
     protected function getPackageProviders($app)

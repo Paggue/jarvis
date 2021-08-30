@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use Lara\Jarvis\Tests\TestCase;
-//use Lara\Jarvis\Enums\UserRoles;
 use Lara\Jarvis\Tests\User;
 use Laravel\Passport\Passport;
 
@@ -24,14 +23,7 @@ class BankControllerTest extends TestCase
     public function setUp (): void
     {
         parent::setUp();
-
-//        $role = UserRoles::SUPER_ADMIN;
-
         $this->user = User::factory()->create();
-
-//        \Artisan::call('db:seed', ['-vvv' => true]);
-
-//        $this->user->assignRole($role);
     }
 
     /**
