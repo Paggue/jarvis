@@ -23,7 +23,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         return [
             JarvisServiceProvider::class,
             PassportServiceProvider::class,
-            AuditingServiceProvider::class,
         ];
     }
 

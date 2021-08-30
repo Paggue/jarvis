@@ -11,7 +11,7 @@ class DummySeeder extends Seeder
     {
         State::updateOrCreate([
             'name' => "Gibberish",
-            'uf' => "ZZZ"
+            'uf' => "ZZZZ"
         ]);
     }
 }

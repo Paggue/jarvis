@@ -12,7 +12,7 @@ class PublishJarvisSeeders extends Command
 
     protected $description = 'Publish and Run Jarvis Seeders';
 
-    public function handle()
+    public function handle ()
     {
         system('composer dump-autoload');
 
@@ -33,7 +33,8 @@ class PublishJarvisSeeders extends Command
 
         $params = [
             '--provider' => "Lara\Jarvis\Providers\JarvisServiceProvider",
-            '--tag' => "jarvis-seeders"
+            '--tag'      => "jarvis-seeders",
+            '--force'    => true,
         ];
 
         $this->call('vendor:publish', $params);
