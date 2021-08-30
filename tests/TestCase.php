@@ -15,6 +15,11 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         parent::setUp();
         $this->withHeaders(['Accept' => 'application/json']);
 
+        include_once __DIR__ . '/../database/seeders/BankSeeder.php';
+
+        (new \BankSeeder)->run();
+
+
     }
 
     protected function getPackageProviders($app)

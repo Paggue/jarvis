@@ -13,7 +13,8 @@
     "autoload": {
         "psr-4": {
             "Lara\\Jarvis\\": "src",
-            "Lara\\Jarvis\\Database\\Factories\\": "database/factories"
+            "Lara\\Jarvis\\Database\\Factories\\": "database/factories",
+            "Lara\\Jarvis\\Database\\Seeders\\": "database/seeders"
         }
     },
     "require": {
