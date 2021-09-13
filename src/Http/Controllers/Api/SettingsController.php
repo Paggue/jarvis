@@ -2,50 +2,53 @@
 
 namespace Lara\Jarvis\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use Lara\Jarvis\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Lara\Jarvis\Services\SettingsService;
 
 class SettingsController extends Controller
 {
-
     protected $service;
 
-    public function __construct(SettingsService $service)
+    public function __construct (SettingsService $service)
     {
+        $this->middleware("permission:settings:list")->only(["index"]);
+        $this->middleware("permission:settings:edit")->only("update");
+
+        $this->middleware("permission:settings:audits")->only("audits");
+
         $this->service = $service;
     }
 
-    public function index(Request $request)
+    public function index (Request $request)
     {
-        return response()->json( $this->service->index($request));
+        try {
+            return response()->json($this->service->index($request));
+        } catch (Exception $e) {
+            return $this->error($e->getMessage());
+        }
     }
 
-    public function update(Request $request)
+    public function update (Request $request)
     {
-        $data = $this->service->update($request);
-        return response()->json($data);
-
+        try {
+            return response()->json($this->service->update($request));
+        } catch (Exception $e) {
+            return $this->error($e->getMessage());
+        }
     }
 
     public function audits (Request $request, $id)
     {
         try {
-            $result = $this->service->audits($request, $id);
-            return response()->json($result);
-
+            return response()->json($this->service->audits($request, $id));
         } catch (ModelNotFoundException $m) {
-
             return $this->error("Not Found!", 404);
-
         } catch (Exception $e) {
-
             if (method_exists($e, 'getStatusCode'))
                 return $this->error($e->getMessage(), $e->getStatusCode());
-
             return $this->error($e->getMessage());
         }
     }

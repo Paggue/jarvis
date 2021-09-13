@@ -30,7 +30,7 @@ class BankControllerTest extends TestCase
      */
     public function non_authenticated_users_cannot_access_the_banks_api ()
     {
-        $index = $this->json('GET', 'api/banks');
+        $index = $this->json('GET', '/api/banks');
         $index->assertStatus(401);
     }
 
@@ -166,7 +166,7 @@ class BankControllerTest extends TestCase
 
         // order by name desc
         $data  = Bank::factory()->create([
-            'name' => 'ZZZZZZ',
+            'name' => 'ZAAAA',
         ]);
         $query = "order=name,desc";
 

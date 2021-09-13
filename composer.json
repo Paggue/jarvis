@@ -1,53 +1,54 @@
 {
-    "name": "lara/jarvis",
-    "description": "Jarvis - Utils Laravel package .",
-    "type": "project",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Rodrigo Fraga",
-            "email": "rodrigofraga6@gmail.com"
-        }
-    ],
-    "minimum-stability": "dev",
-    "autoload": {
-        "psr-4": {
-            "Lara\\Jarvis\\": "src",
-            "Lara\\Jarvis\\Database\\Factories\\": "database/factories",
-            "Lara\\Jarvis\\Database\\Seeders\\": "database/seeders"
-        }
-    },
-    "require": {
-        "php": "^7.4|^8.0",
-        "geekcom/validator-docs": "dev-master",
-        "illuminate/contracts": "^8.0",
-        "laravel/passport": "10.x-dev",
-        "owen-it/laravel-auditing": "^12.0"
-    },
-    "require-dev": {
-        "orchestra/testbench": "^6.0",
-        "phpunit/phpunit": "^9.3"
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Lara\\Jarvis\\Tests\\": "tests"
-        }
-    },
-    "scripts": {
-        "test": "vendor/bin/phpunit",
-        "test-f": "vendor/bin/phpunit --filter"
-    },
-    "config": {
-        "sort-packages": true
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Lara\\Jarvis\\Providers\\JarvisServiceProvider"
-            ],
-            "aliases": {
-                "PixPayloadGenerator": "Lara\\Jarvis\\Facades\\PixPayloadGenerator"
-            }
-        }
+  "name": "lara/jarvis",
+  "description": "Jarvis - Utils Laravel package .",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Rodrigo Fraga",
+      "email": "rodrigofraga6@gmail.com"
     }
+  ],
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "Lara\\Jarvis\\": "src",
+      "Lara\\Jarvis\\Database\\Factories\\": "database/factories",
+      "Lara\\Jarvis\\Database\\Seeders\\": "database/seeders"
+    }
+  },
+  "require": {
+    "php": "^7.4|^8.0",
+    "geekcom/validator-docs": "dev-master",
+    "illuminate/contracts": "^8.0",
+    "laravel/passport": "10.x-dev",
+    "owen-it/laravel-auditing": "^12.0",
+    "spatie/laravel-permission": "^4.0"
+  },
+  "require-dev": {
+    "orchestra/testbench": "^6.0",
+    "phpunit/phpunit": "^9.3"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Lara\\Jarvis\\Tests\\": "tests"
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit",
+    "test-f": "vendor/bin/phpunit --filter"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Lara\\Jarvis\\Providers\\JarvisServiceProvider"
+      ],
+      "aliases": {
+        "PixPayloadGenerator": "Lara\\Jarvis\\Facades\\PixPayloadGenerator"
+      }
+    }
+  }
 }

@@ -3,10 +3,12 @@
 
 namespace Lara\Jarvis\Services;
 
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Lara\Jarvis\Models\Setting;
 use Lara\Jarvis\Validators\SettingValidator;
+use stdClass;
 
 class SettingsService
 {
@@ -17,7 +19,6 @@ class SettingsService
     public function model ()
     {
         return new Setting();
-
     }
 
     public function validationRules ()
@@ -39,13 +40,7 @@ class SettingsService
         return $this;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @param Request $request
-     * @return \stdClass
-     * @throws \Exception
-     */
+
     public function index (Request $request)
     {
         return Setting::publicConfig();

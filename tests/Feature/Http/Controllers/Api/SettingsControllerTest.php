@@ -8,15 +8,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Lara\Jarvis\Models\Setting;
 use Lara\Jarvis\Tests\User;
 use Laravel\Passport\Passport;
-use Tests\TestCase;
+use Lara\Jarvis\Tests\TestCase;
 
 class SettingsControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @var Collection|Model|mixed
-     */
     private $user;
 
     public function setUp (): void
