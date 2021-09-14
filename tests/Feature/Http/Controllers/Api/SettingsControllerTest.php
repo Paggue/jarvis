@@ -2,8 +2,6 @@
 
 namespace Tests\Feature\Http\Controllers\Api;
 
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Lara\Jarvis\Models\Setting;
 use Lara\Jarvis\Tests\User;

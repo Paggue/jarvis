@@ -3,32 +3,33 @@
 namespace Lara\Jarvis\Tests;
 
 
+use CreatePermissionTables;
 use Lara\Jarvis\Providers\JarvisServiceProvider;
 use Laravel\Passport\PassportServiceProvider;
 use OwenIt\Auditing\AuditingServiceProvider;
+use Spatie\Permission\PermissionServiceProvider;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
     protected $loadEnvironmentVariables = true;
 
-    public function setUp(): void
+    public function setUp (): void
     {
         parent::setUp();
         $this->withHeaders(['Accept' => 'application/json']);
-
-
     }
 
-    protected function getPackageProviders($app)
+    protected function getPackageProviders ($app)
     {
         return [
             JarvisServiceProvider::class,
             PassportServiceProvider::class,
             AuditingServiceProvider::class,
+            PermissionServiceProvider::class,
         ];
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp ($app)
     {
         // perform environment setup
         include_once __DIR__ . '/../database/migrations/create_users_table.php.stub';
@@ -56,7 +57,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
      *
      * @return array
      */
-    public function ignorePackageDiscoveriesFrom()
+    public function ignorePackageDiscoveriesFrom ()
     {
         return [];
     }

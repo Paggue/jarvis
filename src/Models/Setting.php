@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContracts;
 
-class Setting extends Model  implements AuditableContracts
+class Setting extends Model implements AuditableContracts
 {
     use HasFactory, Auditable;
 
@@ -15,7 +15,7 @@ class Setting extends Model  implements AuditableContracts
 
     const PRIVATE_KEYS = [];
 
-    protected static function newFactory()
+    protected static function newFactory ()
     {
         return \Lara\Jarvis\Database\Factories\SettingFactory::new();
     }

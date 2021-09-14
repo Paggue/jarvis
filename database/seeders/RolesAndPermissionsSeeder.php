@@ -20,9 +20,9 @@ class RolesAndPermissionsSeeder extends Seeder
         $guard_api = ['guard_name' => 'api'];
 
         //  ROLES
-        $roleAdmin   = Role::updateOrCreate(['name' => UserRoles::SUPER_ADMIN], $guard_api);
+        $roleAdmin = Role::updateOrCreate(['name' => UserRoles::SUPER_ADMIN], $guard_api);
 
-        $permission       = [];
+        $permission = [];
 
         Permission::updateOrCreate(['name' => 'settings:list'], array_merge($guard_api, ['description' => 'Listar configurações do sistema']));
         Permission::updateOrCreate(['name' => 'settings:edit'], array_merge($guard_api, ['description' => 'Editar configurações do sistema']));

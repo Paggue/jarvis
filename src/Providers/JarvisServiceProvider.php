@@ -102,7 +102,15 @@ class JarvisServiceProvider extends ServiceProvider
         ], 'jarvis-seeders');
 
         $this->publishes([
-            __DIR__ . '/../../database/seeders/DummySeeder.php' => database_path('seeders/DummySeeder.php'),
+            __DIR__ . '/../../database/seeders/BankSeeder.php' => database_path('seeders/BankSeeder.php'),
+        ], 'jarvis-seeders');
+
+        $this->publishes([
+            __DIR__ . '/../../database/seeders/HolidaySeeder.php' => database_path('seeders/HolidaySeeder.php'),
+        ], 'jarvis-seeders');
+
+        $this->publishes([
+            __DIR__ . '/../../database/seeders/RolesAndPermissionsSeeder.php' => database_path('seeders/RolesAndPermissionsSeeder.php'),
         ], 'jarvis-seeders');
     }
 }

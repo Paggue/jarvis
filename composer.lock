@@ -1657,12 +1657,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "005646e71f9bee8f8a41262258f64e5a3e1e908f"
+                "reference": "d2f21c6057de21ea2843b1e57d17755635a34583"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/005646e71f9bee8f8a41262258f64e5a3e1e908f",
-                "reference": "005646e71f9bee8f8a41262258f64e5a3e1e908f",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/d2f21c6057de21ea2843b1e57d17755635a34583",
+                "reference": "d2f21c6057de21ea2843b1e57d17755635a34583",
                 "shasum": ""
             },
             "require": {
@@ -1744,7 +1744,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-13T17:31:27+00:00"
+            "time": "2021-09-13T21:11:23+00:00"
         },
         {
             "name": "nette/schema",
@@ -1814,12 +1814,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "bf9ed31f52fea0ef5f09d0999006a0f3f568cd50"
+                "reference": "74d6a18fbf30d2069c75f47c2a22b8217a39e836"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/bf9ed31f52fea0ef5f09d0999006a0f3f568cd50",
-                "reference": "bf9ed31f52fea0ef5f09d0999006a0f3f568cd50",
+                "url": "https://api.github.com/repos/nette/utils/zipball/74d6a18fbf30d2069c75f47c2a22b8217a39e836",
+                "reference": "74d6a18fbf30d2069c75f47c2a22b8217a39e836",
                 "shasum": ""
             },
             "require": {
@@ -1891,7 +1891,7 @@
                 "issues": "https://github.com/nette/utils/issues",
                 "source": "https://github.com/nette/utils/tree/v3.2"
             },
-            "time": "2021-09-13T11:13:59+00:00"
+            "time": "2021-09-14T10:36:03+00:00"
         },
         {
             "name": "nyholm/psr7",
@@ -3360,12 +3360,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/error-handler.git",
-                "reference": "c4521837d1a0bc118740c766bbce94acde46dd5c"
+                "reference": "50aecc237b1e370564420a16b4d2ef2e2ffcbb17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/error-handler/zipball/c4521837d1a0bc118740c766bbce94acde46dd5c",
-                "reference": "c4521837d1a0bc118740c766bbce94acde46dd5c",
+                "url": "https://api.github.com/repos/symfony/error-handler/zipball/50aecc237b1e370564420a16b4d2ef2e2ffcbb17",
+                "reference": "50aecc237b1e370564420a16b4d2ef2e2ffcbb17",
                 "shasum": ""
             },
             "require": {
@@ -3423,7 +3423,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-13T16:28:55+00:00"
+            "time": "2021-09-13T19:56:21+00:00"
         },
         {
             "name": "symfony/event-dispatcher",

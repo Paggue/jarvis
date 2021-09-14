@@ -3,12 +3,10 @@
 
 namespace Lara\Jarvis\Services;
 
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Lara\Jarvis\Models\Setting;
 use Lara\Jarvis\Validators\SettingValidator;
-use stdClass;
 
 class SettingsService
 {
