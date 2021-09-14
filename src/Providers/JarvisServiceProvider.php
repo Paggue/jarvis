@@ -46,6 +46,20 @@ class JarvisServiceProvider extends ServiceProvider
         $this->app->bind('pixPayloadGenerator', function ($app) {
             return new PixPayloadGenerator();
         });
+
+        /*
+        * Register the service provider for the dependency.
+        */
+        $this->app->register('Aws\Laravel\AwsServiceProvider');
+        $this->app->register('Barryvdh\DomPDF\ServiceProvider');
+        $this->app->register('geekcom\ValidatorDocs\ValidatorProvider');
+
+        /*
+         * Create aliases for the dependency.
+         */
+        $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+        $loader->alias('AWS', 'Aws\Laravel\AwsFacade');
+        $loader->alias('PDF', 'Barryvdh\DomPDF\Facade');
     }
 
     protected function registerRoutes ()

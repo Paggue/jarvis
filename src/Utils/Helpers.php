@@ -3,11 +3,9 @@
 
 namespace Lara\Jarvis\Utils;
 
-use Carbon\Carbon;
 use geekcom\ValidatorDocs\Rules\Cnpj;
 use geekcom\ValidatorDocs\Rules\Cpf;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class Helpers
 {
@@ -152,7 +150,6 @@ class Helpers
             return 'PJ';
         }
     }
-
 
     public static function centsToMoney ($cents, $pattern = 'BRL')
     {
