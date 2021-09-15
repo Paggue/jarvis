@@ -29,6 +29,14 @@ class JarvisServiceProvider extends ServiceProvider
                 __DIR__ . '/../../config/config.php' => config_path('jarvis.php'),
             ], 'config');
 
+            $this->publishes([
+                __DIR__ . '/../../config/permission.php' => config_path('permission.php'),
+            ], 'config');
+
+            $this->publishes([
+                __DIR__ . '/../../config/audit.php' => config_path('audit.php'),
+            ], 'config');
+
             // Export the migration
             $this->exportMigrations();
 
@@ -53,8 +61,8 @@ class JarvisServiceProvider extends ServiceProvider
         /*
         * Register the service provider for the dependency.
         */
-        $this->app->register('OwenIt\Auditing\AuditingServiceProvider');
-        $this->app->register('Spatie\Permission\PermissionServiceProvider');
+//        $this->app->register('OwenIt\Auditing\AuditingServiceProvider');
+//        $this->app->register('Spatie\Permission\PermissionServiceProvider');
     }
 
     protected function registerRoutes ()
