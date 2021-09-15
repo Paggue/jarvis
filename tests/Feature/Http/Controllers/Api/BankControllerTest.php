@@ -166,7 +166,7 @@ class BankControllerTest extends TestCase
 
         // order by name desc
         $data  = Bank::factory()->create([
-            'name' => 'ZAAAA',
+            'name' => 'Zaaa',
         ]);
         $query = "order=name,desc";
 
