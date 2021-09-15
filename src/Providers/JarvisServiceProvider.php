@@ -14,8 +14,6 @@ class JarvisServiceProvider extends ServiceProvider
 {
     public function boot ()
     {
-        $this->registerRoutes();
-
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'custom-auth');
 
         $router = $this->app->make(Router::class);
@@ -27,10 +25,6 @@ class JarvisServiceProvider extends ServiceProvider
             // Export Config
             $this->publishes([
                 __DIR__ . '/../../config/config.php' => config_path('jarvis.php'),
-            ], 'config');
-
-            $this->publishes([
-                __DIR__ . '/../../config/permission.php' => config_path('permission.php'),
             ], 'config');
 
             $this->publishes([
@@ -63,22 +57,6 @@ class JarvisServiceProvider extends ServiceProvider
         */
 //        $this->app->register('OwenIt\Auditing\AuditingServiceProvider');
 //        $this->app->register('Spatie\Permission\PermissionServiceProvider');
-    }
-
-    protected function registerRoutes ()
-    {
-        Route::group($this->routeConfiguration(), function () {
-            $this->loadRoutesFrom(__DIR__ . '/../../routes/jarvis-api.php');
-        });
-    }
-
-    protected function routeConfiguration ()
-    {
-        return [
-            'prefix'     => config('jarvis.prefix'),
-            'middleware' => config('jarvis.middleware'),
-            'namespace'  => 'Lara\Jarvis\Http\Controllers\Api'
-        ];
     }
 
     protected function exportMigrations ()
@@ -114,12 +92,6 @@ class JarvisServiceProvider extends ServiceProvider
             ], 'jarvis-migrations');
         }
 
-        if (!class_exists('CreatePermissionTables')) {
-            $this->publishes([
-                __DIR__ . '/../../database/migrations/create_permission_tables.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . '_create_permission_tables.php'),
-            ], 'jarvis-migrations');
-        }
-
         if (!class_exists('CreateAuditsTable')) {
             $this->publishes([
                 __DIR__ . '/../../database/migrations/create_audits_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . '_create_audits_table.php'),
@@ -145,10 +117,6 @@ class JarvisServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__ . '/../../database/seeders/HolidaySeeder.php' => database_path('seeders/HolidaySeeder.php'),
-        ], 'jarvis-seeders');
-
-        $this->publishes([
-            __DIR__ . '/../../database/seeders/RolesAndPermissionsSeeder.php' => database_path('seeders/RolesAndPermissionsSeeder.php'),
         ], 'jarvis-seeders');
     }
 }

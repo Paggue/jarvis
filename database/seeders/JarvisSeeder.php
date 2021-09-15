@@ -12,6 +12,5 @@ class JarvisSeeder extends Seeder
     {
         $this->call(BankSeeder::class);
         $this->call(HolidaySeeder::class);
-        $this->call(RolesAndPermissionsSeeder::class);
     }
 }
