@@ -45,7 +45,8 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Lara\\Jarvis\\Providers\\JarvisServiceProvider"
+        "Lara\\Jarvis\\Providers\\JarvisServiceProvider",
+        "OwenIt\\Auditing\\AuditingServiceProvider"
       ],
       "aliases": {
         "PixPayloadGenerator": "Lara\\Jarvis\\Facades\\PixPayloadGenerator"
