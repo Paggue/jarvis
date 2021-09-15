@@ -14,6 +14,8 @@ class JarvisServiceProvider extends ServiceProvider
 {
     public function boot ()
     {
+        $this->registerRoutes();
+
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'custom-auth');
 
         $router = $this->app->make(Router::class);
@@ -56,7 +58,22 @@ class JarvisServiceProvider extends ServiceProvider
         * Register the service provider for the dependency.
         */
 //        $this->app->register('OwenIt\Auditing\AuditingServiceProvider');
-//        $this->app->register('Spatie\Permission\PermissionServiceProvider');
+    }
+
+    protected function registerRoutes ()
+    {
+        Route::group($this->routeConfiguration(), function () {
+            $this->loadRoutesFrom(__DIR__ . '/../../routes/jarvis-api.php');
+        });
+    }
+
+    protected function routeConfiguration ()
+    {
+        return [
+            'prefix'     => config('jarvis.prefix'),
+            'middleware' => config('jarvis.middleware'),
+            'namespace'  => 'Lara\Jarvis\Http\Controllers\Api'
+        ];
     }
 
     protected function exportMigrations ()

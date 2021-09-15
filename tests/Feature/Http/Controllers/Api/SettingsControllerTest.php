@@ -54,23 +54,6 @@ class SettingsControllerTest extends TestCase
     /**
      * @test
      */
-    public function non_permission_users_cannot_access_the_following_endpoints_for_the_settings_api ()
-    {
-        $user = User::factory()->create();
-
-        Passport::actingAs($user);
-
-        $index = $this->json('GET', '/api/settings');
-//        $index->assertStatus(403);
-
-        $store = $this->json('PUT', '/api/settings');
-//        $store->assertStatus(403);
-        self::assertEquals(true, true);
-    }
-
-    /**
-     * @test
-     */
     public function can_return_settings ()
     {
 
