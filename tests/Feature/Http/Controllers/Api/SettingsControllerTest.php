@@ -7,6 +7,7 @@ use Lara\Jarvis\Models\Setting;
 use Lara\Jarvis\Tests\User;
 use Laravel\Passport\Passport;
 use Lara\Jarvis\Tests\TestCase;
+use OwenIt\Auditing\Models\Audit;
 
 class SettingsControllerTest extends TestCase
 {

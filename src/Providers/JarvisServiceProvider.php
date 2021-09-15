@@ -99,6 +99,12 @@ class JarvisServiceProvider extends ServiceProvider
                 __DIR__ . '/../../database/migrations/create_settings_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . '_create_settings_table.php'),
             ], 'jarvis-migrations');
         }
+
+        if (!class_exists('CreateHolidaysTable')) {
+            $this->publishes([
+                __DIR__ . '/../../database/migrations/create_holidays_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . '_create_holidays_table.php'),
+            ], 'jarvis-migrations');
+        }
     }
 
     protected function exportSeeders ()

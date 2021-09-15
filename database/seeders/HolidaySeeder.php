@@ -3,6 +3,7 @@
 namespace Lara\Jarvis\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Lara\Jarvis\Models\Holiday;
 
 class HolidaySeeder extends Seeder
 {
@@ -97,7 +98,7 @@ class HolidaySeeder extends Seeder
         ];
 
         array_walk($data, function ($item) {
-//            Holiday::updateOrCreate($item);
+            Holiday::updateOrCreate($item);
         });
     }
 }
