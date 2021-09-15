@@ -14,7 +14,7 @@ class SettingTest extends TestCase
     function a_setting_has_key_and_name ()
     {
         $setting = Setting::factory()->create([
-            'key' => 'key',
+            'key'   => 'key',
             'value' => true,
         ]);
 

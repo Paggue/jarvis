@@ -22,7 +22,7 @@ class HolidayTest extends TestCase
         $this->artisan('db:seed', ['--class' => HolidaySeeder::class]);
     }
 
-    public function test_same_fillable()
+    public function test_same_fillable ()
     {
         $fillableTest = [
             "name", "type", "date",
@@ -33,33 +33,33 @@ class HolidayTest extends TestCase
         $this->assertEqualsCanonicalizing($fillableTest, $fillable);
     }
 
-    public function test_list_all()
+    public function test_list_all ()
     {
         $this->assertDatabaseCount('holidays', 16);
     }
 
-    public function test_is_today_holiday()
+    public function test_is_today_holiday ()
     {
         $response = (new Holiday())->isTodayHoliday();
 
         self::assertEquals($response, true);
     }
 
-    public function test_is_today_not_holiday()
+    public function test_is_today_not_holiday ()
     {
         $response = (new Holiday())->isTodayNotHoliday();
 
         self::assertEquals($response, false);
     }
 
-    public function test_is_today_util_day()
+    public function test_is_today_util_day ()
     {
         $response = (new Holiday())->isTodayUtilDay();
 
         self::assertEquals($response, false);
     }
 
-    public function test_is_today_not_util_day()
+    public function test_is_today_not_util_day ()
     {
         $response = (new Holiday())->isTodayNotUtilDay();
 
@@ -71,7 +71,7 @@ class HolidayTest extends TestCase
      *
      * @return void
      */
-    public function test_next_util_day_from()
+    public function test_next_util_day_from ()
     {
         $response = (new Holiday())->nextUtilDayFrom("2021-04-21");
 
@@ -83,7 +83,7 @@ class HolidayTest extends TestCase
      *
      * @return void
      */
-    public function test_quantity_util_days_in_month()
+    public function test_quantity_util_days_in_month ()
     {
         $response = (new Holiday())->countUtilDaysInMonth("2021-04-20");
 
@@ -95,7 +95,7 @@ class HolidayTest extends TestCase
      *
      * @return void
      */
-    public function test_quantity_not_util_days_in_month()
+    public function test_quantity_not_util_days_in_month ()
     {
         $response = (new Holiday())->countNotUtilDaysInMonth("2021-04-20");
 

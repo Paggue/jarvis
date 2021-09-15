@@ -12,17 +12,17 @@ class CityTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function a_city_has_a_name()
+    function a_city_has_a_name ()
     {
         $city = City::factory()->create(['name' => 'Fake Title']);
         $this->assertEquals('Fake Title', $city->name);
     }
 
     /** @test */
-    function a_city_has_a_uf()
+    function a_city_has_a_uf ()
     {
         $state = State::factory()->create();
-        $city = City::factory()->create(['state_id' => $state->id]);
+        $city  = City::factory()->create(['state_id' => $state->id]);
 
         $this->assertEquals($state->id, $city->state_id);
     }

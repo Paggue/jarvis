@@ -33,6 +33,9 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         include_once __DIR__ . '/../database/migrations/create_banks_table.php.stub';
         include_once __DIR__ . '/../database/migrations/create_settings_table.php.stub';
         include_once __DIR__ . '/../database/migrations/create_holidays_table.php.stub';
+        include_once __DIR__ . '/../database/migrations/create_permission_tables.php.stub';
+        include_once __DIR__ . '/../database/migrations/create_audits_table.php.stub';
+        include_once __DIR__ . '/../database/migrations/create_addresses_table.php.stub';
 
 
         (new \CreateUsersTable)->up();
@@ -42,6 +45,9 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         (new \CreateBanksTable)->up();
         (new \CreateSettingsTable)->up();
         (new \CreateHolidaysTable)->up();
+        (new \CreatePermissionTables)->up();
+        (new \CreateAuditsTable)->up();
+        (new \CreateAddressesTable)->up();
 
         $app['config']->set('auth.providers.users.model', Lara\Jarvis\Tests\User::class);
         $app['config']->set('auth.guards.api.driver', 'passport');
