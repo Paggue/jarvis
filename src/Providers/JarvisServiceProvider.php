@@ -64,7 +64,6 @@ class JarvisServiceProvider extends ServiceProvider
     {
         Route::group($this->routeConfiguration(), function () {
             $this->loadRoutesFrom(__DIR__ . '/../../routes/jarvis-api.php');
-            $this->loadRoutesFrom(__DIR__ . '/../../routes/test-routes.php');
         });
     }
 
