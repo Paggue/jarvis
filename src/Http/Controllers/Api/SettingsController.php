@@ -2,6 +2,7 @@
 
 namespace Lara\Jarvis\Http\Controllers\Api;
 
+use Illuminate\Validation\ValidationException;
 use Lara\Jarvis\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -14,10 +15,10 @@ class SettingsController extends Controller
 
     public function __construct (SettingsService $service)
     {
-        $this->middleware("permission:settings:list")->only("index");
-        $this->middleware("permission:settings:edit")->only("update");
-
-        $this->middleware("permission:settings:audits")->only("audits");
+//        $this->middleware("permission:settings:list")->only("index");
+//        $this->middleware("permission:settings:edit")->only("update");
+//
+//        $this->middleware("permission:settings:audits")->only("audits");
 
         $this->service = $service;
     }
@@ -27,6 +28,8 @@ class SettingsController extends Controller
         try {
             return response()->json($this->service->index($request));
         } catch (Exception $e) {
+            if (method_exists($e, 'getStatusCode'))
+                return $this->error($e->getMessage(), $e->getStatusCode());
             return $this->error($e->getMessage());
         }
     }
@@ -35,7 +38,13 @@ class SettingsController extends Controller
     {
         try {
             return response()->json($this->service->update($request));
+        } catch (ModelNotFoundException $m) {
+            return $this->error("Not Found!", 404);
+        } catch (ValidationException $v) {
+            return $this->error($v->errors(), $v->status);
         } catch (Exception $e) {
+            if (method_exists($e, 'getStatusCode'))
+                return $this->error($e->getMessage(), $e->getStatusCode());
             return $this->error($e->getMessage());
         }
     }

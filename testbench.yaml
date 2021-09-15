@@ -3,5 +3,3 @@ env:
 
 providers:
   - Laravel\Passport\PassportServiceProvider
-  - OwenIt\Auditing\AuditingServiceProvider
-  - Spatie\Permission\PermissionServiceProvider

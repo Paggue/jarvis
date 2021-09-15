@@ -2,12 +2,8 @@
 
 namespace Lara\Jarvis\Tests;
 
-
-use CreatePermissionTables;
 use Lara\Jarvis\Providers\JarvisServiceProvider;
 use Laravel\Passport\PassportServiceProvider;
-use OwenIt\Auditing\AuditingServiceProvider;
-use Spatie\Permission\PermissionServiceProvider;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -24,8 +20,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         return [
             JarvisServiceProvider::class,
             PassportServiceProvider::class,
-            AuditingServiceProvider::class,
-            PermissionServiceProvider::class,
         ];
     }
 

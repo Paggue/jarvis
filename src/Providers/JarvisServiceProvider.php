@@ -49,6 +49,12 @@ class JarvisServiceProvider extends ServiceProvider
         $this->app->bind('pixPayloadGenerator', function ($app) {
             return new PixPayloadGenerator();
         });
+
+        /*
+        * Register the service provider for the dependency.
+        */
+        $this->app->register('OwenIt\Auditing\AuditingServiceProvider');
+        $this->app->register('Spatie\Permission\PermissionServiceProvider');
     }
 
     protected function registerRoutes ()
