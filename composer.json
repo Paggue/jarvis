@@ -26,7 +26,8 @@
         "aws/aws-sdk-php-laravel": "~3.0",
         "barryvdh/laravel-dompdf": "^0.9.0",
         "owen-it/laravel-auditing": "^12.0",
-        "guzzlehttp/guzzle": "^7.0.1"
+        "guzzlehttp/guzzle": "^7.0.1",
+        "pragmarx/google2fa-laravel": "^1.4"
     },
     "require-dev": {
         "orchestra/testbench": "^6.0",

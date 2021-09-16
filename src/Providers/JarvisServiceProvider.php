@@ -81,17 +81,30 @@ class JarvisServiceProvider extends ServiceProvider
 
     protected function registerRoutes ()
     {
-        Route::group($this->routeConfiguration(), function () {
+        Route::group($this->apiRouteConfiguration(), function () {
             $this->loadRoutesFrom(__DIR__ . '/../../routes/jarvis-api.php');
+        });
+
+        Route::group($this->authRouteConfiguration(), function () {
+            $this->loadRoutesFrom(__DIR__ . '/../../routes/jarvis-auth.php');
         });
     }
 
-    protected function routeConfiguration ()
+    protected function apiRouteConfiguration ()
     {
         return [
-            'prefix'     => config('jarvis.prefix'),
-            'middleware' => config('jarvis.middleware'),
+            'prefix'     => config('jarvis.routes.api_prefix'),
+            'middleware' => config('jarvis.routes.middleware'),
             'namespace'  => 'Lara\Jarvis\Http\Controllers\Api'
+        ];
+    }
+
+    protected function authRouteConfiguration ()
+    {
+        return [
+            'prefix'     => config('jarvis.routes.auth_prefix'),
+            'middleware' => config('jarvis.routes.middleware'),
+            'namespace'  => 'Lara\Jarvis\Http\Controllers\Auth'
         ];
     }
 

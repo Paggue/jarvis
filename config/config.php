@@ -1,8 +1,11 @@
 <?php
 
 return [
-    'prefix'     => 'api',
-    'middleware' => ['api'],
+    'routes' => [
+        'api_prefix'  => 'api',
+        'auth_prefix' => 'api/auth',
+        'middleware'  => ['api'],
+    ],
 
     'app' => [
         'name'     => env('APP_NAME'),
