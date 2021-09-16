@@ -4,6 +4,12 @@ return [
     'prefix'     => 'api',
     'middleware' => ['api'],
 
+    'app' => [
+        'name'     => env('APP_NAME'),
+        'url'      => env('APP_URL'),
+        'url_site' => env('APP_URL_SITE')
+    ],
+
     'trello' => [
         'key' => env('TRELLO_KEY'),
 
