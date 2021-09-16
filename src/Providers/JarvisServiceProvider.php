@@ -5,7 +5,6 @@ namespace Lara\Jarvis\Providers;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Lara\Jarvis\Console\InstallJarvisPackage;
-use Lara\Jarvis\Console\PublishJarvisSeeders;
 use Lara\Jarvis\Utils\PixPayloadGenerator;
 use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\Http\Middleware\Authenticate;
@@ -62,6 +61,20 @@ class JarvisServiceProvider extends ServiceProvider
         * Register the service provider for the dependency.
         */
 //        $this->app->register('OwenIt\Auditing\AuditingServiceProvider');
+
+        /*
+        * Register the service provider for the dependency.
+        */
+        $this->app->register('Aws\Laravel\AwsServiceProvider');
+        $this->app->register('Barryvdh\DomPDF\ServiceProvider');
+        $this->app->register('geekcom\ValidatorDocs\ValidatorProvider');
+
+        /*
+         * Create aliases for the dependency.
+         */
+        $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+        $loader->alias('AWS', 'Aws\Laravel\AwsFacade');
+        $loader->alias('PDF', 'Barryvdh\DomPDF\Facade');
     }
 
     protected function registerRoutes ()

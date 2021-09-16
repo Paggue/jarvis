@@ -22,6 +22,10 @@
         "geekcom/validator-docs": "dev-master",
         "illuminate/contracts": "^8.0",
         "laravel/passport": "10.x-dev",
+        "starkbank/sdk": "^2.5",
+        "aws/aws-sdk-php-laravel": "~3.0",
+        "barryvdh/laravel-dompdf": "^0.9.0"
+        "laravel/passport": "10.x-dev",
         "owen-it/laravel-auditing": "^12.0",
         "guzzlehttp/guzzle": "^7.0.1"
     },
