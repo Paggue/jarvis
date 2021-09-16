@@ -33,6 +33,10 @@ class JarvisServiceProvider extends ServiceProvider
                 __DIR__ . '/../../config/audit.php' => config_path('audit.php'),
             ], 'config');
 
+            $this->publishes([
+                __DIR__ . '/../../config/auth.php' => config_path('auth.php'),
+            ], 'config');
+
             // Export the migration
             $this->exportMigrations();
 
