@@ -12,7 +12,7 @@ class TwoFactorEnableValidatorTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function can_validate_two_factor_enable ()
+    function can_validate ()
     {
         $code = [
             'secret' => (string)rand(111111, 999999),

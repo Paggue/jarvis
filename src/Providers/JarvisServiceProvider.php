@@ -158,6 +158,12 @@ class JarvisServiceProvider extends ServiceProvider
                 __DIR__ . '/../../database/migrations/create_user_device_tokens_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . '_create_user_device_tokens_table.php'),
             ], 'jarvis-migrations');
         }
+
+        if (!class_exists('CreateBankAccountsTable')) {
+            $this->publishes([
+                __DIR__ . '/../../database/migrations/create_bank_accounts_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . '_create_bank_accounts_table.php'),
+            ], 'jarvis-migrations');
+        }
     }
 
     protected function exportSeeders ()

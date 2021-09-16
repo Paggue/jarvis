@@ -15,7 +15,7 @@ class TwoFactorDisableValidatorTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function can_validate_two_factor_disable ()
+    function can_validate ()
     {
         $user = User::factory()->create();
 

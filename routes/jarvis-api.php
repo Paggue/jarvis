@@ -28,4 +28,10 @@ Route::group(['middleware' => ['auth:api']], function () {
     // SETTINGS //
     Route::get('settings', 'SettingsController@index');
     Route::put('settings', 'SettingsController@update');
+
+    // BANK ACCOUNTS //
+    Route::resource('bank_accounts', 'BankAccountController')->except(['edit', 'create']);
+    Route::patch('bank_accounts/{id}/set_main', 'BankAccountController@setMain');
+    Route::get('bank_accounts/{id}/audits', 'BankAccountController@audits');
+    Route::patch('bank_accounts/{id}/restore', 'BankAccountController@restore');
 });

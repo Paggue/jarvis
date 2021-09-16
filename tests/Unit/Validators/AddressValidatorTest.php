@@ -13,7 +13,7 @@ class AddressValidatorTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function can_validate_address ()
+    function can_validate ()
     {
         $address = Address::factory()->make();
 

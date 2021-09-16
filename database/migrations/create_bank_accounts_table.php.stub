@@ -1,0 +1,51 @@
+<?php
+
+use Lara\Jarvis\Enums\BankAccountEnum;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateBankAccountsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('bank_accounts', function (Blueprint $table) {
+            $table->id();
+            $table->morphs('bank_accountable');
+            $table->foreignId('bank_id')->constrained('banks');
+            $table->string('holder');
+            $table->string('document');
+            $table->enum('account_type', ['cc', 'cp']);
+            $table->integer('agency');
+            $table->integer('agency_digit')->nullable();
+            $table->bigInteger('account');
+            $table->integer('account_digit')->nullable();
+            $table->string('pix_key')->nullable();
+            $table->string('operation')->nullable();
+            $table->string('main_account')->default(false)->nullable();
+            $table->string('status')->default(BankAccountEnum::STATUS['created'])->nullable();
+            $table->integer('verifications')->default(0);
+            $table->json('info')->nullable();
+            $table->timestamp('verified_at')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->unique(['bank_accountable_id', 'account', 'agency', 'bank_id']);
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('bank_accounts');
+    }
+}

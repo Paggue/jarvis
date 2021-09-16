@@ -13,7 +13,7 @@ class MinValueRuleTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function can_validate_min_value_rule ()
+    function can_validate ()
     {
         $start = 0;
         $mid   = 50;
