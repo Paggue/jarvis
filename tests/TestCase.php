@@ -17,7 +17,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
         $this->withHeaders(['Accept' => 'application/json']);
 
-        $this->starkbankId     = 27;
+        $this->starkbankId = 27;
     }
 
     protected function getPackageProviders ($app)
@@ -40,6 +40,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         include_once __DIR__ . '/../database/migrations/create_holidays_table.php.stub';
         include_once __DIR__ . '/../database/migrations/create_audits_table.php.stub';
         include_once __DIR__ . '/../database/migrations/create_addresses_table.php.stub';
+        include_once __DIR__ . '/../database/migrations/create_user_device_tokens_table.php.stub';
 
 
         (new \CreateUsersTable)->up();
@@ -51,6 +52,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         (new \CreateHolidaysTable)->up();
         (new \CreateAuditsTable)->up();
         (new \CreateAddressesTable)->up();
+        (new \CreateUserDeviceTokensTable)->up();
 
         $app['config']->set('auth.providers.users.model', Lara\Jarvis\Tests\User::class);
         $app['config']->set('auth.guards.api.driver', 'passport');
