@@ -15,13 +15,13 @@ class TwoFactorEnableValidatorTest extends TestCase
     function can_validate_two_factor_enable ()
     {
         $code = [
-            'secret' => (string)rand(000000, 999999),
+            'secret' => (string)rand(111111, 999999),
         ];
 
         self::assertEquals(null, TwoFactorEnableValidator::validate($code));
 
         $code = [
-            'secret' => rand(000000, 999999),
+            'secret' => rand(111111, 999999),
         ];
 
         $this->expectException(ValidationException::class);
@@ -29,7 +29,7 @@ class TwoFactorEnableValidatorTest extends TestCase
         TwoFactorEnableValidator::validate($code);
 
         $code = [
-            'secret' => (string)rand(00000, 99999),
+            'secret' => (string)rand(111111, 99999),
         ];
 
         TwoFactorEnableValidator::validate($code);
