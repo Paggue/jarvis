@@ -11,7 +11,7 @@ use Lara\Jarvis\Utils\PixPayloadGenerator;
 use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\Http\Middleware\Authenticate;
 
-// TODO configurar aws sdk, fazer audits funcionar
+// TODO configurar aws sdk, fazer audits funcionar, possibilidade de add payment forms ao pacote
 class JarvisServiceProvider extends ServiceProvider
 {
     public function boot ()
