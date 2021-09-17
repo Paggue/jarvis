@@ -22,9 +22,7 @@ class BankAccountController extends Controller
     {
         try {
             return $this->service->setModelType($request->model_type)->setId($request->model_id)->index($request);
-
         } catch (Exception $e) {
-
             return $this->error($e->getMessage());
         }
     }

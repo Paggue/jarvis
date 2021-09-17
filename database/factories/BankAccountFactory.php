@@ -37,7 +37,11 @@ class BankAccountFactory extends Factory
             'account_digit' => $this->faker->randomDigit(),
             "pix_key"       => $this->faker->e164PhoneNumber,
             'operation'     => $this->faker->randomDigit(),
-            'bank_id'       => Bank::factory()->create()->id,
+            'bank_id'       => Bank::factory()->create([
+                "name" => "Caixa Econômica",
+                "code" => "104",
+                "ispb" => "00360305"
+            ])->id,
         ];
     }
 }
