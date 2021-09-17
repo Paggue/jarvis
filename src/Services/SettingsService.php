@@ -24,13 +24,6 @@ class SettingsService
         return SettingValidator::class;
     }
 
-    protected function relationships ()
-    {
-        return [
-            'company',
-        ];
-    }
-
     public function setId ($id)
     {
         $this->parent_id = $id;

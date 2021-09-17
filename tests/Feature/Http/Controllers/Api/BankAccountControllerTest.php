@@ -1,28 +1,23 @@
 <?php
 
-namespace Tests\Feature\Http\Controllers\Api\BankAccount;
+namespace Tests\Feature\Http\Controllers\Api;
 
-use App\Enums\UserRoles;
-use App\Models\Company;
-use App\Models\Group;
-use App\Models\BankAccount;
-use App\Models\Collaborator;
-use App\Models\User;
-use App\Models\Wallet;
 use Carbon\Carbon;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Lara\Jarvis\Models\BankAccount;
+use Lara\Jarvis\Tests\TestCase;
+use Lara\Jarvis\Tests\User;
 use Laravel\Passport\Passport;
-use Tests\TestCase;
-use function Clue\StreamFilter\fun;
 
-class CollaboratorControllerTest extends TestCase
+class BankAccountControllerTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
-    protected $user = null;
-    protected $personableType = null;
-    protected $person = null;
     protected $guard_api = ['guard_name' => 'api'];
+    protected $user;
+    protected $personableType;
+    protected $person;
+    protected $bankAccount;
 
     public function setUp (): void
     {
@@ -30,30 +25,17 @@ class CollaboratorControllerTest extends TestCase
 
         $this->user = User::factory()->create();
 
-        \Artisan::call('db:seed', ['-vvv' => true]);
+        $this->personableType = User::class;
+        $this->person         = User::factory()->create();
 
-        $this->user->assignRole(UserRoles::COLLABORATOR);
-
-        $company = Company::factory()
-            ->forUser()
-            ->forSegment()
-            ->create();
-
-        $group = Group::factory()->create([
-            "company_id" => $company->id,
+        $this->bankAccount = BankAccount::factory()->create([
+            "bank_accountable_type" => $this->personableType,
+            "bank_accountable_id"   => $this->person->id
         ]);
 
-        // Collaborator
-        $this->personableType = Collaborator::class;
-        $this->person         = Collaborator::factory()
-            ->hasBalance()
-            ->hasWallets(Wallet::factory()->create())
-            ->create([
-                "user_id"    => $this->user,
-                "document"   => $this->user->document,
-                "company_id" => $company->id,
-                "group_id"   => $group->id,
-            ]);
+        $this->bankAccount->id = $this->starkbankId;
+        $this->bankAccount->save();
+        $this->bankAccount->refresh();
     }
 
     private const DATA_STRUCTURE = [
@@ -61,7 +43,6 @@ class CollaboratorControllerTest extends TestCase
         'account', 'account_digit', 'account', 'pix_key', 'operation',
         'bank' => ['id', 'name'],
     ];
-
 
     /**
      * @test
@@ -96,37 +77,6 @@ class CollaboratorControllerTest extends TestCase
     /**
      * @test
      */
-    public function non_permission_users_cannot_access_the_following_endpoints_for_the_bank_accounts_api ()
-    {
-        $user = User::factory()->create();
-
-        Passport::actingAs($user);
-
-        $index = $this->json('GET', '/api/bank_accounts');
-        $index->assertStatus(403);
-
-        $store = $this->json('POST', '/api/bank_accounts');
-        $store->assertStatus(403);
-
-        $show = $this->json('GET', '/api/bank_accounts/-1');
-        $show->assertStatus(403);
-
-        $update = $this->json('PUT', '/api/bank_accounts/-1');
-        $update->assertStatus(403);
-
-        $delete = $this->json('DELETE', '/api/bank_accounts/-1');
-        $delete->assertStatus(403);
-
-        $restore = $this->json('PATCH', '/api/bank_accounts/-1/restore');
-        $restore->assertStatus(403);
-
-        $audits = $this->json('GET', '/api/bank_accounts/-1/audits');
-        $audits->assertStatus(403);
-    }
-
-    /**
-     * @test
-     */
     public function will_return_404_if_not_found ()
     {
         Passport::actingAs($this->user);
@@ -138,13 +88,13 @@ class CollaboratorControllerTest extends TestCase
         $update->assertStatus(404);
 
         $delete = $this->json('DELETE', '/api/bank_accounts/-1');
-        $delete->assertStatus(403);
+        $delete->assertStatus(404);
 
         $restore = $this->json('PATCH', '/api/bank_accounts/-1/restore');
-        $restore->assertStatus(403);
+        $restore->assertStatus(404);
 
         $audits = $this->json('GET', '/api/bank_accounts/-1/audits');
-        $audits->assertStatus(403);
+        $audits->assertStatus(404);
     }
 
     /**
@@ -157,10 +107,13 @@ class CollaboratorControllerTest extends TestCase
             "holder"   => $this->person->legal_name,
         ]);
 
-        Passport::actingAs($this->user);
+        Passport::actingAs($this->person);
 
-        $response = $this->json('POST', "/api/bank_accounts", $bank_account->toArray());
-
+        $response = $this->json('POST', "/api/bank_accounts", array_merge($bank_account->toArray(), [
+            'model_type' => User::class,
+            'model_id'   => $this->person->id,
+        ]));
+        dd($response);
         $response->assertStatus(201)
             ->assertJsonStructure(self::DATA_STRUCTURE)
             ->assertJson($bank_account->makeHidden(['main_account', 'status', 'verifications', 'verified_at', 'deleted_at'])->toArray());
@@ -178,7 +131,11 @@ class CollaboratorControllerTest extends TestCase
         ]);
 
         //TEST DUPLICATE
-        $response = $this->json('POST', "/api/bank_accounts", $bank_account->toArray());
+        $response = $this->json('POST', "/api/bank_accounts", array_merge($bank_account->toArray(), [
+            'model_type' => User::class,
+            'model_id'   => $this->person->id,
+        ]));
+
         $response->assertStatus(422);
     }
 
@@ -194,13 +151,16 @@ class CollaboratorControllerTest extends TestCase
 
         unset($bank_account->account_digit);
 
-        $response = $this->json('POST', "/api/bank_accounts", $bank_account->toArray());
+        $response = $this->json('POST', "/api/bank_accounts", array_merge($bank_account->toArray(), [
+            'model_type' => User::class,
+            'model_id'   => $this->person->id,
+        ]));
 
         $response->assertStatus(422)
             ->assertJson([
                 'error'   => true,
                 'message' => [
-                    ['account_digit' => ['validation.required']]
+                    ['account_digit' => ['The account digit field is required.']]
                 ]
             ]);
 
@@ -221,22 +181,28 @@ class CollaboratorControllerTest extends TestCase
 
         unset($fakeData->account);
 
-        $response = $this->json('PUT', "/api/bank_accounts/" . $bank_account["id"], $fakeData->toArray());
+        $response = $this->json('PUT', "/api/bank_accounts/" . $bank_account["id"], array_merge($fakeData->toArray(), [
+            'model_type' => User::class,
+            'model_id'   => $this->person->id,
+        ]));
 
         $response->assertStatus(422)
             ->assertJson([
                 'error'   => true,
                 'message' => [
-                    ['account' => ['validation.required']]
+                    ['account' => ['The account field is required.']]
                 ]
             ]);
 
 
-        $response = $this->json('PUT', "/api/bank_accounts/" . $bank_account["id"], $bank_account->toArray());
-
+        $response = $this->json('PUT', "/api/bank_accounts/" . $bank_account["id"], array_merge($bank_account->toArray(), [
+            'model_type' => User::class,
+            'model_id'   => $this->person->id,
+        ]));
+        dd($response);
         $response->assertStatus(200)
             ->assertJsonStructure(self::DATA_STRUCTURE)
-            ->assertJson($bank_account->with("bank")->first()->makeHidden(['main_account', 'status', 'verifications', 'verified_at', 'deleted_at'])->toArray());
+            ->assertJson($bank_account->with("bank")->find($bank_account['id'])->makeHidden(['main_account', 'status', 'verifications', 'verified_at', 'deleted_at'])->toArray());
 
         $this->assertDatabaseHas("bank_accounts", [
             'id'            => $bank_account->id,
@@ -252,13 +218,27 @@ class CollaboratorControllerTest extends TestCase
         ]);
 
         //TEST MAXIMUM UPDATES
-        $response = $this->json('PUT', "/api/bank_accounts/" . $bank_account["id"], $bank_account->toArray());
+        $response = $this->json('PUT', "/api/bank_accounts/" . $bank_account["id"], array_merge($bank_account->toArray(), [
+            'model_type' => User::class,
+            'model_id'   => $this->person->id,
+        ]));
+
         $response->assertStatus(200);
 
-        $response = $this->json('PUT', "/api/bank_accounts/" . $bank_account["id"], $bank_account->toArray());
+
+        $response = $this->json('PUT', "/api/bank_accounts/" . $bank_account["id"], array_merge($bank_account->toArray(), [
+            'model_type' => User::class,
+            'model_id'   => $this->person->id,
+        ]));
+
         $response->assertStatus(200);
 
-        $response = $this->json('PUT', "/api/bank_accounts/" . $bank_account["id"], $bank_account->toArray());
+
+        $response = $this->json('PUT', "/api/bank_accounts/" . $bank_account["id"], array_merge($bank_account->toArray(), [
+            'model_type' => User::class,
+            'model_id'   => $this->person->id,
+        ]));
+
         $response->assertStatus(422)
             ->assertJson([
                 'error'   => true,
@@ -287,11 +267,14 @@ class CollaboratorControllerTest extends TestCase
 
         Passport::actingAs($this->user);
 
-        $response = $this->json('PUT', "/api/bank_accounts/" . $bank_account["id"], $bank_account->toArray());
-
+        $response = $this->json('PUT', "/api/bank_accounts/" . $bank_account["id"], array_merge($bank_account->toArray(), [
+            'model_type' => User::class,
+            'model_id'   => $this->person->id,
+        ]));
+        dd($response);
         $response->assertStatus(200)
             ->assertJsonStructure(self::DATA_STRUCTURE)
-            ->assertJson($bank_account->with("bank")->first()->makeHidden(['main_account', 'status', 'verifications', 'verified_at', 'deleted_at'])->toArray());
+            ->assertJson($bank_account->with("bank")->find($bank_account['id'])->makeHidden(['main_account', 'status', 'verifications', 'verified_at', 'deleted_at'])->toArray());
 
         $this->assertDatabaseHas("bank_accounts", [
             'id'            => $bank_account->id,
@@ -320,7 +303,10 @@ class CollaboratorControllerTest extends TestCase
 
         Passport::actingAs($this->user);
 
-        $response = $this->json('GET', "/api/bank_accounts/" . $bank_account->id);
+        $response = $this->json('GET', "/api/bank_accounts/" . $bank_account->id, [
+            'model_type' => User::class,
+            'model_id'   => $this->person->id,
+        ]);
 
         $response->assertStatus(200)
             ->assertJsonStructure(self::DATA_STRUCTURE)
@@ -339,11 +325,13 @@ class CollaboratorControllerTest extends TestCase
         $bank_account = $this->person->bankAccounts->first();
 
         $user = User::factory()->create();
-        $user->assignRole(UserRoles::SUPER_ADMIN);
 
         Passport::actingAs($user);
 
-        $response = $this->json('DELETE', "/api/bank_accounts/" . $bank_account->id);
+        $response = $this->json('DELETE', "/api/bank_accounts/" . $bank_account->id, [
+            'model_type' => User::class,
+            'model_id'   => $this->person->id,
+        ]);
 
         $response->assertStatus(204)
             ->assertSee(null);
@@ -362,19 +350,23 @@ class CollaboratorControllerTest extends TestCase
             "bank_accountable_type" => $this->personableType,
             "bank_accountable_id"   => $this->person->id
         ]);
+
         $bank_account = $this->person->bankAccounts->first();
 
         $bank_account->delete();
 
         $user = User::factory()->create();
-        $user->assignRole(UserRoles::SUPER_ADMIN);
+
         Passport::actingAs($user);
 
-        $response = $this->json('PATCH', "/api/bank_accounts/" . $bank_account->id . "/restore");
+        $response = $this->json('PATCH', "/api/bank_accounts/" . $bank_account->id . "/restore", [
+            'model_type' => User::class,
+            'model_id'   => $this->person->id,
+        ]);
 
         $response->assertStatus(200)
             ->assertJsonStructure(self::DATA_STRUCTURE)
-            ->assertJson($bank_account->makeHidden(['main_account', 'status', 'verifications', 'verified_at', 'deleted_at', 'created_at', 'updated_at'])->toArray());
+            ->assertJson($bank_account->makeHidden(['main_account', 'status', 'verifications', 'verified_at', 'deleted_at'])->toArray());
 
 
         $this->assertDatabaseHas('bank_accounts', [
@@ -392,16 +384,20 @@ class CollaboratorControllerTest extends TestCase
             "bank_accountable_type" => $this->personableType,
             "bank_accountable_id"   => $this->person->id
         ]);
+
         $bank_account = $this->person->bankAccounts->first();
 
-        $user = User::factory()->create();
-        $user->assignRole(UserRoles::SUPER_ADMIN);
+        $this->bankAccount->holder = "anything";
+        $this->bankAccount->save();
 
-        Passport::actingAs($user);
+        Passport::actingAs($this->user);
 
-        $response = $this->json('GET', "/api/bank_accounts/" . $bank_account->id . "/audits");
+        $response = $this->json('GET', "/api/bank_accounts/" . $bank_account->id . "/audits", [
+            'model_type' => User::class,
+            'model_id'   => $this->person->id,
+        ]);
+        dd($response);
         $audits   = $response->getData();
-
 
         $response->assertStatus(200)
             ->assertJson([
@@ -421,7 +417,7 @@ class CollaboratorControllerTest extends TestCase
                         'pix_key'               => $bank_account->pix_key,
                         'operation'             => $bank_account->operation,
                         'bank_id'               => $bank_account->bank_id,
-                        'bank_accountable_type' => Collaborator::class,
+                        'bank_accountable_type' => User::class,
                         'bank_accountable_id'   => $bank_account->bank_accountable_id,
                         'id'                    => $bank_account->id,
                     ]
@@ -453,7 +449,10 @@ class CollaboratorControllerTest extends TestCase
 
         Passport::actingAs($this->user);
 
-        $response = $this->json('PATCH', "/api/bank_accounts/" . $bank_account1->id . '/set_main');
+        $response = $this->json('PATCH', "/api/bank_accounts/" . $bank_account1->id . '/set_main', [
+            'model_type' => User::class,
+            'model_id'   => $this->person->id,
+        ]);
 
 
         $response->assertStatus(200)

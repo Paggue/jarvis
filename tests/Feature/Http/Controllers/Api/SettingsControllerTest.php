@@ -21,24 +21,6 @@ class SettingsControllerTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    private const STRUCTURE = [
-        'data'  => [
-            '*' => [
-                'id', 'name', 'company_id', 'qtd_collaborators', 'observation', 'created_at', 'updated_at',
-                'company' => [
-                    'id', 'segment_id', 'hash', 'legal_name', 'name', 'document',
-                    'legal_entity', 'cel_phone', 'email', 'birth_date', 'phone',
-                    'created_at', 'updated_at',
-                ]
-            ]
-        ],
-        'links' => ['first', 'last', 'prev', 'next'],
-        'meta'  => [
-            'current_page', 'last_page', 'from',
-            'to', 'path', 'per_page', 'total'
-        ]
-    ];
-
     /**
      * @test
      */
@@ -76,7 +58,6 @@ class SettingsControllerTest extends TestCase
         ]);
 
         $response->assertStatus(422);
-
     }
 
     /**

@@ -4,7 +4,6 @@
 namespace Lara\Jarvis\Services;
 
 use Carbon\Carbon;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -60,12 +59,6 @@ class BankAccountService
         return $this;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
     public function store (Request $request)
     {
         $result = null;
@@ -78,7 +71,7 @@ class BankAccountService
             $this->validationRules()::validate(array_merge(['bank_accountable_id' => $this->parent_id], $data));
             $result = $this->model()->create($data);
 
-            $transfers =  StarkBankTransfer::create(array_merge($data, [
+            $transfers = StarkBankTransfer::create(array_merge($data, [
                 'id'     => (string)$result->id . 'UUID' . Str::uuid(),
                 'amount' => 1, // R$0.01
                 'ispb'   => Bank::find($result->bank_id)->ispb,
@@ -92,13 +85,6 @@ class BankAccountService
         return $result->load($this->relationships());
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param $id
-     * @return JsonResponse
-     */
     public function update (Request $request, $id)
     {
         $result = null;
@@ -131,13 +117,6 @@ class BankAccountService
         return $result->load($this->relationships());
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param $id
-     * @return JsonResponse
-     */
     public function setMain (Request $request, $id)
     {
         $result = null;
@@ -166,8 +145,7 @@ class BankAccountService
 
                     if ($data['status'] == 'processing') {
                         $bankAccount->status = BankAccountEnum::STATUS['processing'];
-                    }
-                    elseif ($data['status'] == 'success') {
+                    } elseif ($data['status'] == 'success') {
                         $bankAccount->status      = BankAccountEnum::STATUS['confirmed'];
                         $bankAccount->verified_at = Carbon::now();
                     }
