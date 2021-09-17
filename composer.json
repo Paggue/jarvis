@@ -49,10 +49,15 @@
         "laravel": {
             "providers": [
                 "Lara\\Jarvis\\Providers\\JarvisServiceProvider",
-                "OwenIt\\Auditing\\AuditingServiceProvider"
+                "OwenIt\\Auditing\\AuditingServiceProvider",
+                "Aws\\Laravel\\AwsServiceProvider",
+                "Barryvdh\\DomPDF\\ServiceProvider",
+                "geekcom\\ValidatorDocs\\ValidatorProvider"
             ],
             "aliases": {
-                "PixPayloadGenerator": "Lara\\Jarvis\\Facades\\PixPayloadGenerator"
+                "PixPayloadGenerator": "Lara\\Jarvis\\Facades\\PixPayloadGenerator",
+                "AWS": "Aws\\Laravel\\AwsFacade",
+                "PDF": "Barryvdh\\DomPDF\\Facade"
             }
         }
     }
