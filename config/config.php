@@ -1,12 +1,5 @@
 <?php
 
-use Dotenv\Dotenv;
-
-if (!isset($_ENV['APP_NAME']) && \Illuminate\Support\Facades\App::environment('testing')) {
-    $dotenv = Dotenv::createImmutable(__DIR__ . '/../', '.env.testing');
-    $dotenv->load();
-}
-
 return [
     'routes' => [
         'api_prefix'  => 'api',

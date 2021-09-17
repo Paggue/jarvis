@@ -16,7 +16,7 @@ use Illuminate\Validation\ValidationException;
 class TrelloCard
 {
     const ID_LIST_SUPORTE_CLIENTES = '60c2247ba051766ae78b2c4c';
-    const ID_LIST_FALHAS = '60c2273871f8316a85ac5b32';
+    const ID_LIST_FALHAS           = '60c2273871f8316a85ac5b32';
 
     const LABEL_EMERGENCY = '60c2247bc82461383079dd14';
 
@@ -32,8 +32,8 @@ class TrelloCard
 
         $validator = Validator::make(array_merge(['list_id' => $list_id], $data), [
             'list_id' => 'required|string',
-            'name' => 'required|string',
-            'desc' => 'required|string',
+            'name'    => 'required|string',
+            'desc'    => 'required|string',
         ]);
 
         if ($validator->fails())
@@ -42,7 +42,7 @@ class TrelloCard
         $url = 'https://api.trello.com/1/cards';
 
 
-        $key_trello = config('jarvis.trello.key');
+        $key_trello   = config('jarvis.trello.key');
         $token_trello = config('jarvis.trello.token');
 
         $url_params = "?key={$key_trello}&token={$token_trello}&idList={$list_id}";
