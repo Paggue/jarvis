@@ -387,8 +387,7 @@ class BankAccountControllerTest extends TestCase
 
         $bank_account = $this->person->bankAccounts->first();
 
-        $this->bankAccount->holder = "anything";
-        $this->bankAccount->save();
+        $bank_account->update(['holder' => 'anyone']);
 
         Passport::actingAs($this->user);
 

@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Lara\Jarvis\Models\Traits\HasSanitizer;
 use OwenIt\Auditing\Auditable;
-use OwenIt\Auditing\Contracts\Auditable as AuditableContracts;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class BankAccount extends Model implements AuditableContracts
+class BankAccount extends Model implements AuditableContract
 {
     use HasFactory, SoftDeletes, Auditable, HasSanitizer;
 

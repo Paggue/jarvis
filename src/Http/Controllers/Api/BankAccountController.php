@@ -4,7 +4,6 @@ namespace Lara\Jarvis\Http\Controllers\Api;
 
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Lara\Jarvis\Http\Controllers\Controller;
@@ -19,12 +18,6 @@ class BankAccountController extends Controller
         $this->service = $service;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
     public function index (Request $request)
     {
         try {
@@ -36,12 +29,6 @@ class BankAccountController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
     public function store (Request $request)
     {
         try {
@@ -55,13 +42,6 @@ class BankAccountController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param Request $request
-     * @param int $id
-     * @return JsonResponse
-     */
     public function show (Request $request, int $id)
     {
         try {
@@ -76,13 +56,6 @@ class BankAccountController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param int $id
-     * @return JsonResponse
-     */
     public function update (Request $request, int $id)
     {
         try {
@@ -100,13 +73,6 @@ class BankAccountController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param int $id
-     * @return JsonResponse
-     */
     public function setMain (Request $request, int $id)
     {
         try {
@@ -124,13 +90,6 @@ class BankAccountController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Request $request
-     * @param int $id
-     * @return JsonResponse
-     */
     public function destroy (Request $request, int $id)
     {
         try {
@@ -146,13 +105,6 @@ class BankAccountController extends Controller
         }
     }
 
-    /**
-     * Restore the specified resource in the storage.
-     *
-     * @param Request $request
-     * @param int $id
-     * @return JsonResponse
-     */
     public function restore (Request $request, int $id)
     {
         try {
@@ -168,13 +120,6 @@ class BankAccountController extends Controller
         }
     }
 
-    /**
-     * Retrieves the audits of the specified resource.
-     *
-     * @param Request $request
-     * @param int $id
-     * @return JsonResponse
-     */
     public function audits (Request $request, $id)
     {
         try {

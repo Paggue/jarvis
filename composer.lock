@@ -58,16 +58,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.193.4",
+            "version": "3.194.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "758c2225c484088b2118c4e3ff5b37ccfea3948f"
+                "reference": "3b4787381bd747753059a223b801ea5eb7d11780"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/758c2225c484088b2118c4e3ff5b37ccfea3948f",
-                "reference": "758c2225c484088b2118c4e3ff5b37ccfea3948f",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3b4787381bd747753059a223b801ea5eb7d11780",
+                "reference": "3b4787381bd747753059a223b801ea5eb7d11780",
                 "shasum": ""
             },
             "require": {
@@ -143,9 +143,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.193.4"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.194.0"
             },
-            "time": "2021-09-14T18:19:00+00:00"
+            "time": "2021-09-16T18:16:59+00:00"
         },
         {
             "name": "aws/aws-sdk-php-laravel",
@@ -1658,12 +1658,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lcobucci/clock.git",
-                "reference": "7d8c3b2d12e35c295c5e7cd3a2d1ef6591b36c8a"
+                "reference": "e53a1a49f3d33217286b840531a4cea1d6398971"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/clock/zipball/7d8c3b2d12e35c295c5e7cd3a2d1ef6591b36c8a",
-                "reference": "7d8c3b2d12e35c295c5e7cd3a2d1ef6591b36c8a",
+                "url": "https://api.github.com/repos/lcobucci/clock/zipball/e53a1a49f3d33217286b840531a4cea1d6398971",
+                "reference": "e53a1a49f3d33217286b840531a4cea1d6398971",
                 "shasum": ""
             },
             "require": {
@@ -1711,7 +1711,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2021-09-03T02:20:20+00:00"
+            "time": "2021-09-17T05:47:05+00:00"
         },
         {
             "name": "lcobucci/jwt",
@@ -2599,12 +2599,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "125411f4e15cf0bc42ae3805f84fa31cdbe96895"
+                "reference": "cdf223fe46f8b35a6402fa161d651a463ffb401c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/125411f4e15cf0bc42ae3805f84fa31cdbe96895",
-                "reference": "125411f4e15cf0bc42ae3805f84fa31cdbe96895",
+                "url": "https://api.github.com/repos/nette/utils/zipball/cdf223fe46f8b35a6402fa161d651a463ffb401c",
+                "reference": "cdf223fe46f8b35a6402fa161d651a463ffb401c",
                 "shasum": ""
             },
             "require": {
@@ -2676,7 +2676,7 @@
                 "issues": "https://github.com/nette/utils/issues",
                 "source": "https://github.com/nette/utils/tree/v3.2"
             },
-            "time": "2021-09-16T13:09:45+00:00"
+            "time": "2021-09-16T14:56:04+00:00"
         },
         {
             "name": "nyholm/psr7",
@@ -6380,12 +6380,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "fa2c5cc3f7dac23d87429652fe0daf28d65cbd5b"
+                "reference": "412eda2039ad5466f823c3696c0c309e6c140086"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/fa2c5cc3f7dac23d87429652fe0daf28d65cbd5b",
-                "reference": "fa2c5cc3f7dac23d87429652fe0daf28d65cbd5b",
+                "url": "https://api.github.com/repos/symfony/string/zipball/412eda2039ad5466f823c3696c0c309e6c140086",
+                "reference": "412eda2039ad5466f823c3696c0c309e6c140086",
                 "shasum": ""
             },
             "require": {
@@ -6455,7 +6455,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-08-26T08:23:47+00:00"
+            "time": "2021-09-17T07:22:48+00:00"
         },
         {
             "name": "symfony/translation",
@@ -7739,12 +7739,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "44e31d19a6e81eb6ede34ef40c5687247d6eaaf3"
+                "reference": "d708b182270e7eb9548905fc778fd693ab8e53d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/44e31d19a6e81eb6ede34ef40c5687247d6eaaf3",
-                "reference": "44e31d19a6e81eb6ede34ef40c5687247d6eaaf3",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/d708b182270e7eb9548905fc778fd693ab8e53d4",
+                "reference": "d708b182270e7eb9548905fc778fd693ab8e53d4",
                 "shasum": ""
             },
             "require": {
@@ -7789,7 +7789,7 @@
                 "issues": "https://github.com/phpDocumentor/ReflectionDocBlock/issues",
                 "source": "https://github.com/phpDocumentor/ReflectionDocBlock/tree/master"
             },
-            "time": "2021-09-05T10:40:50+00:00"
+            "time": "2021-09-17T08:37:36+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
@@ -7916,19 +7916,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "9a43a2a488965a839e5d5b6708cc0e294e5e1e9b"
+                "reference": "d4c798ed8d51506800b441f7a13ecb0f76f12218"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/9a43a2a488965a839e5d5b6708cc0e294e5e1e9b",
-                "reference": "9a43a2a488965a839e5d5b6708cc0e294e5e1e9b",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/d4c798ed8d51506800b441f7a13ecb0f76f12218",
+                "reference": "d4c798ed8d51506800b441f7a13ecb0f76f12218",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "ext-libxml": "*",
                 "ext-xmlwriter": "*",
-                "nikic/php-parser": "^4.10.2",
+                "nikic/php-parser": "^4.12.0",
                 "php": ">=7.3",
                 "phpunit/php-file-iterator": "^3.0.3",
                 "phpunit/php-text-template": "^2.0.2",
@@ -7985,7 +7985,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-08-30T06:30:49+00:00"
+            "time": "2021-09-17T05:39:03+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -8234,12 +8234,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "d1fcd1a30da8849cc760637e783c617fff8908b3"
+                "reference": "bb4f8aa993db34e35206ffe834e55adaa604f270"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/d1fcd1a30da8849cc760637e783c617fff8908b3",
-                "reference": "d1fcd1a30da8849cc760637e783c617fff8908b3",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/bb4f8aa993db34e35206ffe834e55adaa604f270",
+                "reference": "bb4f8aa993db34e35206ffe834e55adaa604f270",
                 "shasum": ""
             },
             "require": {
@@ -8255,7 +8255,7 @@
                 "phar-io/version": "^3.0.2",
                 "php": ">=7.3",
                 "phpspec/prophecy": "^1.12.1",
-                "phpunit/php-code-coverage": "^9.2.3",
+                "phpunit/php-code-coverage": "^9.2.7",
                 "phpunit/php-file-iterator": "^3.0.5",
                 "phpunit/php-invoker": "^3.1.1",
                 "phpunit/php-text-template": "^2.0.3",
@@ -8329,7 +8329,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-09-16T05:20:09+00:00"
+            "time": "2021-09-17T06:30:59+00:00"
         },
         {
             "name": "pimple/pimple",
