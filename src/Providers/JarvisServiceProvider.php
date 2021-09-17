@@ -11,7 +11,7 @@ use Lara\Jarvis\Utils\PixPayloadGenerator;
 use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\Http\Middleware\Authenticate;
 
-// TODO corrigir testes de upload pra s3, fazer audits funcionar
+// TODO configurar aws sdk, fazer audits funcionar
 class JarvisServiceProvider extends ServiceProvider
 {
     public function boot ()
@@ -61,7 +61,7 @@ class JarvisServiceProvider extends ServiceProvider
             return new PixPayloadGenerator();
         });
 
-        if (AwsServiceProvider::class) {
+        if (class_exists(AwsServiceProvider::class)) {
             /*
             * Register the service provider for the dependency.
             */

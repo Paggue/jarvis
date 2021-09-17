@@ -79,11 +79,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         return [];
     }
 
-    protected function loadEnvVariables ()
-    {
-
-    }
-
     public function transfer ($status, $tag, $errors = [])
     {
         switch (strtoupper($tag[0])) {
