@@ -3,6 +3,12 @@
 - https://laravelpackage.com/
 - https://packages.tools/testbench/
 
+### SETUP
+
+1. Add "lara/jarvis": "dev-main" to required dependencies in *composer.json*
+2. Add "repositories": [ { "type": "path", "url": "./packages/Lara/jarvis" } ] at the end of your *composer.json*
+3. Run "git clone git@github.com:Paggue/jarvis.git" inside project/packages/Lara
+
 ### Install
 
 - php artisan jarvis:install
@@ -23,10 +29,5 @@
 ### PIX payload
 
 https://github.com/fabiosiqueira12/pix-qrcode-estatico
-
-### SETUP
-
-1. Add "lara/jarvis": "dev-main" to required dependencies in *composer.json*
-2. Add "repositories": [ { "type": "path", "url": "./packages/Lara/jarvis" } ] at the end of your *composer.json*
 
 #### Obs.: Inside the project, use "./vendor/bin/testbench" instead of the artisan command
