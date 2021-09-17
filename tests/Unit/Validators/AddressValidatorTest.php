@@ -17,7 +17,9 @@ class AddressValidatorTest extends TestCase
     {
         $address = Address::factory()->make();
 
-        self::assertEquals(null, AddressValidator::validate($address->toArray()));
+        $validator = new AddressValidator();
+
+        self::assertEquals(null, $validator->validate($address->toArray()));
 
         $address = Address::factory()->make([
             'state_id' => null
@@ -25,6 +27,6 @@ class AddressValidatorTest extends TestCase
 
         $this->expectException(ValidationException::class);
 
-        AddressValidator::validate($address->toArray());
+        $validator->validate($address->toArray());
     }
 }

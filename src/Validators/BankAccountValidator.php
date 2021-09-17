@@ -3,17 +3,13 @@
 
 namespace Lara\Jarvis\Validators;
 
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\ValidationException;
-
 class BankAccountValidator
 {
     public static function validate ($data)
     {
         $id = $data['id'] ?? null;
 
-        $validator = Validator::make($data, [
+        $rules = [
             'bank_id'       => 'required|numeric|exists:banks,id',
             'account_type'  => 'required|in:cc,cp',
             'agency'        => 'required|numeric',
@@ -30,10 +26,9 @@ class BankAccountValidator
                         ->where('agency', $data['agency'])
                         ->where('bank_accountable_id', $data['bank_accountable_id']);
                 })->ignore($id, 'id'),
-            ]
-        ]);
+            ],
+        ];
 
-        if ($validator->fails())
-            throw new ValidationException($validator);
+
     }
 }
