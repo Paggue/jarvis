@@ -164,24 +164,6 @@ class BankControllerTest extends TestCase
             ->assertJsonCount($quantity, 'data');
 
 
-        // order by name desc
-        $data  = Bank::factory()->create([
-            'name' => 'Zzzz',
-        ]);
-        $query = "order=name,desc";
-
-        $response = $this->json('GET', "/api/banks?$query");
-
-        $response->assertStatus(200)
-            ->assertJson([
-                'data' => [
-                    0 => [
-                        'id' => $data->id
-                    ]]
-            ])
-            ->assertJsonCount($quantity, 'data');
-
-
         // search with order by
         $query = "order=id,asc";
 
