@@ -2,6 +2,7 @@
 
 namespace Lara\Jarvis\Providers;
 
+use Aws\Laravel\AwsServiceProvider;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Lara\Jarvis\Console\InstallJarvisPackage;
@@ -10,6 +11,7 @@ use Lara\Jarvis\Utils\PixPayloadGenerator;
 use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\Http\Middleware\Authenticate;
 
+// TODO corrigir testes de upload pra s3, fazer audits funcionar
 class JarvisServiceProvider extends ServiceProvider
 {
     public function boot ()
@@ -59,20 +61,22 @@ class JarvisServiceProvider extends ServiceProvider
             return new PixPayloadGenerator();
         });
 
-        /*
-        * Register the service provider for the dependency.
-        */
-        $this->app->register('Aws\Laravel\AwsServiceProvider');
-        $this->app->register('Barryvdh\DomPDF\ServiceProvider');
-        $this->app->register('geekcom\ValidatorDocs\ValidatorProvider');
-        $this->app->register('OwenIt\Auditing\AuditingServiceProvider');
+        if (AwsServiceProvider::class) {
+            /*
+            * Register the service provider for the dependency.
+            */
+            $this->app->register('Aws\Laravel\AwsServiceProvider');
+            $this->app->register('Barryvdh\DomPDF\ServiceProvider');
+            $this->app->register('geekcom\ValidatorDocs\ValidatorProvider');
+            $this->app->register('OwenIt\Auditing\AuditingServiceProvider');
 
-        /*
-         * Create aliases for the dependency.
-         */
-        $loader = \Illuminate\Foundation\AliasLoader::getInstance();
-        $loader->alias('AWS', 'Aws\Laravel\AwsFacade');
-        $loader->alias('PDF', 'Barryvdh\DomPDF\Facade');
+            /*
+             * Create aliases for the dependency.
+             */
+            $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+            $loader->alias('AWS', 'Aws\Laravel\AwsFacade');
+            $loader->alias('PDF', 'Barryvdh\DomPDF\Facade');
+        }
     }
 
     protected function registerRoutes ()
