@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3ab382fef493a807bbb8c09616cd45fc",
+    "content-hash": "ae676deeaf8651b01fa15b501a830733",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -58,16 +58,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.194.0",
+            "version": "3.194.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "3b4787381bd747753059a223b801ea5eb7d11780"
+                "reference": "67bdee05acef9e8ad60098090996690b49babd09"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3b4787381bd747753059a223b801ea5eb7d11780",
-                "reference": "3b4787381bd747753059a223b801ea5eb7d11780",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/67bdee05acef9e8ad60098090996690b49babd09",
+                "reference": "67bdee05acef9e8ad60098090996690b49babd09",
                 "shasum": ""
             },
             "require": {
@@ -143,9 +143,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.194.0"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.194.1"
             },
-            "time": "2021-09-16T18:16:59+00:00"
+            "time": "2021-09-17T18:15:42+00:00"
         },
         {
             "name": "aws/aws-sdk-php-laravel",
@@ -1349,12 +1349,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "5398fbbbf81ed842cf0430b278f07eb0f869cf8f"
+                "reference": "4cb7660dc25b4a09ce2cdfff0d4195d1b4a48c70"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/5398fbbbf81ed842cf0430b278f07eb0f869cf8f",
-                "reference": "5398fbbbf81ed842cf0430b278f07eb0f869cf8f",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/4cb7660dc25b4a09ce2cdfff0d4195d1b4a48c70",
+                "reference": "4cb7660dc25b4a09ce2cdfff0d4195d1b4a48c70",
                 "shasum": ""
             },
             "require": {
@@ -1512,7 +1512,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-09-15T16:45:42+00:00"
+            "time": "2021-09-17T17:53:28+00:00"
         },
         {
             "name": "laravel/passport",
@@ -2599,12 +2599,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "cdf223fe46f8b35a6402fa161d651a463ffb401c"
+                "reference": "d23f9f30d4761964340c0df9ce8d622d29fe633d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/cdf223fe46f8b35a6402fa161d651a463ffb401c",
-                "reference": "cdf223fe46f8b35a6402fa161d651a463ffb401c",
+                "url": "https://api.github.com/repos/nette/utils/zipball/d23f9f30d4761964340c0df9ce8d622d29fe633d",
+                "reference": "d23f9f30d4761964340c0df9ce8d622d29fe633d",
                 "shasum": ""
             },
             "require": {
@@ -2676,7 +2676,7 @@
                 "issues": "https://github.com/nette/utils/issues",
                 "source": "https://github.com/nette/utils/tree/v3.2"
             },
-            "time": "2021-09-16T14:56:04+00:00"
+            "time": "2021-09-17T13:26:31+00:00"
         },
         {
             "name": "nyholm/psr7",
@@ -7739,12 +7739,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "d708b182270e7eb9548905fc778fd693ab8e53d4"
+                "reference": "c512fd308b8fdccf510967376e0cc5a3929705c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/d708b182270e7eb9548905fc778fd693ab8e53d4",
-                "reference": "d708b182270e7eb9548905fc778fd693ab8e53d4",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/c512fd308b8fdccf510967376e0cc5a3929705c6",
+                "reference": "c512fd308b8fdccf510967376e0cc5a3929705c6",
                 "shasum": ""
             },
             "require": {
@@ -7789,7 +7789,7 @@
                 "issues": "https://github.com/phpDocumentor/ReflectionDocBlock/issues",
                 "source": "https://github.com/phpDocumentor/ReflectionDocBlock/tree/master"
             },
-            "time": "2021-09-17T08:37:36+00:00"
+            "time": "2021-09-17T13:49:47+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
@@ -7797,12 +7797,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/TypeResolver.git",
-                "reference": "7b2df704cbe99a7b0522c7d5d7b7c5ea61b196bb"
+                "reference": "30f38bffc6f24293dadd1823936372dfa9e86e2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/7b2df704cbe99a7b0522c7d5d7b7c5ea61b196bb",
-                "reference": "7b2df704cbe99a7b0522c7d5d7b7c5ea61b196bb",
+                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/30f38bffc6f24293dadd1823936372dfa9e86e2f",
+                "reference": "30f38bffc6f24293dadd1823936372dfa9e86e2f",
                 "shasum": ""
             },
             "require": {
@@ -7838,9 +7838,9 @@
             "description": "A PSR-5 based resolver of Class names, Types and Structural Element Names",
             "support": {
                 "issues": "https://github.com/phpDocumentor/TypeResolver/issues",
-                "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.x"
+                "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.5.0"
             },
-            "time": "2021-08-20T10:47:25+00:00"
+            "time": "2021-09-17T15:28:14+00:00"
         },
         {
             "name": "phpspec/prophecy",

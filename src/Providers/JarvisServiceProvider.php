@@ -3,7 +3,6 @@
 namespace Lara\Jarvis\Providers;
 
 use Illuminate\Routing\Router;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 use Lara\Jarvis\Console\InstallJarvisPackage;
 use Lara\Jarvis\Console\PublishJarvisSeeders;
