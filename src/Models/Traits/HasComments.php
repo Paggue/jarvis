@@ -6,7 +6,7 @@ use Lara\Jarvis\Models\Comment;
 
 trait HasComments
 {
-    public function comments()
+    public function comments ()
     {
         return $this->morphMany(Comment::class, 'commentable');
     }

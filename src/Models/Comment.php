@@ -11,7 +11,7 @@ class Comment extends Model
 
     protected $fillable = ['user_id', 'text'];
 
-    protected static function newFactory()
+    protected static function newFactory ()
     {
         return \Lara\Jarvis\Database\Factories\CommentFactory::new();
     }
@@ -19,13 +19,12 @@ class Comment extends Model
     /**
      * Get the parent commentable model (post or video).
      */
-    public function commentable()
+    public function commentable ()
     {
         return $this->morphTo();
     }
 
-
-    public function user()
+    public function user ()
     {
         return $this->belongsTo(User::class);
     }

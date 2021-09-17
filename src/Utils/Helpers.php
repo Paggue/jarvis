@@ -7,7 +7,7 @@ use geekcom\ValidatorDocs\Rules\Cnpj;
 use geekcom\ValidatorDocs\Rules\Cpf;
 use Illuminate\Http\Request;
 
-class Helpers
+abstract class Helpers
 {
     public static function indexQueryBuilder (Request $request, array $relationships, $model, $order_by = 'asc', $fields = ['*'])
     {
