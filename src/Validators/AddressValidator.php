@@ -7,7 +7,7 @@ class AddressValidator
 {
     use ValidatorTrait;
 
-    protected function rules ()
+    protected function rules ($data = null)
     {
         return [
             'zip_code'     => 'sometimes',

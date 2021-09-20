@@ -18,7 +18,9 @@ class TwoFactorEnableValidatorTest extends TestCase
             'secret' => (string)rand(111111, 999999),
         ];
 
-        self::assertEquals(null, TwoFactorEnableValidator::validate($code));
+        $validator = new TwoFactorEnableValidator();
+
+        self::assertEquals(null, $validator->validate($code));
 
         $code = [
             'secret' => rand(111111, 999999),
@@ -26,12 +28,12 @@ class TwoFactorEnableValidatorTest extends TestCase
 
         $this->expectException(ValidationException::class);
 
-        TwoFactorEnableValidator::validate($code);
+        $validator->validate($code);
 
         $code = [
             'secret' => (string)rand(111111, 99999),
         ];
 
-        TwoFactorEnableValidator::validate($code);
+        $validator->validate($code);
     }
 }

@@ -2,18 +2,14 @@
 
 namespace Lara\Jarvis\Validators;
 
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
-
 class SettingValidator
 {
-    public static function validate ($data)
-    {
-        $validator = Validator::make($data, [
-            '*.*.value' => 'required',
-        ]);
+    use ValidatorTrait;
 
-        if ($validator->fails())
-            throw new ValidationException($validator);
+    protected function rules ($data = null)
+    {
+        return [
+            '*.*.value' => 'required',
+        ];
     }
 }

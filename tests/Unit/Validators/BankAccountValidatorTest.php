@@ -23,7 +23,9 @@ class BankAccountValidatorTest extends TestCase
             'bank_accountable_type' => User::class,
         ]);
 
-        self::assertEquals(null, BankAccountValidator::validate($bankAccount->toArray()));
+        $validator = new BankAccountValidator();
+
+        self::assertEquals(null, $validator->validate($bankAccount->toArray()));
 
         $bankAccount = BankAccount::factory()->make([
             'agency'                => null,
@@ -33,6 +35,6 @@ class BankAccountValidatorTest extends TestCase
 
         $this->expectException(ValidationException::class);
 
-        BankAccountValidator::validate($bankAccount->toArray());
+        $validator->validate($bankAccount->toArray());
     }
 }

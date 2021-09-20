@@ -54,9 +54,11 @@ class TwoFactorService
     {
         $user = $request->user();
 
+        $validator = new TwoFactorEnableValidator();
+
         if (!$user->two_factor_enable) {
 
-            TwoFactorEnableValidator::validate($request->all());
+            $validator->validate($request->all());
 
             $valid = $this->google2fa->verifyKey($user->secret_key, $request->secret);
             if ($valid) {
@@ -78,8 +80,9 @@ class TwoFactorService
 
     public function disable (Request $request)
     {
+        $validator = new TwoFactorDisableValidator();
 
-        TwoFactorDisableValidator::validate($request->all());
+        $validator->validate($request->all());
 
         $user = DB::table('users')->find($request->user_id);
 

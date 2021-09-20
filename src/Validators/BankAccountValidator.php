@@ -3,13 +3,17 @@
 
 namespace Lara\Jarvis\Validators;
 
+use Illuminate\Validation\Rule;
+
 class BankAccountValidator
 {
-    public static function validate ($data)
+    use ValidatorTrait;
+
+    protected function rules ($data = null)
     {
         $id = $data['id'] ?? null;
 
-        $rules = [
+        return [
             'bank_id'       => 'required|numeric|exists:banks,id',
             'account_type'  => 'required|in:cc,cp',
             'agency'        => 'required|numeric',
@@ -28,7 +32,5 @@ class BankAccountValidator
                 })->ignore($id, 'id'),
             ],
         ];
-
-
     }
 }

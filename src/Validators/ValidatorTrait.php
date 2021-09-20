@@ -8,7 +8,7 @@ use Illuminate\Validation\ValidationException;
 
 trait ValidatorTrait
 {
-    protected function rules ()
+    protected function rules ($data = null)
     {
         if (isset($this->rules)) {
             return $this->rules;
@@ -19,7 +19,7 @@ trait ValidatorTrait
 
     public function validate ($data)
     {
-        $validator = Validator::make($data, $this->rules());
+        $validator = Validator::make($data, $this->rules($data));
 
         if ($validator->fails()) {
             throw new ValidationException($validator);

@@ -3,19 +3,16 @@
 
 namespace Lara\Jarvis\Validators\Twofactor;
 
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
+use Lara\Jarvis\Validators\ValidatorTrait;
 
 class TwoFactorDisableValidator
 {
-    public static function validate ($data)
-    {
-        $validator = Validator::make($data, [
-            'user_id' => 'required|exists:users,id',
-        ]);
+    use ValidatorTrait;
 
-        if ($validator->fails()) {
-            throw new ValidationException($validator);
-        }
+    protected function rules ($data = null)
+    {
+        return [
+            'user_id' => 'required|exists:users,id',
+        ];
     }
 }

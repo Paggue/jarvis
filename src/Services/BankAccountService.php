@@ -37,7 +37,7 @@ class BankAccountService
 
     public function validationRules ()
     {
-        return BankAccountValidator::class;
+        return new BankAccountValidator();
     }
 
     protected function relationships ()
@@ -68,7 +68,7 @@ class BankAccountService
             $data["document"] = $this->bankAccountable()->document;
             $data["holder"]   = $this->bankAccountable()->legal_name;
 
-            $this->validationRules()::validate(array_merge(['bank_accountable_id' => $this->parent_id], $data));
+            $this->validationRules()->validate(array_merge(['bank_accountable_id' => $this->parent_id], $data));
             $result = $this->model()->create($data);
 
             $transfers = StarkBankTransfer::create(array_merge($data, [
@@ -97,7 +97,7 @@ class BankAccountService
                 $data["status"]   = BankAccountEnum::STATUS['processing'];
                 $data["info"]     = null;
                 $data["holder"]   = $this->bankAccountable()->legal_name;
-                $this->validationRules()::validate(array_merge(['id' => $id, 'bank_accountable_id' => $this->parent_id], $data));
+                $this->validationRules()->validate(array_merge(['id' => $id, 'bank_accountable_id' => $this->parent_id], $data));
                 $result->update($data);
 
                 StarkBankTransfer::create(array_merge($data, [

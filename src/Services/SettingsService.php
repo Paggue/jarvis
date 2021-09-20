@@ -21,7 +21,7 @@ class SettingsService
 
     public function validationRules ()
     {
-        return SettingValidator::class;
+        return new SettingValidator();
     }
 
     public function setId ($id)
@@ -39,7 +39,7 @@ class SettingsService
 
     public function update (Request $request)
     {
-        $this->validationRules()::validate($request->all());
+        $this->validationRules()->validate($request->all());
 
         DB::transaction(function () use ($request) {
 

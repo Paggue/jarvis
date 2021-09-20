@@ -3,19 +3,16 @@
 
 namespace Lara\Jarvis\Validators\Twofactor;
 
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
+use Lara\Jarvis\Validators\ValidatorTrait;
 
 class TwoFactorEnableValidator
 {
-    public static function validate ($data)
-    {
-        $validator = Validator::make($data, [
-            'secret' => 'required|string|digits:6',
-        ]);
+    use ValidatorTrait;
 
-        if ($validator->fails()) {
-            throw new ValidationException($validator);
-        }
+    protected function rules ($data = null)
+    {
+        return [
+            'secret' => 'required|string|digits:6',
+        ];
     }
 }
