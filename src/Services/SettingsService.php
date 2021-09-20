@@ -37,7 +37,7 @@ class SettingsService
         return Setting::publicConfig();
     }
 
-    public function update (Request $request)
+    public function update (Request $request, $id = null)
     {
         $this->validationRules()->validate($request->all());
 

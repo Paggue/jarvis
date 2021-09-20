@@ -41,6 +41,9 @@ trait ServiceTrait
      */
     public function index (Request $request)
     {
+        if (in_array('name', $this->model()->getFillable()) && !$request->order)
+            $request->merge(['order' => "name,asc"]);
+
         $result = Helpers::indexQueryBuilder($request, $this->relationships(), $this->model());
 
         $resourceCollection = $this->resourceCollection();
@@ -57,6 +60,9 @@ trait ServiceTrait
      */
     public function indexAll (Request $request)
     {
+        if (in_array('name', $this->model()->getFillable()) && !$request->order)
+            $request->merge(['order' => "name,asc"]);
+
         $result = Helpers::indexQueryBuilder($request, $this->relationships(), $this->model()->withTrashed());
 
         $resourceCollection = $this->resourceCollection();
@@ -91,7 +97,7 @@ trait ServiceTrait
      * @param $id
      * @return JsonResponse
      */
-    public function show (Request $request, $id)
+    public function show (Request $request, $id = null)
     {
         $result = $this->model()->with($this->relationships())
             ->findOrFail($id);
@@ -106,7 +112,7 @@ trait ServiceTrait
      * @param $id
      * @return JsonResponse
      */
-    public function update (Request $request, $id)
+    public function update (Request $request, $id = null)
     {
         $result = null;
 
@@ -129,7 +135,7 @@ trait ServiceTrait
      * @param $id
      * @return JsonResponse
      */
-    public function destroy (Request $request, $id)
+    public function destroy (Request $request, $id = null)
     {
         $result = null;
 
@@ -150,7 +156,7 @@ trait ServiceTrait
      * @param $id
      * @return JsonResponse
      */
-    public function restore (Request $request, $id)
+    public function restore (Request $request, $id = null)
     {
         $result = null;
 
@@ -171,7 +177,7 @@ trait ServiceTrait
      * @param $id
      * @return AuditCollection
      */
-    public function audits (Request $request, $id)
+    public function audits (Request $request, $id = null)
     {
         $data = $this->model()->withTrashed()->findOrFail($id);
 

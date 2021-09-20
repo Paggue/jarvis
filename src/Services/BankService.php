@@ -12,5 +12,4 @@ class BankService
     {
         return new Bank;
     }
-
 }

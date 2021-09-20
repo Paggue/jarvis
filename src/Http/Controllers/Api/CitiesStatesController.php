@@ -5,12 +5,10 @@ namespace Lara\Jarvis\Http\Controllers\Api;
 use Lara\Jarvis\Http\Controllers\Controller;
 use Lara\Jarvis\Http\Resources\DefaultCollection;
 use Lara\Jarvis\Services\CitiesStatesService;
-use Exception;
 use Illuminate\Http\Request;
 
 class CitiesStatesController extends Controller
 {
-
     protected $service;
 
     public function __construct(CitiesStatesService $service)

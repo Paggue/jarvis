@@ -41,7 +41,7 @@ class BankControllerTest extends TestCase
     {
         $quantity = 20;
 
-        Passport::actingAs($this->user, ['create-servers'] );
+        Passport::actingAs($this->user, ['create-servers']);
 
         Bank::factory()->count($quantity)->create();
 
@@ -168,12 +168,12 @@ class BankControllerTest extends TestCase
         $query = "order=id,asc";
 
         $data1 = Bank::first();
-        $name1    = explode(',', $data1->name)[0];
-        $query    = $query . "&search[]=name,$name1";
+        $name1 = explode(',', $data1->name)[0];
+        $query = $query . "&search[]=name,$name1";
 
         $data2 = Bank::latest('id')->first();
-        $name2    = explode(',', $data2->name)[0];
-        $query    = $query . "&search[]=name,$name2";
+        $name2 = explode(',', $data2->name)[0];
+        $query = $query . "&search[]=name,$name2";
 
         $response = $this->json('GET', "/api/banks?$query");
 
@@ -209,5 +209,37 @@ class BankControllerTest extends TestCase
                 ]
             ])
             ->assertJsonCount(1, 'data');
+    }
+
+    /**
+     * @test
+     */
+    public function can_order_by_name_default ()
+    {
+        $first = 'A';
+        $last  = 'B';
+
+        $bank1 = Bank::factory()->create([
+            'name' => $last
+        ]);
+
+        $bank2 = Bank::factory()->create([
+            'name' => $first
+        ]);
+
+        Passport::actingAs($this->user);
+
+        $response = $this->json('GET', 'api/banks');
+
+        $response->assertJson([
+            'data' => [
+                0 => [
+                    'name' => $first,
+                ],
+                1 => [
+                    'name' => $last,
+                ],
+            ],
+        ]);
     }
 }

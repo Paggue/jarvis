@@ -9,6 +9,10 @@ class Bank extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name', 'code', 'ispb',
+    ];
+
     protected static function newFactory ()
     {
         return \Lara\Jarvis\Database\Factories\BankFactory::new();

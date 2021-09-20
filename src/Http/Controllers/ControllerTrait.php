@@ -1,22 +1,17 @@
 <?php
 
-namespace Lara\Jarvis\Http\Controllers\Api;
+namespace Lara\Jarvis\Http\Controllers;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use Lara\Jarvis\Http\Controllers\Controller;
-use Lara\Jarvis\Http\Controllers\ControllerTrait;
-use Lara\Jarvis\Services\BankAccountService;
-use Exception;
+use Lara\Jarvis\Services\ServiceTrait;
 
-class BankAccountController extends Controller
+trait ControllerTrait
 {
-    use ControllerTrait;
-
     protected $service;
 
-    public function __construct (BankAccountService $service)
+    public function __construct (ServiceTrait $service)
     {
         $this->service = $service;
     }
@@ -24,7 +19,18 @@ class BankAccountController extends Controller
     public function index (Request $request)
     {
         try {
-            return $this->service->setModelType($request->model_type)->setId($request->model_id)->index($request);
+            return $this->service->index($request);
+        } catch (Exception $e) {
+            if (method_exists($e, 'getStatusCode'))
+                return $this->error($e->getMessage(), $e->getStatusCode());
+            return $this->error($e->getMessage());
+        }
+    }
+
+    public function indexAll (Request $request)
+    {
+        try {
+            return $this->service->indexAll($request);
         } catch (Exception $e) {
             return $this->error($e->getMessage());
         }
@@ -33,7 +39,7 @@ class BankAccountController extends Controller
     public function store (Request $request)
     {
         try {
-            $data = $this->service->setModelType($request->model_type)->setId($request->model_id)->store($request);
+            $data = $this->service->store($request);
             return response()->json($data, 201);
         } catch (ValidationException $v) {
             return $this->error($v->errors(), $v->status);
@@ -42,11 +48,10 @@ class BankAccountController extends Controller
         }
     }
 
-    public function show (Request $request, int $id)
+    public function show (Request $request, $id = null)
     {
         try {
-            $data = $this->service->setModelType($request->model_type)->setId($request->model_id)->show($request, $id);
-            return response()->json($data);
+            return response()->json($this->service->show($request, $id));
         } catch (ValidationException $v) {
             return $this->error($v->errors(), $v->status);
         } catch (ModelNotFoundException $m) {
@@ -56,26 +61,10 @@ class BankAccountController extends Controller
         }
     }
 
-    public function update (Request $request, int $id)
+    public function update (Request $request, $id = null)
     {
         try {
-            $data = $this->service->setModelType($request->model_type)->setId($request->model_id)->update($request, $id);
-            return response()->json($data);
-        } catch (ValidationException $v) {
-            return $this->error($v->errors(), $v->status);
-        } catch (ModelNotFoundException $m) {
-            return $this->error("Not Found!", 404);
-        } catch (Exception $e) {
-            if (method_exists($e, 'getStatusCode'))
-                return $this->error($e->getMessage(), $e->getStatusCode());
-            return $this->error($e->getMessage());
-        }
-    }
-
-    public function setMain (Request $request, int $id)
-    {
-        try {
-            $data = $this->service->setModelType($request->model_type)->setId($request->model_id)->setMain($request, $id);
+            $data = $this->service->update($request, $id);
             return response()->json($data);
         } catch (ValidationException $v) {
             return $this->error($v->errors(), $v->status);
@@ -88,10 +77,10 @@ class BankAccountController extends Controller
         }
     }
 
-    public function destroy (Request $request, int $id)
+    public function destroy (Request $request, $id = null)
     {
         try {
-            $this->service->setModelType($request->model_type)->setId($request->model_id)->destroy($request, $id);
+            $this->service->destroy($request, $id);
             return response()->json(null, 204);
         } catch (ValidationException $v) {
             return $this->error($v->errors(), $v->status);
@@ -102,10 +91,10 @@ class BankAccountController extends Controller
         }
     }
 
-    public function restore (Request $request, int $id)
+    public function restore (Request $request, $id = null)
     {
         try {
-            $data = $this->service->setModelType($request->model_type)->setId($request->model_id)->restore($request, $id);
+            $data = $this->service->restore($request, $id);
             return response()->json($data);
         } catch (ValidationException $v) {
             return $this->error($v->errors(), $v->status);
@@ -116,10 +105,10 @@ class BankAccountController extends Controller
         }
     }
 
-    public function audits (Request $request, $id)
+    public function audits (Request $request, $id = null)
     {
         try {
-            $result = $this->service->setModelType($request->model_type)->setId($request->model_id)->audits($request, $id);
+            $result = $this->service->audits($request, $id);
             return response()->json($result);
         } catch (ModelNotFoundException $m) {
             return $this->error("Not Found!", 404);
