@@ -3,11 +3,17 @@
 - https://laravelpackage.com/
 - https://packages.tools/testbench/
 
-### SETUP
+### SETUP DEVELOPMENT
 
 1. Add "lara/jarvis": "dev-main" to required dependencies in *composer.json*
 2. Add "repositories": [ { "type": "path", "url": "./packages/Lara/jarvis" } ] at the end of your *composer.json*
 3. Run "git clone git@github.com:Paggue/jarvis.git" inside project/packages/Lara
+
+### SETUP INSTALL
+
+1. Add "lara/jarvis": "dev-<branch>" to required dependencies in *composer.json*
+2. Add "repositories": [ { "type": "vcs", "url": "https://github.com/Paggue/jarvis" } ] at the end of your *composer.json*
+3. Add "classmap": ["database"] to *autoload* session in *composer.json*
 
 ### Install
 

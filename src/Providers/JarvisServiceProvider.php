@@ -125,7 +125,8 @@ class JarvisServiceProvider extends ServiceProvider
 
         if (!class_exists('CreateBanksTable')) {
             $this->publishes([
-                __DIR__ . '/../../database/migrations/create_banks_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . '_create_banks_table.php'),
+                __DIR__ . '/../../database/migrations/create_banks_table.php.stub'         => database_path('migrations/' . date('Y_m_d_Hisz', time()) . 1 . '_create_banks_table.php'),
+                __DIR__ . '/../../database/migrations/create_bank_accounts_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . 2 . '_create_bank_accounts_table.php'),
             ], 'jarvis-migrations');
         }
 
@@ -156,12 +157,6 @@ class JarvisServiceProvider extends ServiceProvider
         if (!class_exists('CreateUserDeviceTokensTable')) {
             $this->publishes([
                 __DIR__ . '/../../database/migrations/create_user_device_tokens_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . '_create_user_device_tokens_table.php'),
-            ], 'jarvis-migrations');
-        }
-
-        if (!class_exists('CreateBankAccountsTable')) {
-            $this->publishes([
-                __DIR__ . '/../../database/migrations/create_bank_accounts_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . '_create_bank_accounts_table.php'),
             ], 'jarvis-migrations');
         }
     }
