@@ -19,7 +19,7 @@
     },
     "require": {
         "php": "^7.4|^8.0",
-        "geekcom/validator-docs": "dev-master",
+        "geekcom/validator-docs": "^3.5",
         "illuminate/contracts": "^8.0",
         "laravel/passport": "10.x-dev",
         "starkbank/sdk": "^2.5",
