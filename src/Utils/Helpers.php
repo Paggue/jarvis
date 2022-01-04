@@ -1,11 +1,11 @@
 <?php
 
-
 namespace Lara\Jarvis\Utils;
 
 use geekcom\ValidatorDocs\Rules\Cnpj;
 use geekcom\ValidatorDocs\Rules\Cpf;
 use Illuminate\Http\Request;
+use Lara\Jarvis\Enums\Enums;
 
 abstract class Helpers
 {
@@ -173,5 +173,62 @@ abstract class Helpers
         $formated_str = preg_replace("~[^A-Za-z0-9]~", '', $str);
 
         return $formated_str;
+    }
+
+    public static function maskDocument ($document)
+    {
+        if (strlen($document) === 11) {
+            return self::mask(Enums::MASKS['cpf'], $document);
+        } elseif (strlen($document) === 14) {
+            return self::mask(Enums::MASKS['cnpj'], $document);
+        }
+    }
+
+    public static function mask ($mask, $str)
+    {
+        $str = str_replace(" ", "", $str);
+
+        for ($i = 0; $i < strlen($str); $i++) {
+            $mask[strpos($mask, "#")] = $str[$i];
+        }
+
+        return $mask;
+    }
+
+    public static function numberToText ($value, $locale = 'pt-br')
+    {
+        $f = new \NumberFormatter($locale, \NumberFormatter::SPELLOUT);
+
+        return $f->format($value);
+    }
+
+    public static function centsToText ($value)
+    {
+        $valString = strval($value);
+
+        $reais = substr($valString, 0, strlen($valString) - 2);
+
+        $cents = substr($valString, -2);
+
+        $text = self::numberToText((int)$reais);
+
+        if ((int)$reais === 1) {
+            $text .= ' real';
+        } else {
+            $text .= ' reais';
+        }
+
+        if ((int)$cents > 0) {
+
+            $text .= ' e ' . self::numberToText((int)$cents);
+
+            if ((int)$cents === 1) {
+                $text .= ' centavo';
+            } else {
+                $text .= ' centavos';
+            }
+        }
+
+        return ucfirst($text);
     }
 }

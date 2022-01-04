@@ -6,12 +6,11 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
-/**
- * Class SMS
- * @package App\Utils
- */
 class SMS
 {
+    /**
+     * @throws ValidationException
+     */
     protected static function auth ()
     {
         $url   = config('jarvis.comtele.url');

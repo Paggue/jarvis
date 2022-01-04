@@ -81,6 +81,5 @@ class InstallJarvisPackage extends Command
         $this->call('vendor:publish', $params);
 
         system('composer dump-autoload');
-
     }
 }

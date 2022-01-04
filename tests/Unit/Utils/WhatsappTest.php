@@ -3,9 +3,9 @@
 namespace Lara\Jarvis\Tests\Unit\Utils;
 
 use Lara\Jarvis\Tests\TestCase;
-use Lara\Jarvis\Utils\SMS;
+use Lara\Jarvis\Utils\Whatsapp;
 
-class SmsTest extends TestCase
+class WhatsappTest extends TestCase
 {
     /**
      * @test
@@ -13,8 +13,8 @@ class SmsTest extends TestCase
     public function can_send_a_sms ()
     {
         $data = [
-            'phone'   => '+5574988190779',
-            'message' => 'sms test',
+            'phone'   => '5574988190779',
+            'message' => 'whatsapp test',
         ];
 
         $expected = [
@@ -23,7 +23,7 @@ class SmsTest extends TestCase
             'data'       => [],
         ];
 
-        $response = SMS::send($data);
+        $response = Whatsapp::send($data);
 
         self::assertJson(json_encode($expected), json_encode($response));
     }

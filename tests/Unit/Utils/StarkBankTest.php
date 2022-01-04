@@ -2,19 +2,11 @@
 
 namespace Lara\Jarvis\Tests\Unit\Utils;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Lara\Jarvis\Tests\TestCase;
 use Lara\Jarvis\Utils\StarkBank\StarkBank;
 
 class StarkBankTest extends TestCase
 {
-    use RefreshDatabase;
-
-    public function setUp (): void
-    {
-        parent::setUp();
-    }
-
     /**
      * @test
      */

@@ -1,17 +1,11 @@
 <?php
 
-
 namespace Lara\Jarvis\Utils;
-
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
-/**
- * Class UploadFile
- * @package App\Enums
- */
 class UploadFile
 {
     public static function upload ($data, $folder, $defaultExtension = null, $old_link_file = null)
@@ -65,7 +59,7 @@ class UploadFile
             'Body'            => $data,
         ));
 
-        // Remove old picture
+        // Remove old file
         if ($old_link_file) {
             $old_key = explode($folder, $old_link_file);
 
@@ -75,7 +69,6 @@ class UploadFile
                     'Key'    => urldecode($folder . $old_key[1]),
                 ));
             }
-
         }
 
         return $path['ObjectURL'];

@@ -1,64 +1,69 @@
 {
-    "name": "lara/jarvis",
-    "description": "Jarvis - Utils Laravel package .",
-    "type": "project",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Rodrigo Fraga",
-            "email": "rodrigofraga6@gmail.com"
-        }
-    ],
-    "minimum-stability": "dev",
-    "autoload": {
-        "psr-4": {
-            "Lara\\Jarvis\\": "src",
-            "Lara\\Jarvis\\Database\\Factories\\": "database/factories",
-            "Lara\\Jarvis\\Database\\Seeders\\": "database/seeders"
-        }
-    },
-    "require": {
-        "php": "^7.4|^8.0",
-        "geekcom/validator-docs": "^3.5",
-        "illuminate/contracts": "^8.0",
-        "laravel/passport": "10.x-dev",
-        "starkbank/sdk": "^2.5",
-        "aws/aws-sdk-php-laravel": "~3.0",
-        "barryvdh/laravel-dompdf": "^0.9.0",
-        "owen-it/laravel-auditing": "^12.0",
-        "guzzlehttp/guzzle": "^7.0.1",
-        "pragmarx/google2fa-laravel": "^1.4"
-    },
-    "require-dev": {
-        "orchestra/testbench": "^6.0",
-        "phpunit/phpunit": "^9.3"
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Lara\\Jarvis\\Tests\\": "tests"
-        }
-    },
-    "scripts": {
-        "test": "vendor/bin/phpunit",
-        "test-f": "vendor/bin/phpunit --filter"
-    },
-    "config": {
-        "sort-packages": true
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Lara\\Jarvis\\Providers\\JarvisServiceProvider",
-                "OwenIt\\Auditing\\AuditingServiceProvider",
-                "Aws\\Laravel\\AwsServiceProvider",
-                "Barryvdh\\DomPDF\\ServiceProvider",
-                "geekcom\\ValidatorDocs\\ValidatorProvider"
-            ],
-            "aliases": {
-                "PixPayloadGenerator": "Lara\\Jarvis\\Facades\\PixPayloadGenerator",
-                "AWS": "Aws\\Laravel\\AwsFacade",
-                "PDF": "Barryvdh\\DomPDF\\Facade"
-            }
-        }
+  "name": "lara/jarvis",
+  "description": "Jarvis - Utils Laravel package .",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Rodrigo Fraga",
+      "email": "rodrigofraga6@gmail.com"
     }
+  ],
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "Lara\\Jarvis\\": "src",
+      "Lara\\Jarvis\\Database\\Factories\\": "database/factories",
+      "Lara\\Jarvis\\Database\\Seeders\\": "database/seeders"
+    }
+  },
+  "require": {
+    "php": "^7.4|^8.0",
+    "geekcom/validator-docs": "^3.5",
+    "illuminate/contracts": "^8.0",
+    "laravel/passport": "10.x-dev",
+    "starkbank/sdk": "^2.5",
+    "aws/aws-sdk-php-laravel": "~3.0",
+    "barryvdh/laravel-dompdf": "^0.9.0",
+    "owen-it/laravel-auditing": "^12.0",
+    "guzzlehttp/guzzle": "^7.0.1",
+    "pragmarx/google2fa-laravel": "^1.4",
+    "maatwebsite/excel": "^3.1",
+    "ext-fileinfo": "*",
+    "ext-json": "*",
+    "ext-intl": "*",
+    "ext-curl": "*"
+  },
+  "require-dev": {
+    "orchestra/testbench": "^6.0",
+    "phpunit/phpunit": "^9.3"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Lara\\Jarvis\\Tests\\": "tests"
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit",
+    "test-f": "vendor/bin/phpunit --filter"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Lara\\Jarvis\\Providers\\JarvisServiceProvider",
+        "OwenIt\\Auditing\\AuditingServiceProvider",
+        "Aws\\Laravel\\AwsServiceProvider",
+        "Barryvdh\\DomPDF\\ServiceProvider",
+        "geekcom\\ValidatorDocs\\ValidatorProvider"
+      ],
+      "aliases": {
+        "PixPayloadGenerator": "Lara\\Jarvis\\Facades\\PixPayloadGenerator",
+        "AWS": "Aws\\Laravel\\AwsFacade",
+        "PDF": "Barryvdh\\DomPDF\\Facade"
+      }
+    }
+  }
 }

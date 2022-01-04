@@ -2,24 +2,16 @@
 
 namespace Lara\Jarvis\Tests\Unit\Utils;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Lara\Jarvis\Tests\TestCase;
 use Lara\Jarvis\Utils\Helpers;
 use Lara\Jarvis\Utils\TrelloCard;
 
 class TrelloCardTest extends TestCase
 {
-    use RefreshDatabase;
-
-    public function setUp (): void
-    {
-        parent::setUp();
-    }
-
     /**
      * @test
      */
-    public function can_send_a_sms ()
+    public function can_create_trello_card ()
     {
         $balance      = 5000;
         $total_amount = 5000;

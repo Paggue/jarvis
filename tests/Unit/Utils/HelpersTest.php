@@ -2,8 +2,8 @@
 
 namespace Lara\Jarvis\Tests\Unit\Utils;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
+use Lara\Jarvis\Enums\Enums;
 use Lara\Jarvis\Http\Resources\DefaultCollection;
 use Lara\Jarvis\Models\City;
 use Lara\Jarvis\Models\State;
@@ -12,13 +12,6 @@ use Lara\Jarvis\Utils\Helpers;
 
 class HelpersTest extends TestCase
 {
-    use RefreshDatabase;
-
-    public function setUp (): void
-    {
-        parent::setUp();
-    }
-
     /**
      * @test
      * @throws \Exception
@@ -461,5 +454,123 @@ class HelpersTest extends TestCase
         $sanitized = Helpers::sanitizeStringWithLetters($str);
 
         self::assertEquals($sanitized, "L24S9434423ccds1K53LCSD9fsd64fks");
+    }
+
+    /**
+     * @test
+     */
+    public function can_mask_string ()
+    {
+        $cpf       = '11111111111';
+        $cpfMasked = Helpers::mask(Enums::MASKS['cpf'], $cpf);
+        self::assertEquals('111.111.111-11', $cpfMasked);
+
+
+        $cnpj       = '11111111111111';
+        $cnpjMasked = Helpers::mask(Enums::MASKS['cnpj'], $cnpj);
+        self::assertEquals('11.111.111/1111-11', $cnpjMasked);
+
+        $zipCode       = '11111111';
+        $zipCodeMasked = Helpers::mask(Enums::MASKS['zip_code'], $zipCode);
+        self::assertEquals('11111-111', $zipCodeMasked);
+
+        $phone       = '11111111111';
+        $phoneMasked = Helpers::mask(Enums::MASKS['phone'], $phone);
+        self::assertEquals('(11)11111-1111', $phoneMasked);
+    }
+
+    /**
+     * @test
+     */
+    public function can_mask_documents ()
+    {
+        $cpf       = '11111111111';
+        $cpfMasked = Helpers::maskDocument($cpf);
+        self::assertEquals('111.111.111-11', $cpfMasked);
+
+
+        $cnpj       = '11111111111111';
+        $cnpjMasked = Helpers::maskDocument($cnpj);
+        self::assertEquals('11.111.111/1111-11', $cnpjMasked);
+
+        $random       = '11111';
+        $randomMasked = Helpers::maskDocument($random);
+        self::assertEquals(null, $randomMasked);
+    }
+
+    /**
+     * @test
+     */
+    public function can_convert_number_to_text ()
+    {
+        $num     = 1;
+        $numText = Helpers::numberToText($num);
+        self::assertEquals("um", $numText);
+
+        $num     = 2;
+        $numText = Helpers::numberToText($num);
+        self::assertEquals("dois", $numText);
+
+        $num     = '1';
+        $numText = Helpers::numberToText($num);
+        self::assertEquals("um", $numText);
+
+        $num     = 'a';
+        $numText = Helpers::numberToText($num);
+        self::assertEquals("zero", $numText);
+
+        $num     = '1';
+        $numText = Helpers::numberToText($num, 'en');
+        self::assertEquals("one", $numText);
+
+        $num     = '1';
+        $numText = Helpers::numberToText($num, 'zz');
+        self::assertEquals("um", $numText);
+    }
+
+    /**
+     * @test
+     */
+    public function can_convert_cents_to_text ()
+    {
+        $money     = 1;
+        $moneyText = Helpers::centsToText($money);
+        self::assertEquals('Zero reais e um centavo', $moneyText);
+
+        $money     = 2;
+        $moneyText = Helpers::centsToText($money);
+        self::assertEquals('Zero reais e dois centavos', $moneyText);
+
+        $money     = 100;
+        $moneyText = Helpers::centsToText($money);
+        self::assertEquals('Um real', $moneyText);
+
+        $money     = 101;
+        $moneyText = Helpers::centsToText($money);
+        self::assertEquals('Um real e um centavo', $moneyText);
+
+        $money     = 102;
+        $moneyText = Helpers::centsToText($money);
+        self::assertEquals('Um real e dois centavos', $moneyText);
+
+        $money     = 200;
+        $moneyText = Helpers::centsToText($money);
+        self::assertEquals('Dois reais', $moneyText);
+
+        $money     = 201;
+        $moneyText = Helpers::centsToText($money);
+        self::assertEquals('Dois reais e um centavo', $moneyText);
+
+        $money     = 202;
+        $moneyText = Helpers::centsToText($money);
+        self::assertEquals('Dois reais e dois centavos', $moneyText);
+
+        $money     = 0;
+        $moneyText = Helpers::centsToText($money);
+        self::assertEquals('Zero reais', $moneyText);
+
+        $money = 'a';
+        $moneyText = Helpers::centsToText($money);
+        self::assertEquals('Zero reais', $moneyText);
     }
 }

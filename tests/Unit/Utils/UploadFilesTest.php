@@ -2,7 +2,6 @@
 
 namespace Lara\Jarvis\Tests\Unit\Utils;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 use Lara\Jarvis\Tests\TestCase;
@@ -10,13 +9,6 @@ use Lara\Jarvis\Utils\UploadFile;
 
 class UploadFilesTest extends TestCase
 {
-    use RefreshDatabase;
-
-    public function setUp (): void
-    {
-        parent::setUp();
-    }
-
     /**
      * @test
      */

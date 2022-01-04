@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Lara\Jarvis\Validators;
 
 use Illuminate\Support\Facades\Validator;
@@ -17,6 +16,9 @@ trait ValidatorTrait
         return [];
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function validate ($data)
     {
         $validator = Validator::make($data, $this->rules($data));

@@ -112,51 +112,51 @@ class JarvisServiceProvider extends ServiceProvider
     {
         if (!class_exists('CreateStatesTable')) {
             $this->publishes([
-                __DIR__ . '/../../database/migrations/create_states_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . 1 . '_create_states_table.php'),
-                __DIR__ . '/../../database/migrations/create_cities_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . 2 . '_create_cities_table.php'),
+                __DIR__ . '/../../database/migrations/create_states_table.php.stub' => database_path('migrations/jarvis/' . date('Y_m_d_Hisz', time()) . 1 . '_create_states_table.php'),
+                __DIR__ . '/../../database/migrations/create_cities_table.php.stub' => database_path('migrations/jarvis/' . date('Y_m_d_Hisz', time()) . 2 . '_create_cities_table.php'),
             ], 'jarvis-migrations');
         }
 
         if (!class_exists('CreateCommentsTable')) {
             $this->publishes([
-                __DIR__ . '/../../database/migrations/create_comments_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . '_create_comments_table.php'),
-            ], 'jarvis-migrations');
-        }
-
-        if (!class_exists('CreateBanksTable')) {
-            $this->publishes([
-                __DIR__ . '/../../database/migrations/create_banks_table.php.stub'         => database_path('migrations/' . date('Y_m_d_Hisz', time()) . 1 . '_create_banks_table.php'),
-                __DIR__ . '/../../database/migrations/create_bank_accounts_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . 2 . '_create_bank_accounts_table.php'),
+                __DIR__ . '/../../database/migrations/create_comments_table.php.stub' => database_path('migrations/jarvis/' . date('Y_m_d_Hisz', time()) . '_create_comments_table.php'),
             ], 'jarvis-migrations');
         }
 
         if (!class_exists('CreateSettingsTable')) {
             $this->publishes([
-                __DIR__ . '/../../database/migrations/create_settings_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . '_create_settings_table.php'),
+                __DIR__ . '/../../database/migrations/create_settings_table.php.stub' => database_path('migrations/jarvis/' . date('Y_m_d_Hisz', time()) . '_create_settings_table.php'),
+            ], 'jarvis-migrations');
+        }
+
+        if (!class_exists('CreateBanksTable')) {
+            $this->publishes([
+                __DIR__ . '/../../database/migrations/create_banks_table.php.stub'         => database_path('migrations/jarvis/' . date('Y_m_d_Hisz', time()) . 1 . '_create_banks_table.php'),
+                __DIR__ . '/../../database/migrations/create_bank_accounts_table.php.stub' => database_path('migrations/jarvis/' . date('Y_m_d_Hisz', time()) . 2 . '_create_bank_accounts_table.php'),
             ], 'jarvis-migrations');
         }
 
         if (!class_exists('CreateHolidaysTable')) {
             $this->publishes([
-                __DIR__ . '/../../database/migrations/create_holidays_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . '_create_holidays_table.php'),
+                __DIR__ . '/../../database/migrations/create_holidays_table.php.stub' => database_path('migrations/jarvis/' . date('Y_m_d_Hisz', time()) . '_create_holidays_table.php'),
             ], 'jarvis-migrations');
         }
 
         if (!class_exists('CreateAuditsTable')) {
             $this->publishes([
-                __DIR__ . '/../../database/migrations/create_audits_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . '_create_audits_table.php'),
+                __DIR__ . '/../../database/migrations/create_audits_table.php.stub' => database_path('migrations/jarvis/' . date('Y_m_d_Hisz', time()) . '_create_audits_table.php'),
             ], 'jarvis-migrations');
         }
 
         if (!class_exists('CreateAddressesTable')) {
             $this->publishes([
-                __DIR__ . '/../../database/migrations/create_addresses_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . '_create_addresses_table.php'),
+                __DIR__ . '/../../database/migrations/create_addresses_table.php.stub' => database_path('migrations/jarvis/' . date('Y_m_d_Hisz', time()) . '_create_addresses_table.php'),
             ], 'jarvis-migrations');
         }
 
         if (!class_exists('CreateUserDeviceTokensTable')) {
             $this->publishes([
-                __DIR__ . '/../../database/migrations/create_user_device_tokens_table.php.stub' => database_path('migrations/' . date('Y_m_d_Hisz', time()) . '_create_user_device_tokens_table.php'),
+                __DIR__ . '/../../database/migrations/create_user_device_tokens_table.php.stub' => database_path('migrations/jarvis/' . date('Y_m_d_Hisz', time()) . '_create_user_device_tokens_table.php'),
             ], 'jarvis-migrations');
         }
     }
