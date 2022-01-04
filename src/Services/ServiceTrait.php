@@ -83,7 +83,7 @@ trait ServiceTrait
 
         DB::transaction(function () use ($request, &$result) {
 
-            $this->validationRules()::validate($request->all());
+            $this->validationRules()->validate($request->all());
 
             $result = $this->model()->create($request->all());
         });
