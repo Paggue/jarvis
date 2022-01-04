@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Lara\Jarvis\Validators\CommentValidator;
 
 trait ServiceTrait
 {
@@ -120,7 +121,7 @@ trait ServiceTrait
 
             $result = $this->model()->findOrFail($id);
 
-            $this->validationRules()::validate(array_merge(['id' => $id], $request->all()));
+            $this->validationRules()->validate(array_merge(['id' => $id], $request->all()));
 
             $result->update($request->all());
         });
@@ -184,5 +185,24 @@ trait ServiceTrait
         $audits = $data->audits()->with('user')->get();
 
         return new AuditCollection($audits);
+    }
+
+    public function createComment (Request $request, $id)
+    {
+        $result = null;
+
+        DB::transaction(function () use ($request, $id, &$result) {
+
+            $result = $this->model()->withTrashed()->findOrFail($id);
+
+            $logged_user = $request->user();
+            $request->merge(['user_id' => $logged_user->id]);
+
+            (new CommentValidator)->validate($request->all());
+
+            $result->comments()->create($request->all());
+        });
+
+        return $result->comments;
     }
 }

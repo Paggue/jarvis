@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Lara\Jarvis\Services;
 
 use Illuminate\Http\Request;

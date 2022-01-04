@@ -28,7 +28,7 @@ class Address extends Model implements AuditableContracts
         "longitude",
     ];
 
-    protected static function newFactory()
+    protected static function newFactory ()
     {
         return \Lara\Jarvis\Database\Factories\AddressFactory::new();
     }
@@ -36,17 +36,17 @@ class Address extends Model implements AuditableContracts
     /**
      * Get the parent address model.
      */
-    public function personable()
+    public function personable ()
     {
         return $this->morphTo();
     }
 
-    public function city()
+    public function city ()
     {
         return $this->belongsTo(City::class);
     }
 
-    public function state()
+    public function state ()
     {
         return $this->belongsTo(State::class);
     }
