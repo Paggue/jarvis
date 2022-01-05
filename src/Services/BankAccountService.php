@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Lara\Jarvis\Services;
 
 use Carbon\Carbon;
@@ -48,14 +47,12 @@ class BankAccountService
     public function setId ($id)
     {
         $this->parent_id = $id;
-
         return $this;
     }
 
     public function setModelType ($modelType)
     {
         $this->modelType = $modelType;
-
         return $this;
     }
 
@@ -159,7 +156,6 @@ class BankAccountService
                     $bankAccount->save();
                 }
             });
-
 
         } catch (\Exception $e) {
             return $e->getMessage();

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Lara\Jarvis\Services\ServiceTrait;
+use Exception;
 
 trait ControllerTrait
 {
@@ -87,6 +88,8 @@ trait ControllerTrait
         } catch (ModelNotFoundException $m) {
             return $this->error("Not Found!", 404);
         } catch (Exception $e) {
+            if (method_exists($e, 'getStatusCode'))
+                return $this->error($e->getMessage(), $e->getStatusCode());
             return $this->error($e->getMessage());
         }
     }
