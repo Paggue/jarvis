@@ -42,8 +42,9 @@ trait ServiceTrait
      */
     public function index (Request $request)
     {
-        if (in_array('name', $this->model()->getFillable()) && !$request->order)
-            $request->merge(['order' => "name,asc"]);
+        if (method_exists($this->model(), 'getFillable'))
+            if (in_array('name', $this->model()->getFillable()) && !$request->order)
+                $request->merge(['order' => "name,asc"]);
 
         $result = Helpers::indexQueryBuilder($request, $this->relationships(), $this->model());
 
@@ -61,8 +62,9 @@ trait ServiceTrait
      */
     public function indexAll (Request $request)
     {
-        if (in_array('name', $this->model()->getFillable()) && !$request->order)
-            $request->merge(['order' => "name,asc"]);
+        if (method_exists($this->model(), 'getFillable'))
+            if (in_array('name', $this->model()->getFillable()) && !$request->order)
+                $request->merge(['order' => "name,asc"]);
 
         $result = Helpers::indexQueryBuilder($request, $this->relationships(), $this->model()->withTrashed());
 
@@ -100,10 +102,8 @@ trait ServiceTrait
      */
     public function show (Request $request, $id = null)
     {
-        $result = $this->model()->with($this->relationships())
+        return $this->model()->with($this->relationships())
             ->findOrFail($id);
-
-        return $result;
     }
 
     /**
