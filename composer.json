@@ -35,7 +35,6 @@
     "ext-curl": "*"
   },
   "require-dev": {
-    "orchestra/testbench": "^6.0",
     "phpunit/phpunit": "^9.3"
   },
   "autoload-dev": {
