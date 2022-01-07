@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Lara\Jarvis\Utils;
-
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;

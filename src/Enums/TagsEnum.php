@@ -9,5 +9,7 @@ abstract class TagsEnum
     const CHARGE_CREDIT = 'CREDIT';
 
     const TRANSFER_PAYMENT = 'TRANSFER_PAYMENT';
+
+    const INVOICE = 'INVOICE';
 }
 

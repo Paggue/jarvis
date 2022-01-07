@@ -6,7 +6,7 @@ use Lara\Jarvis\Utils\Helpers;
 
 trait HasSanitizer
 {
-    protected static function bootHasSanitizer()
+    protected static function bootHasSanitizer ()
     {
         static::saving(function ($model) {
             self::sanitizeParams($model);

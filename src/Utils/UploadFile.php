@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * Class UploadFile
+ * @package App\Enums
+ */
 class UploadFile
 {
     public static function upload ($data, $folder, $defaultExtension = null, $old_link_file = null)
@@ -17,18 +21,19 @@ class UploadFile
         if ($validator->fails())
             throw new ValidationException($validator);
 
+        if ($defaultExtension == "base64") {
+            $arr = explode(';', $data['file']);
 
-        $arr = explode(';', $data['file']);
+            if (isset($arr[1])) {
+                $data = str_replace('base64,', '', $arr[1]);
+                $data = str_replace(' ', '+', $data);
+            } else {
+                $data = $data['file'];
+            }
 
-        if (isset($arr[1])) {
-            $data = str_replace('base64,', '', $arr[1]);
-            $data = str_replace(' ', '+', $data);
+            $data = base64_decode($data);
         } else {
             $data = $data['file'];
-        }
-
-        if (base64_encode(base64_decode($data, true)) === $data) {
-            $data = base64_decode($data);
         }
 
         $f         = finfo_open();
@@ -52,14 +57,14 @@ class UploadFile
         }
 
         $path = $s3->putObject(array(
-            'Bucket'          => config('jarvis.s3.bucket'),
+            'Bucket'          => config('filesystems.disks.s3.bucket'),
             'ContentEncoding' => $extension,
             'ContentType'     => $contantType,
             'Key'             => $folder . $fileName . '.' . $extension,
             'Body'            => $data,
         ));
 
-        // Remove old file
+        // Remove old picture
         if ($old_link_file) {
             $old_key = explode($folder, $old_link_file);
 
@@ -69,6 +74,7 @@ class UploadFile
                     'Key'    => urldecode($folder . $old_key[1]),
                 ));
             }
+
         }
 
         return $path['ObjectURL'];

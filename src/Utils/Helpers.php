@@ -13,6 +13,9 @@ abstract class Helpers
     {
         $limit = $request->all()['limit'] ?? 20;
 
+        if ($request->paginate === "false")
+            $request->merge(['paginate' => false]);
+
         $order = $request->all()['order'] ?? null;
         if ($order !== null) {
             $order = explode(',', $order);
