@@ -121,4 +121,18 @@ trait ControllerTrait
             return $this->error($e->getMessage());
         }
     }
+
+    public function createComment (Request $request, $id)
+    {
+        try {
+            $result = $this->service->createComment($request, $id);
+            return response()->json($result);
+        } catch (ModelNotFoundException $m) {
+            return $this->error("Not Found!", 404);
+        } catch (ValidationException $v) {
+            return $this->error($v->errors(), $v->status);
+        } catch (Exception $e) {
+            return $this->error($e->getMessage());
+        }
+    }
 }

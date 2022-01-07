@@ -21,8 +21,8 @@ class JarvisServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'custom-auth');
         $this->loadViewsFrom(__DIR__ . '/../../resources/views/emails', 'jarvis-mail');
 
-        $router = $this->app->make(Router::class);
-        $router->aliasMiddleware('auth', Authenticate::class);
+//        $router = $this->app->make(Router::class);
+//        $router->aliasMiddleware('auth', Authenticate::class);
 
         // Register the command if we are using the application via the CLI
         if ($this->app->runningInConsole()) {
