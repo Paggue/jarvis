@@ -21,7 +21,7 @@ class Controller extends BaseController
      * @param Exception|null $e
      * @return JsonResponse
      */
-    protected function error (string $message = '', int $code = 500, Exception $e = null): JsonResponse
+    protected function error ($message = '', $code = 500, $e = null)
     {
         $response            = ['error' => true];
         $response['message'] = [];
