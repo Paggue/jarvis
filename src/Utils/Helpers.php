@@ -251,4 +251,29 @@ abstract class Helpers
 
         return ucfirst($text);
     }
+
+    public static function genRandomString ($length = 10, $steps = 3)
+    {
+        $characters = '';
+        $numbers    = '0123456789';
+        $lowercase  = 'abcdefghijklmnopqrstuvwxyz';
+        $uppercase  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        if ($steps == 1) {
+            $characters .= $numbers;
+        } elseif ($steps == 2) {
+            $characters .= $numbers . $lowercase;
+        } elseif ($steps == 3) {
+            $characters .= $numbers . $lowercase . $uppercase;
+        }
+
+        $charactersLength = strlen($characters);
+        $randomString     = '';
+
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+
+        return $randomString;
+    }
 }
