@@ -80,11 +80,28 @@ abstract class Helpers
                 }
 
                 if (gettype($betweens) == 'array') {
+
                     foreach ($betweens as $between) {
                         $between = explode(',', $between);
                         if (count($between) != 3) throw new \Exception('Invalid "between" parameters, expected 3 passes ' . count($between));
 
-                        $query->whereBetween($between[0], ["{$between[1]} 00:00:00", "{$between[2]} 23:59:59"]);
+                        if (strpos($between[0], '.') !== false) {
+                            $relations = explode('.', $between[0]);
+
+                            $query->whereHas($relations[0], function ($query) use ($relations, $between) {
+                                $dates = array_slice($between, 1);
+
+                                if (count($relations) > 2) {
+                                    $query->whereHas($relations[1], function ($query) use ($relations, $dates) {
+                                        $query->whereBetween($relations[2], ["{$dates[0]} 00:00:00", "{$dates[1]} 23:59:59"]);
+                                    });
+                                } else {
+                                    $query->whereBetween($relations[1], ["$dates[0] 00:00:00", "$dates[1] 23:59:59"]);
+                                }
+                            });
+                        } else {
+                            $query->whereBetween($between[0], ["$between[1] 00:00:00", "$between[2] 23:59:59"]);
+                        }
                     }
                 }
 //                dd($query->toSql(), $query->getBindings());
