@@ -53,9 +53,27 @@ abstract class Helpers
                 if (gettype($wheres) == 'array') {
                     foreach ($wheres as $where) {
                         $where = explode(',', $where);
-                        if (count($where) < 2 || count($where) > 3) throw new \Exception('Invalid "where" parameters, expected 3 passes ' . count($where));
+                        if (count($where) < 2) throw new \Exception('Invalid "where" parameters, expected 3 passes ' . count($where));
 
-                        if (strpos($where[0], '.') !== false) {
+                        if ($where[1] == 'in') {
+                            if (strpos($where[0], '.') !== false) {
+                                $relations = explode('.', $where[0]);
+
+                                $query->whereHas($relations[0], function ($query) use ($relations, $where) {
+                                    $values = array_slice($where, 2);
+
+                                    if (count($relations) > 2) {
+                                        $query->whereHas($relations[1], function ($query) use ($relations, $values) {
+                                            $query->whereIn($relations[2], $values);
+                                        });
+                                    } else {
+                                        $query->whereIn($relations[1], $values);
+                                    }
+                                });
+                            } else {
+                                $query->whereIn($where[0], array_slice($where, 2));
+                            }
+                        } elseif (strpos($where[0], '.') !== false) {
                             $relations = explode('.', $where[0]);
 
                             $query->whereHas($relations[0], function ($query) use ($relations, $where) {
