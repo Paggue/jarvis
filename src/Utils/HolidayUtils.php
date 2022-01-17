@@ -25,7 +25,7 @@ class HolidayUtils
 
     public function isNotHoliday ($date)
     {
-        return !$this->model->isHoliday($date);
+        return !$this->isHoliday($date);
     }
 
     public function isUtilDay ($date)
@@ -34,39 +34,39 @@ class HolidayUtils
 
         $dateTime = Carbon::parse($date)->format('H:i:s');
 
-        return ($dayName != "Sunday" && $dayName !== "Saturday" && $this->model->isNotHoliday($date) && $dateTime <= self::PAYMENT_LIMIT_TIME);
+        return ($dayName != "Sunday" && $dayName !== "Saturday" && $this->isNotHoliday($date) && $dateTime <= self::PAYMENT_LIMIT_TIME);
     }
 
     public function isNotUtilDay ($date)
     {
-        return !$this->model->isUtilDay($date);
+        return !$this->isUtilDay($date);
     }
 
     public function isTodayHoliday ()
     {
-        return (boolean)$this->model->isHoliday(Carbon::now()->toDateString());
+        return (boolean)$this->isHoliday(Carbon::now()->toDateString());
     }
 
     public function isTodayNotHoliday ()
     {
-        return !$this->model->isTodayHoliday();
+        return !$this->isTodayHoliday();
     }
 
     public function isTodayUtilDay ()
     {
-        return $this->model->isUtilDay(Carbon::now()->toDateString());
+        return $this->isUtilDay(Carbon::now()->toDateString());
     }
 
     public function isTodayNotUtilDay ()
     {
-        return !$this->model->isTodayUtilDay();
+        return !$this->isTodayUtilDay();
     }
 
     public function nextUtilDayFrom ($startDate)
     {
         $date = $startDate;
 
-        while ($this->model->isNotUtilDay($date)) {
+        while ($this->isNotUtilDay($date)) {
             $date = Carbon::parse($date)->addDay();
         }
 
@@ -77,7 +77,7 @@ class HolidayUtils
     {
         $date = Carbon::now();
 
-        while ($this->model->isNotUtilDay($date)) {
+        while ($this->isNotUtilDay($date)) {
             $date = Carbon::parse($date)->addDay()->startOfDay();
         }
 
@@ -94,7 +94,7 @@ class HolidayUtils
 
         for ($i = 0; $i < $monthDays; $i++) {
 
-            if ($this->model->isUtilDay(Carbon::parse($date)->startOfMonth()->addDays($i))) {
+            if ($this->isUtilDay(Carbon::parse($date)->startOfMonth()->addDays($i))) {
                 $utilDaysCounter++;
             }
         }
@@ -112,7 +112,7 @@ class HolidayUtils
 
         for ($i = 0; $i < $monthDays; $i++) {
 
-            if ($this->model->isNotUtilDay(Carbon::parse($date)->startOfMonth()->addDays($i))) {
+            if ($this->isNotUtilDay(Carbon::parse($date)->startOfMonth()->addDays($i))) {
                 $utilDaysCounter++;
             }
         }
@@ -131,7 +131,7 @@ class HolidayUtils
 
         if ($current == $date->format('Y-m-d') && ($currentTime >= self::WITHDRAW_LIMIT_TIME || $currentTime >= self::PAYMENT_LIMIT_TIME))
             return false;
-        else if ($this->model->isNotUtilDay($date))
+        else if ($this->isNotUtilDay($date))
             return false;
         else if ($natal == $current && $currentTime > "12:00")
             return false;
@@ -143,7 +143,7 @@ class HolidayUtils
     {
         $date = Carbon::now();
 
-        while (!$this->model->isPaymentDateValid($date)) {
+        while (!$this->isPaymentDateValid($date)) {
             $date = Carbon::parse($date)->addDay()->startOfDay();
         }
 
@@ -152,8 +152,6 @@ class HolidayUtils
 
     public function nextUtilDayForTransfer ()
     {
-        $date = Carbon::now();
-
-        return $date;
+        return Carbon::now();
     }
 }
