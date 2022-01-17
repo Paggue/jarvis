@@ -1,16 +1,19 @@
 <?php
 
-namespace Lara\Jarvis\Tests\Unit\Models;
+namespace Lara\Jarvis\Tests\Unit\Utils;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Lara\Jarvis\Database\Seeders\HolidaySeeder;
 use Lara\Jarvis\Models\Holiday;
 use Lara\Jarvis\Tests\TestCase;
+use Lara\Jarvis\Utils\HolidayUtils;
 
 class HolidayTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected $model;
 
     public function setUp (): void
     {
@@ -20,6 +23,8 @@ class HolidayTest extends TestCase
         Carbon::setTestNow($knownDate);
 
         $this->artisan('db:seed', ['--class' => HolidaySeeder::class]);
+
+        $this->model = new Holiday();
     }
 
     public function test_same_fillable ()
@@ -40,28 +45,28 @@ class HolidayTest extends TestCase
 
     public function test_is_today_holiday ()
     {
-        $response = (new Holiday())->isTodayHoliday();
+        $response = (new HolidayUtils($this->model))->isTodayHoliday();
 
         self::assertEquals($response, true);
     }
 
     public function test_is_today_not_holiday ()
     {
-        $response = (new Holiday())->isTodayNotHoliday();
+        $response = (new HolidayUtils($this->model))->isTodayNotHoliday();
 
         self::assertEquals($response, false);
     }
 
     public function test_is_today_util_day ()
     {
-        $response = (new Holiday())->isTodayUtilDay();
+        $response = (new HolidayUtils($this->model))->isTodayUtilDay();
 
         self::assertEquals($response, false);
     }
 
     public function test_is_today_not_util_day ()
     {
-        $response = (new Holiday())->isTodayNotUtilDay();
+        $response = (new HolidayUtils($this->model))->isTodayNotUtilDay();
 
         self::assertEquals($response, true);
     }
@@ -73,7 +78,7 @@ class HolidayTest extends TestCase
      */
     public function test_next_util_day_from ()
     {
-        $response = (new Holiday())->nextUtilDayFrom("2021-04-21");
+        $response = (new HolidayUtils($this->model))->nextUtilDayFrom("2021-04-21");
 
         self::assertEquals("2021-04-22", $response);
     }
@@ -85,7 +90,7 @@ class HolidayTest extends TestCase
      */
     public function test_quantity_util_days_in_month ()
     {
-        $response = (new Holiday())->countUtilDaysInMonth("2021-04-20");
+        $response = (new HolidayUtils($this->model))->countUtilDaysInMonth("2021-04-20");
 
         self::assertEquals(20, $response);
     }
@@ -97,7 +102,7 @@ class HolidayTest extends TestCase
      */
     public function test_quantity_not_util_days_in_month ()
     {
-        $response = (new Holiday())->countNotUtilDaysInMonth("2021-04-20");
+        $response = (new HolidayUtils($this->model))->countNotUtilDaysInMonth("2021-04-20");
 
         self::assertEquals(10, $response);
     }
