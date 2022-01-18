@@ -24,5 +24,11 @@ trait HasSanitizer
         isset($model->document) ? $model->document = Helpers::sanitizeString($model->document) : null;
 
         isset($model->plate) ? $model->plate = Helpers::sanitizeStringWithLetters($model->plate) : null;
+
+        isset($model->cpf_cnpj) ? $model->cpf_cnpj = Helpers::sanitizeString($model->cpf_cnpj) : null;
+
+        isset($model->cpf) ? $model->cpf = Helpers::sanitizeString($model->cpf) : null;
+
+        isset($model->cnpj) ? $model->cnpj = Helpers::sanitizeString($model->cnpj) : null;
     }
 }
