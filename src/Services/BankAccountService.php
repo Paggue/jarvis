@@ -18,20 +18,20 @@ class BankAccountService
 {
     use ServiceTrait;
 
-    protected $parent_id;
+    protected $parentId;
     protected $modelType;
 
     public function model ()
     {
-        if (Auth::user()->isSuperAdmin() && !$this->parent_id)
+        if (Auth::user()->isSuperAdmin() && !$this->parentId)
             return new BankAccount();
         else
-            return $this->modelType::findOrFail($this->parent_id)->bankAccounts();
+            return $this->modelType::findOrFail($this->parentId)->bankAccounts();
     }
 
     public function bankAccountable ()
     {
-        return $this->modelType::findOrFail($this->parent_id);
+        return $this->modelType::findOrFail($this->parentId);
     }
 
     public function validationRules ()
@@ -46,7 +46,7 @@ class BankAccountService
 
     public function setId ($id)
     {
-        $this->parent_id = $id;
+        $this->parentId = $id;
         return $this;
     }
 
@@ -65,7 +65,7 @@ class BankAccountService
             $data["document"] = $this->bankAccountable()->document;
             $data["holder"]   = $this->bankAccountable()->legal_name;
 
-            $this->validationRules()->validate(array_merge(['bank_accountable_id' => $this->parent_id], $data));
+            $this->validationRules()->validate(array_merge(['bank_accountable_id' => $this->parentId], $data));
             $result = $this->model()->create($data);
 
             $transfers = StarkBankTransfer::create(array_merge($data, [
@@ -94,7 +94,7 @@ class BankAccountService
                 $data["status"]   = BankAccountEnum::STATUS['processing'];
                 $data["info"]     = null;
                 $data["holder"]   = $this->bankAccountable()->legal_name;
-                $this->validationRules()->validate(array_merge(['id' => $id, 'bank_accountable_id' => $this->parent_id], $data));
+                $this->validationRules()->validate(array_merge(['id' => $id, 'bank_accountable_id' => $this->parentId], $data));
                 $result->update($data);
 
                 StarkBankTransfer::create(array_merge($data, [
