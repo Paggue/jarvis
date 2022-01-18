@@ -13,7 +13,7 @@ class InstallJarvisPackage extends Command
 
     protected $description = 'Install the Jarvis';
 
-    public function handle()
+    public function handle ()
     {
         system('composer dump-autoload');
 
@@ -21,7 +21,7 @@ class InstallJarvisPackage extends Command
 
         $this->info('Publishing configuration...');
 
-        if (! $this->configExists('jarvis.php')) {
+        if (!$this->configExists('jarvis.php')) {
             $this->publishConfiguration();
             $this->info('Published configuration');
         } else {
@@ -33,17 +33,15 @@ class InstallJarvisPackage extends Command
             }
         }
 
-        $this->publishMigrations();
-
         $this->info('Installed Jarvis');
     }
 
-    private function configExists($fileName)
+    private function configExists ($fileName)
     {
         return File::exists(config_path($fileName));
     }
 
-    private function shouldOverwriteConfig()
+    private function shouldOverwriteConfig ()
     {
         return $this->confirm(
             'Config file already exists. Do you want to overwrite it?',
@@ -51,11 +49,11 @@ class InstallJarvisPackage extends Command
         );
     }
 
-    private function publishConfiguration($forcePublish = false)
+    private function publishConfiguration ($forcePublish = false)
     {
         $params = [
             '--provider' => "Lara\Jarvis\Providers\JarvisServiceProvider",
-            '--tag' => "config"
+            '--tag'      => "config"
         ];
 
         if ($forcePublish === true) {
@@ -63,23 +61,5 @@ class InstallJarvisPackage extends Command
         }
 
         $this->call('vendor:publish', $params);
-    }
-
-    private function publishMigrations($forcePublish = false)
-    {
-        $this->info('Publish Migrations Jarvis');
-
-        $params = [
-            '--provider' => "Lara\Jarvis\Providers\JarvisServiceProvider",
-            '--tag' => "jarvis-migrations"
-        ];
-
-        if ($forcePublish === true) {
-            $params['--force'] = true;
-        }
-
-        $this->call('vendor:publish', $params);
-
-        system('composer dump-autoload');
     }
 }

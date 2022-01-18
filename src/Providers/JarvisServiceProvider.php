@@ -3,13 +3,12 @@
 namespace Lara\Jarvis\Providers;
 
 use Aws\Laravel\AwsServiceProvider;
-use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Lara\Jarvis\Console\InstallJarvisPackage;
+use Lara\Jarvis\Console\PublishJarvisMigrations;
 use Lara\Jarvis\Console\PublishJarvisSeeders;
 use Lara\Jarvis\Utils\PixPayloadGenerator;
 use Illuminate\Support\Facades\Route;
-use Orchestra\Testbench\Http\Middleware\Authenticate;
 
 // TODO configurar aws sdk, fazer audits funcionar, possibilidade de add payment forms ao pacote
 class JarvisServiceProvider extends ServiceProvider
@@ -20,9 +19,6 @@ class JarvisServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'custom-auth');
         $this->loadViewsFrom(__DIR__ . '/../../resources/views/emails', 'jarvis-mail');
-
-//        $router = $this->app->make(Router::class);
-//        $router->aliasMiddleware('auth', Authenticate::class);
 
         // Register the command if we are using the application via the CLI
         if ($this->app->runningInConsole()) {
@@ -47,6 +43,7 @@ class JarvisServiceProvider extends ServiceProvider
 
             $this->commands([
                 InstallJarvisPackage::class,
+                PublishJarvisMigrations::class,
                 PublishJarvisSeeders::class,
             ]);
         }
