@@ -91,6 +91,8 @@ abstract class Helpers
                                     }
                                 }
                             });
+                        } elseif (count($where) === 3) {
+                            $query->where($where[0], $where[1], $where[2]);
                         } else {
                             $query->where($where[0], $where[1]);
                         }
