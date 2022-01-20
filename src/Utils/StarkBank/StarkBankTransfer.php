@@ -33,12 +33,14 @@ class StarkBankTransfer
      */
     public static function create ($data)
     {
+        $banksTable = $data['banks_table'] ?? 'banks';
+
         $validator = Validator::make($data, [
             'id'           => 'required|string', // Unique ID to avoid duplicate transactions.
             'holder'       => 'required|string',
             'document'     => 'required|cpf_cnpj',
             'amount'       => 'required|numeric',
-            'ispb'         => 'required|numeric|exists:banks,ispb',
+            'ispb'         => "required|numeric|exists:$banksTable,ispb",
             'agency'       => 'required|numeric',
             //            'agency_digit'  => 'numeric',
             'account'      => 'required|numeric',
