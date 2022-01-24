@@ -13,6 +13,9 @@ use Lara\Jarvis\Validators\CommentValidator;
 
 trait ServiceTrait
 {
+    protected $parentId;
+    protected $modelType;
+
     abstract function model ();
 
     public function validationRules ()
@@ -31,6 +34,18 @@ trait ServiceTrait
         }
 
         return [];
+    }
+
+    public function setId ($id)
+    {
+        $this->parentId = $id;
+        return $this;
+    }
+
+    public function setModelType ($type)
+    {
+        $this->modelType = $type;
+        return $this;
     }
 
     /**

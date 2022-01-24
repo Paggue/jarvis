@@ -20,7 +20,7 @@ trait ControllerTrait
     public function index (Request $request)
     {
         try {
-            return $this->service->index($request);
+            return $this->service->setModelType($request->model_type)->setId($request->model_id)->index($request);
         } catch (Exception $e) {
             if (method_exists($e, 'getStatusCode'))
                 return $this->error($e->getMessage(), $e->getStatusCode());
@@ -31,7 +31,7 @@ trait ControllerTrait
     public function indexAll (Request $request)
     {
         try {
-            return $this->service->indexAll($request);
+            return $this->service->setModelType($request->model_type)->setId($request->model_id)->indexAll($request);
         } catch (Exception $e) {
             return $this->error($e->getMessage());
         }
@@ -40,7 +40,7 @@ trait ControllerTrait
     public function store (Request $request)
     {
         try {
-            $data = $this->service->store($request);
+            $data = $this->service->setModelType($request->model_type)->setId($request->model_id)->store($request);
             return response()->json($data, 201);
         } catch (ValidationException $v) {
             return $this->error($v->errors(), $v->status);
@@ -52,7 +52,7 @@ trait ControllerTrait
     public function show (Request $request, $id = null)
     {
         try {
-            return response()->json($this->service->show($request, $id));
+            return response()->json($this->service->setModelType($request->model_type)->setId($request->model_id)->show($request, $id));
         } catch (ValidationException $v) {
             return $this->error($v->errors(), $v->status);
         } catch (ModelNotFoundException $m) {
@@ -65,7 +65,7 @@ trait ControllerTrait
     public function update (Request $request, $id = null)
     {
         try {
-            $data = $this->service->update($request, $id);
+            $data = $this->service->setModelType($request->model_type)->setId($request->model_id)->update($request, $id);
             return response()->json($data);
         } catch (ValidationException $v) {
             return $this->error($v->errors(), $v->status);
@@ -81,7 +81,7 @@ trait ControllerTrait
     public function destroy (Request $request, $id = null)
     {
         try {
-            $this->service->destroy($request, $id);
+            $this->service->setModelType($request->model_type)->setId($request->model_id)->destroy($request, $id);
             return response()->json(null, 204);
         } catch (ValidationException $v) {
             return $this->error($v->errors(), $v->status);
@@ -97,7 +97,7 @@ trait ControllerTrait
     public function restore (Request $request, $id = null)
     {
         try {
-            $data = $this->service->restore($request, $id);
+            $data = $this->service->setModelType($request->model_type)->setId($request->model_id)->restore($request, $id);
             return response()->json($data);
         } catch (ValidationException $v) {
             return $this->error($v->errors(), $v->status);
@@ -111,7 +111,7 @@ trait ControllerTrait
     public function audits (Request $request, $id = null)
     {
         try {
-            $result = $this->service->audits($request, $id);
+            $result = $this->service->setModelType($request->model_type)->setId($request->model_id)->audits($request, $id);
             return response()->json($result);
         } catch (ModelNotFoundException $m) {
             return $this->error("Not Found!", 404);
@@ -125,7 +125,7 @@ trait ControllerTrait
     public function createComment (Request $request, $id)
     {
         try {
-            $result = $this->service->createComment($request, $id);
+            $result = $this->service->setModelType($request->model_type)->setId($request->model_id)->createComment($request, $id);
             return response()->json($result);
         } catch (ModelNotFoundException $m) {
             return $this->error("Not Found!", 404);
