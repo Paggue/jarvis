@@ -36,6 +36,10 @@ trait ServiceTrait
         return [];
     }
 
+    public function apiResource ()
+    {
+    }
+
     public function setId ($id)
     {
         $this->parentId = $id;
