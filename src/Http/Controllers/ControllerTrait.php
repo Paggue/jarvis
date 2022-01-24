@@ -33,6 +33,8 @@ trait ControllerTrait
         try {
             return $this->service->setModelType($request->model_type)->setId($request->model_id)->indexAll($request);
         } catch (Exception $e) {
+            if (method_exists($e, 'getStatusCode'))
+                return $this->error($e->getMessage(), $e->getStatusCode());
             return $this->error($e->getMessage());
         }
     }
@@ -45,6 +47,8 @@ trait ControllerTrait
         } catch (ValidationException $v) {
             return $this->error($v->errors(), $v->status);
         } catch (Exception $e) {
+            if (method_exists($e, 'getStatusCode'))
+                return $this->error($e->getMessage(), $e->getStatusCode());
             return $this->error($e->getMessage());
         }
     }
@@ -58,6 +62,8 @@ trait ControllerTrait
         } catch (ModelNotFoundException $m) {
             return $this->error("Not Found!", 404);
         } catch (Exception $e) {
+            if (method_exists($e, 'getStatusCode'))
+                return $this->error($e->getMessage(), $e->getStatusCode());
             return $this->error($e->getMessage());
         }
     }
@@ -104,6 +110,8 @@ trait ControllerTrait
         } catch (ModelNotFoundException $m) {
             return $this->error("Not Found!", 404);
         } catch (Exception $e) {
+            if (method_exists($e, 'getStatusCode'))
+                return $this->error($e->getMessage(), $e->getStatusCode());
             return $this->error($e->getMessage());
         }
     }
@@ -132,6 +140,8 @@ trait ControllerTrait
         } catch (ValidationException $v) {
             return $this->error($v->errors(), $v->status);
         } catch (Exception $e) {
+            if (method_exists($e, 'getStatusCode'))
+                return $this->error($e->getMessage(), $e->getStatusCode());
             return $this->error($e->getMessage());
         }
     }
