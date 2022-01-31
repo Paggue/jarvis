@@ -39,7 +39,7 @@ class TwoFactorService
             });
 
             $google2fa_url = $this->google2fa->getQRCodeUrl(
-                config('jarvis.project'),
+                config('jarvis.app.name'),
                 $user->email,
                 $secretKey
             );
