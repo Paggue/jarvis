@@ -39,7 +39,7 @@ class TwoFactorService
             });
 
             $google2fa_url = $this->google2fa->getQRCodeUrl(
-                "Muito.io",
+                config('jarvis.project'),
                 $user->email,
                 $secretKey
             );
