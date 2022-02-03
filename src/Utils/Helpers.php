@@ -6,6 +6,7 @@ use geekcom\ValidatorDocs\Rules\Cnpj;
 use geekcom\ValidatorDocs\Rules\Cpf;
 use Illuminate\Http\Request;
 use Lara\Jarvis\Enums\Enums;
+use Lara\Jarvis\Http\Resources\DefaultResource;
 
 abstract class Helpers
 {
@@ -164,7 +165,7 @@ abstract class Helpers
         $currentPageItems = $collection->slice(($currentPage - 1) * $perPage, $perPage);
         parse_str(request()->getQueryString(), $query);
         unset($query[$pageName]);
-        return new \Illuminate\Pagination\LengthAwarePaginator(
+        return DefaultResource::collection(new \Illuminate\Pagination\LengthAwarePaginator(
             $currentPageItems,
             $collection->count(),
             $perPage,
@@ -175,7 +176,7 @@ abstract class Helpers
                 'query'    => $query,
                 'fragment' => $fragment
             ]
-        );
+        ));
     }
 
     public static function legalEntity ($document)
