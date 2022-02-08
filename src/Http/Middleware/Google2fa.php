@@ -30,7 +30,7 @@ class Google2fa
                     return response()->json(['message' => 'Código Inválido'], 422);
                 }
             } else {
-                return response()->json(['message' => 'Código de Autenticação de Dois Fatores é obrigatório'], 422);
+                return response()->json(['message' => 'Código de Autenticação de Dois Fatores é obrigatório (secret)'], 422);
             }
         } else {
             return response()->json(['message' => 'Autenticação não está habilitada.'], 422);
