@@ -12,6 +12,7 @@ abstract class Helpers
 {
     public static function indexQueryBuilder (Request $request, array $relationships, $model, $order_by = 'asc', $fields = ['*'])
     {
+        // TODO document method
         $limit = $request->all()['limit'] ?? 20;
 
         if ($request->paginate === "false")
