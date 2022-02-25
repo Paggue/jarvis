@@ -12,7 +12,7 @@ class SettingsController extends Controller
 
     protected $service;
 
-    public function __construct (SettingsService $service)
+    public function __construct(SettingsService $service)
     {
         $this->service = $service;
     }

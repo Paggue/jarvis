@@ -2,6 +2,9 @@
 
 namespace Lara\Jarvis\Http\Controllers\Api;
 
+use Exception;
+use Illuminate\Database\QueryException;
+use Illuminate\Http\JsonResponse;
 use Lara\Jarvis\Http\Controllers\Controller;
 use Lara\Jarvis\Http\Resources\DefaultCollection;
 use Lara\Jarvis\Services\CitiesStatesService;
@@ -20,13 +23,14 @@ class CitiesStatesController extends Controller
      * Display a listing of the city resource.
      *
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse|DefaultCollection
+     * @return JsonResponse|DefaultCollection
      */
     public function indexCities(Request $request)
     {
         try {
             return $this->service->indexCities($request);
-
+        } catch (QueryException $q) {
+            return $this->error($q->getMessage(), 500);
         } catch (Exception $e) {
             return $this->error($e->getMessage());
         }
@@ -36,13 +40,14 @@ class CitiesStatesController extends Controller
      * Display a listing of the state  resource.
      *
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse|DefaultCollection
+     * @return JsonResponse|DefaultCollection
      */
     public function indexStates(Request $request)
     {
         try {
             return $this->service->indexStates($request);
-
+        } catch (QueryException $q) {
+            return $this->error($q->getMessage(), 500);
         } catch (Exception $e) {
             return $this->error($e->getMessage());
         }
