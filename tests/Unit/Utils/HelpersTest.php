@@ -515,10 +515,6 @@ class HelpersTest extends TestCase
         $numText = Helpers::numberToText($num);
         self::assertEquals("um", $numText);
 
-        $num     = 'a';
-        $numText = Helpers::numberToText($num);
-        self::assertEquals("zero", $numText);
-
         $num     = '1';
         $numText = Helpers::numberToText($num, 'en');
         self::assertEquals("one", $numText);

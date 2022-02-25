@@ -37,7 +37,7 @@ class HolidayTest extends TestCase
 
         $this->assertEqualsCanonicalizing($fillableTest, $fillable);
     }
-receipt
+
     public function test_list_all ()
     {
         $this->assertDatabaseCount('holidays', 16);
