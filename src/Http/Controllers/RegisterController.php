@@ -1,6 +1,6 @@
 <?php
 
-namespace RFraga\Jarvis\Http\Controllers;
+namespace Jarvis\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;

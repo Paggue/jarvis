@@ -4,7 +4,6 @@ namespace Lara\Jarvis\Database\Factories;
 
 use Lara\Jarvis\Models\Comment;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Lara\Jarvis\Tests\User;
 
 class CommentFactory extends Factory
 {
@@ -22,14 +21,8 @@ class CommentFactory extends Factory
      */
     public function definition()
     {
-        $commentable = User::factory()->create();
-        $author      = User::factory()->create();
-
         return [
-            'text'             => $this->faker->sentence,
-            'user_id'          => $author->id,
-            'commentable_id'   => $commentable->id,
-            'commentable_type' => get_class($commentable)
+            'text' => $this->faker->sentence,
         ];
     }
 }
