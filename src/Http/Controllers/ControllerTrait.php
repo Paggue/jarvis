@@ -24,9 +24,12 @@ trait ControllerTrait
             return $this->service->setModelType($request->model_type)->setId($request->model_id)->index($request);
         } catch (QueryException $q) {
             return $this->error($q->getMessage(), 500);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if (method_exists($e, 'getStatusCode')) {
                 return $this->error($e->getMessage(), $e->getStatusCode());
+            }
+            if (isset($e->status)) {
+                return $this->error($e->getMessage(), $e->status);
             }
             return $this->error($e->getMessage());
         }
@@ -38,9 +41,12 @@ trait ControllerTrait
             return $this->service->setModelType($request->model_type)->setId($request->model_id)->indexAll($request);
         } catch (QueryException $q) {
             return $this->error($q->getMessage(), 500);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if (method_exists($e, 'getStatusCode')) {
                 return $this->error($e->getMessage(), $e->getStatusCode());
+            }
+            if (isset($e->status)) {
+                return $this->error($e->getMessage(), $e->status);
             }
             return $this->error($e->getMessage());
         }
@@ -55,9 +61,12 @@ trait ControllerTrait
             return $this->error($v->errors(), $v->status);
         } catch (QueryException $q) {
             return $this->error($q->getMessage(), 500);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if (method_exists($e, 'getStatusCode')) {
                 return $this->error($e->getMessage(), $e->getStatusCode());
+            }
+            if (isset($e->status)) {
+                return $this->error($e->getMessage(), $e->status);
             }
             return $this->error($e->getMessage());
         }
@@ -75,9 +84,12 @@ trait ControllerTrait
             return $this->error("Not Found!", 404);
         } catch (QueryException $q) {
             return $this->error($q->getMessage(), 500);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if (method_exists($e, 'getStatusCode')) {
                 return $this->error($e->getMessage(), $e->getStatusCode());
+            }
+            if (isset($e->status)) {
+                return $this->error($e->getMessage(), $e->status);
             }
             return $this->error($e->getMessage());
         }
@@ -97,9 +109,12 @@ trait ControllerTrait
             return $this->error("Not Found!", 404);
         } catch (QueryException $q) {
             return $this->error($q->getMessage(), 500);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if (method_exists($e, 'getStatusCode')) {
                 return $this->error($e->getMessage(), $e->getStatusCode());
+            }
+            if (isset($e->status)) {
+                return $this->error($e->getMessage(), $e->status);
             }
             return $this->error($e->getMessage());
         }
@@ -116,9 +131,12 @@ trait ControllerTrait
             return $this->error("Not Found!", 404);
         } catch (QueryException $q) {
             return $this->error($q->getMessage(), 500);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if (method_exists($e, 'getStatusCode')) {
                 return $this->error($e->getMessage(), $e->getStatusCode());
+            }
+            if (isset($e->status)) {
+                return $this->error($e->getMessage(), $e->status);
             }
             return $this->error($e->getMessage());
         }
@@ -138,9 +156,12 @@ trait ControllerTrait
             return $this->error("Not Found!", 404);
         } catch (QueryException $q) {
             return $this->error($q->getMessage(), 500);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if (method_exists($e, 'getStatusCode')) {
                 return $this->error($e->getMessage(), $e->getStatusCode());
+            }
+            if (isset($e->status)) {
+                return $this->error($e->getMessage(), $e->status);
             }
             return $this->error($e->getMessage());
         }
@@ -158,9 +179,12 @@ trait ControllerTrait
             return $this->error("Not Found!", 404);
         } catch (QueryException $q) {
             return $this->error($q->getMessage(), 500);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if (method_exists($e, 'getStatusCode')) {
                 return $this->error($e->getMessage(), $e->getStatusCode());
+            }
+            if (isset($e->status)) {
+                return $this->error($e->getMessage(), $e->status);
             }
             return $this->error($e->getMessage());
         }
@@ -180,9 +204,12 @@ trait ControllerTrait
             return $this->error($v->errors(), $v->status);
         } catch (QueryException $q) {
             return $this->error($q->getMessage(), 500);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if (method_exists($e, 'getStatusCode')) {
                 return $this->error($e->getMessage(), $e->getStatusCode());
+            }
+            if (isset($e->status)) {
+                return $this->error($e->getMessage(), $e->status);
             }
             return $this->error($e->getMessage());
         }
