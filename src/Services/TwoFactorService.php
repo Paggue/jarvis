@@ -47,7 +47,7 @@ class TwoFactorService
             return $google2fa_url;
         }
 
-        return response()->json(['message' => 'Autenticação já habilitada.'], 422);
+        return response()->json(['message' => 'Autenticação de Dois Fatores já habilitada.'], 422);
     }
 
     public function enable (Request $request)
@@ -71,10 +71,10 @@ class TwoFactorService
                 return response()->json(null, 200);
 
             } else {
-                return response()->json(['message' => 'Código Inválido'], 422);
+                return response()->json(['message' => 'Código de Autenticação Inválido'], 422);
             }
         } else {
-            return response()->json(['message' => 'Autenticação já habilitada.'], 422);
+            return response()->json(['message' => 'Autenticação de Dois Fatores já habilitada.'], 422);
         }
     }
 
@@ -98,7 +98,7 @@ class TwoFactorService
             return response()->json(null, 200);
 
         } else {
-            return response()->json(['message' => 'Autenticação já desabilitada.'], 422);
+            return response()->json(['message' => 'Autenticação de Dois Fatores já desabilitada.'], 422);
         }
     }
 
@@ -108,7 +108,7 @@ class TwoFactorService
             return response()->json(null, 200);
 
         } else {
-            return response()->json(['message' => 'Autenticação não está habilitada.'], 422);
+            return response()->json(['message' => 'Autenticação de Dois Fatores não está habilitada.'], 422);
         }
     }
 }
