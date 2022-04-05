@@ -27,13 +27,13 @@ class Google2fa
                 if ((new TwoFactor ())->verifyKey($user->secret_key, $request->secret)) {
                     return $next($request);
                 } else {
-                    return response()->json(['message' => 'Código Inválido'], 422);
+                    return response()->json(['message' => 'Código de Autenticação Inválido'], 422);
                 }
             } else {
                 return response()->json(['message' => 'Código de Autenticação de Dois Fatores é obrigatório (secret)'], 422);
             }
         } else {
-            return response()->json(['message' => 'Autenticação não está habilitada.'], 422);
+            return response()->json(['message' => 'Autenticação de Dois Fatores não está habilitada.'], 422);
         }
     }
 }
