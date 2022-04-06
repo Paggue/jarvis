@@ -53,7 +53,7 @@ class InstallJarvisPackage extends Command
     {
         $params = [
             '--provider' => "Lara\Jarvis\Providers\JarvisServiceProvider",
-            '--tag'      => "config"
+            '--tag'      => "config/config.php"
         ];
 
         if ($forcePublish === true) {
