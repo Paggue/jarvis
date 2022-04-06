@@ -17,7 +17,7 @@ class ResetEmail extends Mailable
     public function __construct ($user, $token)
     {
         $this->token = $token;
-        $this->name = $user->name;
+        $this->name = $user->name ?? $user->nome;
         $this->user = $user;
     }
 

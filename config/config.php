@@ -8,9 +8,14 @@ return [
     ],
 
     'app' => [
-        'name'     => env('APP_NAME'),
-        'url'      => env('APP_URL'),
-        'url_site' => env('APP_URL_SITE')
+        'name'           => env('APP_NAME'),
+        'url'            => env('APP_URL'),
+        'url_site'       => env('APP_URL_SITE'),
+        'logo'           => env('APP_LOGO'),
+        'playstore_img'  => env('APP_PLAYSTORE_IMG'),
+        'playstore_link' => env('APP_PLAYSTORE_LINK'),
+        'appstore_img'   => env('APP_APPSTORE_IMG'),
+        'appstore_link'  => env('APP_APPSTORE_LINK'),
     ],
 
     'trello' => [
