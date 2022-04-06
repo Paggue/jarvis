@@ -102,7 +102,7 @@
                             @yield('image_header')
                         @else
                             <img width="150"
-                                 src="https://s3.us-east-2.amazonaws.com/cdn.muito.io/assets/Muito-black.png"
+                                 src="{{config('jarvis.app.logo')}}"
                                  title="logo" alt="logo">
                         @endif
                     </td>
@@ -144,18 +144,18 @@
                                 <tr>
                                     <td style="height: 120px;">
                                         <div>
-                                            <a href="https://play.google.com/store/apps/details?id=com.muitoapp"
+                                            <a href="{{config('jarvis.app.playstore_link')}}"
                                                target="__blank" class="store-button">
                                                 <img
-                                                    src="https://s3.us-east-2.amazonaws.com/cdn.muito.io/assets/play-store.png"
-                                                    class="store-button-img" style="margin-right: 12px">
+                                                        src="{{config('jarvis.app.playstore_img')}}"
+                                                        class="store-button-img" style="margin-right: 12px">
                                             </a>
 
-                                            <a href="https://apps.apple.com/us/app/muito/id1572313327" target="__blank"
+                                            <a href="{{config('jarvis.app.appstore_link')}}" target="__blank"
                                                class="store-button">
                                                 <img
-                                                    src="https://s3.us-east-2.amazonaws.com/cdn.muito.io/assets/apple-store.png"
-                                                    class="store-button-img">
+                                                        src="{{config('jarvis.app.appstore_img')}}"
+                                                        class="store-button-img">
                                             </a>
                                         </div>
                                     </td>
@@ -169,7 +169,7 @@
                 <tr>
                     <td style="text-align:center;">
                         <p class="footer-text">
-                            &copy; <strong>muito.io</strong>
+                            &copy; <strong>{{config('jarvis.app.url_site')}}</strong>
                         </p>
                     </td>
                 </tr>
