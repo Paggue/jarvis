@@ -9,8 +9,8 @@
 @endsection
 
 @section('text')
-    Um link exclusivo para redefinir seu a senha foi gerada para você.<br>
-    Para redefinir, click no link:
+    Um link exclusivo para redefinir sua senha foi gerada para você.<br>
+    Para redefinir, clique no link abaixo:
 @endsection
 
 @section('button_url')
