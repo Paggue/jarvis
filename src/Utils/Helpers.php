@@ -148,8 +148,11 @@ abstract class Helpers
                     }
                 }
 //                dd($query->toSql(), $query->getBindings());
-            })
-            ->with($relationships);
+            });
+
+        if (!empty($relationships)) {
+            $result->with($relationships);
+        }
 
         if ($request->get('paginate', true)) {
             $result = $result->paginate($limit, $fields);
