@@ -4,43 +4,40 @@ namespace Lara\Jarvis\Utils;
 
 use geekcom\ValidatorDocs\Rules\Cnpj;
 use geekcom\ValidatorDocs\Rules\Cpf;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
 use Lara\Jarvis\Enums\Enums;
 use Lara\Jarvis\Http\Resources\DefaultResource;
 
 abstract class Helpers
 {
-    public static function indexQueryBuilder (Request $request, array $relationships, $model, $order_by = 'asc', $fields = ['*'])
+    public static function addQueryFilters(array $filters, $query)
     {
-        // TODO document method
-        $limit = $request->all()['limit'] ?? 20;
 
-        if ($request->paginate === "false")
-            $request->merge(['paginate' => false]);
+        $canQueryRelations = $query instanceof Model;
 
-        $order = $request->all()['order'] ?? null;
-        if ($order !== null) {
-            $order = explode(',', $order);
-        }
-        $order[0] = $order[0] ?? 'id';
-        $order[1] = $order[1] ?? $order_by;
+        $filters = collect($filters);
+        $wheres = $filters->get('where', []);
+        $betweens = $filters->get('between', []);
+        $betweens_time = $filters->get('between_time', []);
+        $likes = $filters->get('like', null);
+        $searchs = $filters->get('search', null);
 
-        $wheres   = $request->all()['where'] ?? [];
-        $betweens = $request->all()['between'] ?? [];
+        $order = $filters->get('order', 'id,DESC');
 
-        $likes   = $request->all()['like'] ?? null;
-        $searchs = $request->all()['search'] ?? null;
+        [$orderField, $orderDirection] = explode(',', $order);
 
-        $result = $model->orderBy($order[0], $order[1])
-            ->where(function ($query) use ($wheres, $likes, $betweens) {
-                if (gettype($likes) == 'array') {
+        $query->orderBy($orderField, $orderDirection)
+            ->where(function ($query) use ($wheres, $likes, $betweens, $betweens_time, $canQueryRelations) {
+                if (is_array($likes)) {
                     foreach ($likes as $like) {
                         $like = explode(',', $like);
                         if (count($like) != 2) throw new \Exception('Invalid "like" parameters, expected 2 passes ' . count($like));
 
                         $like[1] = '%' . $like[1] . '%';
 
-                        if (strpos($like[0], '.') !== false) {
+                        if (str_contains($like[0], '.') && $canQueryRelations) {
                             $relation = explode('.', $like[0]);
                             $query->whereHas($relation[0], function ($query) use ($relation, $like) {
                                 $query->where($relation[1], 'like', $like[1]);
@@ -52,13 +49,13 @@ abstract class Helpers
                 }
 
 
-                if (gettype($wheres) == 'array') {
+                if (is_array($wheres)) {
                     foreach ($wheres as $where) {
                         $where = explode(',', $where);
                         if (count($where) < 2) throw new \Exception('Invalid "where" parameters, expected 3 passes ' . count($where));
 
                         if ($where[1] == 'in') {
-                            if (strpos($where[0], '.') !== false) {
+                            if (str_contains($where[0], '.') && $canQueryRelations) {
                                 $relations = explode('.', $where[0]);
 
                                 $query->whereHas($relations[0], function ($query) use ($relations, $where) {
@@ -75,7 +72,7 @@ abstract class Helpers
                             } else {
                                 $query->whereIn($where[0], array_slice($where, 2));
                             }
-                        } elseif (strpos($where[0], '.') !== false) {
+                        } elseif (str_contains($where[0], '.') && $canQueryRelations) {
                             $relations = explode('.', $where[0]);
 
                             $query->whereHas($relations[0], function ($query) use ($relations, $where) {
@@ -101,13 +98,12 @@ abstract class Helpers
                     }
                 }
 
-                if (gettype($betweens) == 'array') {
-
+                if (is_array($betweens)) {
                     foreach ($betweens as $between) {
                         $between = explode(',', $between);
                         if (count($between) != 3) throw new \Exception('Invalid "between" parameters, expected 3 passes ' . count($between));
 
-                        if (strpos($between[0], '.') !== false) {
+                        if (str_contains($between[0], '.') && $canQueryRelations) {
                             $relations = explode('.', $between[0]);
 
                             $query->whereHas($relations[0], function ($query) use ($relations, $between) {
@@ -126,46 +122,86 @@ abstract class Helpers
                         }
                     }
                 }
-//                dd($query->toSql(), $query->getBindings());
-                return $query;
-            })
-            ->where(function ($query) use ($searchs) {
-                if (gettype($searchs) == 'array') {
-                    foreach ($searchs as $item) {
-                        $item = explode(',', $item);
-                        if (count($item) != 2) throw new \Exception('Invalid "search" parameters, expected 2 passes ' . count($item));
-                        $item[1] = '%' . $item[1] . '%';
 
-                        if (strpos($item[0], '.') !== false) {
-                            $relation = explode('.', $item[0]);
+                if (is_array($betweens_time)) {
+                    foreach ($betweens_time as $time) {
+                        $time = explode(',', $time);
+                        if (count($time) != 3) throw new \Exception('Invalid "between_time" parameters, expected 3 passes ' . count($time));
 
-                            $query->whereHas($relation[0], function ($query) use ($relation, $item) {
-                                $query->orWhere($relation[1], 'like', $item[1]);
+                        if (str_contains($time[0], '.') && $canQueryRelations) {
+                            $relations = explode('.', $time[0]);
+
+                            $query->whereHas($relations[0], function ($query) use ($relations, $time) {
+                                $times = array_slice($time, 1);
+
+                                if (count($relations) > 2) {
+                                    $query->whereHas($relations[1], function ($query) use ($relations, $times) {
+                                        $query->whereBetween($relations[2], [$times[0], $times[1]]);
+                                    });
+                                } else {
+                                    $query->whereBetween($relations[1], [$times[0], $times[1]]);
+                                }
                             });
                         } else {
-                            $query->orWhere($item[0], 'like', $item[1]);
+                            $query->whereBetween($time[0], [$time[1], $time[2]]);
                         }
                     }
                 }
+
+
 //                dd($query->toSql(), $query->getBindings());
+                return $query;
             });
 
+        $query->where(function ($query) use ($searchs, $canQueryRelations) {
+            if (is_array($searchs)) {
+                foreach ($searchs as $item) {
+                    $item = explode(',', $item);
+                    if (count($item) != 2) throw new \Exception('Invalid "search" parameters, expected 2 passes ' . count($item));
+                    $item[1] = '%' . $item[1] . '%';
+
+                    if (str_contains($item[0], '.') && $canQueryRelations) {
+                        $relation = explode('.', $item[0]);
+
+                        $query->whereHas($relation[0], function ($query) use ($relation, $item) {
+                            $query->orWhere($relation[1], 'like', $item[1]);
+                        });
+                    } else {
+                        $query->orWhere($item[0], 'like', $item[1]);
+                    }
+                }
+            }
+//                dd($query->toSql(), $query->getBindings());
+        });
+    }
+
+    public static function indexQueryBuilder(Request $request, array $relationships, $model, $order_by = 'asc', $fields = ['*'])
+    {
+
+        if ($request->paginate === "false")
+            $request->merge(['paginate' => false]);
+
+        if (!$request->order)
+            $request->merge(['order' => "id,$order_by"]);
+
+        $limit = $request->input('limit', 20);
+
+        $query = self::addQueryFilters($request->all(), $model);
+
         if (!empty($relationships)) {
-            $result->with($relationships);
+            $query->with($relationships);
         }
 
         if ($request->get('paginate', true)) {
-            $result = $result->paginate($limit, $fields);
+            return $query->paginate($limit, $fields);
         } else {
-            $result = $result->get($fields);
+            return $query->get($fields);
         }
-
-        return $result;
     }
 
-    public static function paginateCollection ($collection, $perPage = 20, $pageName = 'page', $fragment = null)
+    public static function paginateCollection($collection, $perPage = 20, $pageName = 'page', $fragment = null)
     {
-        $currentPage      = \Illuminate\Pagination\LengthAwarePaginator::resolveCurrentPage($pageName);
+        $currentPage = \Illuminate\Pagination\LengthAwarePaginator::resolveCurrentPage($pageName);
         $currentPageItems = $collection->slice(($currentPage - 1) * $perPage, $perPage);
         parse_str(request()->getQueryString(), $query);
         unset($query[$pageName]);
@@ -176,14 +212,14 @@ abstract class Helpers
             $currentPage,
             [
                 'pageName' => $pageName,
-                'path'     => \Illuminate\Pagination\LengthAwarePaginator::resolveCurrentPath(),
-                'query'    => $query,
+                'path' => \Illuminate\Pagination\LengthAwarePaginator::resolveCurrentPath(),
+                'query' => $query,
                 'fragment' => $fragment
             ]
         ));
     }
 
-    public static function legalEntity ($document)
+    public static function legalEntity($document)
     {
         $cpf = new Cpf();
         if ($cpf->validateCpf(null, $document)) {
@@ -196,31 +232,31 @@ abstract class Helpers
         }
     }
 
-    public static function centsToMoney ($cents, $pattern = 'BRL')
+    public static function centsToMoney($cents, $pattern = 'BRL')
     {
         return number_format(($cents / 100), 2, $pattern == 'BRL' ? ',' : '.', '');
     }
 
-    public static function userPasswordGenerator ($length = 6)
+    public static function userPasswordGenerator($length = 6)
     {
         return strtolower(substr(md5(uniqid()), 0, $length));
     }
 
-    public static function sanitizeString ($str)
+    public static function sanitizeString($str)
     {
         $formated_str = preg_replace('/[^0-9]/', '', $str);
 
         return $formated_str;
     }
 
-    public static function sanitizeStringWithLetters ($str)
+    public static function sanitizeStringWithLetters($str)
     {
         $formated_str = preg_replace("~[^A-Za-z0-9]~", '', $str);
 
         return $formated_str;
     }
 
-    public static function maskDocument ($document)
+    public static function maskDocument($document)
     {
         if (strlen($document) === 11) {
             return self::mask(Enums::MASKS['cpf'], $document);
@@ -229,7 +265,7 @@ abstract class Helpers
         }
     }
 
-    public static function mask ($mask, $str)
+    public static function mask($mask, $str)
     {
         $str = str_replace(" ", "", $str);
 
@@ -240,14 +276,14 @@ abstract class Helpers
         return $mask;
     }
 
-    public static function numberToText ($value, $locale = 'pt-br')
+    public static function numberToText($value, $locale = 'pt-br')
     {
         $f = new \NumberFormatter($locale, \NumberFormatter::SPELLOUT);
 
         return $f->format($value);
     }
 
-    public static function centsToText ($value)
+    public static function centsToText($value)
     {
         $valString = strval($value);
 
@@ -277,12 +313,12 @@ abstract class Helpers
         return ucfirst($text);
     }
 
-    public static function genRandomString ($length = 10, $steps = 3)
+    public static function genRandomString($length = 10, $steps = 3)
     {
         $characters = '';
-        $numbers    = '0123456789';
-        $lowercase  = 'abcdefghijklmnopqrstuvwxyz';
-        $uppercase  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $numbers = '0123456789';
+        $lowercase = 'abcdefghijklmnopqrstuvwxyz';
+        $uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
         if ($steps == 1) {
             $characters .= $numbers;
@@ -293,7 +329,7 @@ abstract class Helpers
         }
 
         $charactersLength = strlen($characters);
-        $randomString     = '';
+        $randomString = '';
 
         for ($i = 0; $i < $length; $i++) {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
