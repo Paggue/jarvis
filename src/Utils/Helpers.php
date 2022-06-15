@@ -6,7 +6,6 @@ use geekcom\ValidatorDocs\Rules\Cnpj;
 use geekcom\ValidatorDocs\Rules\Cpf;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Model;
 use Lara\Jarvis\Enums\Enums;
 use Lara\Jarvis\Http\Resources\DefaultResource;
 
@@ -14,150 +13,158 @@ abstract class Helpers
 {
     public static function addQueryFilters(array $filters, $query)
     {
-
         $canQueryRelations = $query instanceof Model;
 
-        $filters = collect($filters);
-        $wheres = $filters->get('where', []);
-        $betweens = $filters->get('between', []);
+        $filters       = collect($filters);
+        $wheres        = $filters->get('where', []);
+        $betweens      = $filters->get('between', []);
         $betweens_time = $filters->get('between_time', []);
-        $likes = $filters->get('like', null);
-        $searchs = $filters->get('search', null);
+        $likes         = $filters->get('like', null);
+        $searchs       = $filters->get('search', null);
 
         $order = $filters->get('order', 'id,DESC');
 
         [$orderField, $orderDirection] = explode(',', $order);
 
-        $query->orderBy($orderField, $orderDirection)
-            ->where(function ($query) use ($wheres, $likes, $betweens, $betweens_time, $canQueryRelations) {
-                if (is_array($likes)) {
-                    foreach ($likes as $like) {
-                        $like = explode(',', $like);
-                        if (count($like) != 2) throw new \Exception('Invalid "like" parameters, expected 2 passes ' . count($like));
+        $query->orderBy($orderField, $orderDirection);
 
-                        $like[1] = '%' . $like[1] . '%';
+        $query->where(function ($query) use ($wheres, $likes, $betweens, $betweens_time, $canQueryRelations) {
+            if (is_array($likes)) {
+                foreach ($likes as $like) {
+                    $like = explode(',', $like);
+                    if (count($like) != 2) {
+                        throw new \Exception('Invalid "like" parameters, expected 2 passes ' . count($like));
+                    }
 
-                        if (str_contains($like[0], '.') && $canQueryRelations) {
-                            $relation = explode('.', $like[0]);
-                            $query->whereHas($relation[0], function ($query) use ($relation, $like) {
-                                $query->where($relation[1], 'like', $like[1]);
-                            });
-                        } else {
-                            $query->where($like[0], 'like', $like[1]);
-                        }
+                    $like[1] = '%' . $like[1] . '%';
+
+                    if (str_contains($like[0], '.') && $canQueryRelations) {
+                        $relation = explode('.', $like[0]);
+                        $query->whereHas($relation[0], function ($query) use ($relation, $like) {
+                            $query->where($relation[1], 'like', $like[1]);
+                        });
+                    } else {
+                        $query->where($like[0], 'like', $like[1]);
                     }
                 }
+            }
 
+            if (is_array($wheres)) {
+                foreach ($wheres as $where) {
+                    $where = explode(',', $where);
+                    if (count($where) < 2) {
+                        throw new \Exception('Invalid "where" parameters, expected 3 passes ' . count($where));
+                    }
 
-                if (is_array($wheres)) {
-                    foreach ($wheres as $where) {
-                        $where = explode(',', $where);
-                        if (count($where) < 2) throw new \Exception('Invalid "where" parameters, expected 3 passes ' . count($where));
-
-                        if ($where[1] == 'in') {
-                            if (str_contains($where[0], '.') && $canQueryRelations) {
-                                $relations = explode('.', $where[0]);
-
-                                $query->whereHas($relations[0], function ($query) use ($relations, $where) {
-                                    $values = array_slice($where, 2);
-
-                                    if (count($relations) > 2) {
-                                        $query->whereHas($relations[1], function ($query) use ($relations, $values) {
-                                            $query->whereIn($relations[2], $values);
-                                        });
-                                    } else {
-                                        $query->whereIn($relations[1], $values);
-                                    }
-                                });
-                            } else {
-                                $query->whereIn($where[0], array_slice($where, 2));
-                            }
-                        } elseif (str_contains($where[0], '.') && $canQueryRelations) {
+                    if ($where[1] == 'in') {
+                        if (str_contains($where[0], '.') && $canQueryRelations) {
                             $relations = explode('.', $where[0]);
 
                             $query->whereHas($relations[0], function ($query) use ($relations, $where) {
-                                $values = array_slice($where, 1);
+                                $values = array_slice($where, 2);
 
                                 if (count($relations) > 2) {
                                     $query->whereHas($relations[1], function ($query) use ($relations, $values) {
-                                        foreach ($values as $value) {
-                                            $query->where($relations[2], $value);
-                                        }
+                                        $query->whereIn($relations[2], $values);
                                     });
                                 } else {
+                                    $query->whereIn($relations[1], $values);
+                                }
+                            });
+                        } else {
+                            $query->whereIn($where[0], array_slice($where, 2));
+                        }
+                    } elseif (str_contains($where[0], '.') && $canQueryRelations) {
+                        $relations = explode('.', $where[0]);
+
+                        $query->whereHas($relations[0], function ($query) use ($relations, $where) {
+                            $values = array_slice($where, 1);
+
+                            if (count($relations) > 2) {
+                                $query->whereHas($relations[1], function ($query) use ($relations, $values) {
                                     foreach ($values as $value) {
-                                        $query->where($relations[1], $value);
+                                        $query->where($relations[2], $value);
                                     }
+                                });
+                            } else {
+                                foreach ($values as $value) {
+                                    $query->where($relations[1], $value);
                                 }
-                            });
-                        } elseif (count($where) === 3) {
-                            $query->where($where[0], $where[1], $where[2]);
-                        } else {
-                            $query->where($where[0], $where[1]);
-                        }
+                            }
+                        });
+                    } elseif (count($where) === 3) {
+                        $query->where($where[0], $where[1], $where[2]);
+                    } else {
+                        $query->where($where[0], $where[1]);
                     }
                 }
+            }
 
-                if (is_array($betweens)) {
-                    foreach ($betweens as $between) {
-                        $between = explode(',', $between);
-                        if (count($between) != 3) throw new \Exception('Invalid "between" parameters, expected 3 passes ' . count($between));
+            if (is_array($betweens)) {
+                foreach ($betweens as $between) {
+                    $between = explode(',', $between);
+                    if (count($between) != 3) {
+                        throw new \Exception('Invalid "between" parameters, expected 3 passes ' . count($between));
+                    }
 
-                        if (str_contains($between[0], '.') && $canQueryRelations) {
-                            $relations = explode('.', $between[0]);
+                    if (str_contains($between[0], '.') && $canQueryRelations) {
+                        $relations = explode('.', $between[0]);
 
-                            $query->whereHas($relations[0], function ($query) use ($relations, $between) {
-                                $dates = array_slice($between, 1);
+                        $query->whereHas($relations[0], function ($query) use ($relations, $between) {
+                            $dates = array_slice($between, 1);
 
-                                if (count($relations) > 2) {
-                                    $query->whereHas($relations[1], function ($query) use ($relations, $dates) {
-                                        $query->whereBetween($relations[2], ["{$dates[0]} 00:00:00", "{$dates[1]} 23:59:59"]);
-                                    });
-                                } else {
-                                    $query->whereBetween($relations[1], ["$dates[0] 00:00:00", "$dates[1] 23:59:59"]);
-                                }
-                            });
-                        } else {
-                            $query->whereBetween($between[0], ["$between[1] 00:00:00", "$between[2] 23:59:59"]);
-                        }
+                            if (count($relations) > 2) {
+                                $query->whereHas($relations[1], function ($query) use ($relations, $dates) {
+                                    $query->whereBetween($relations[2], ["{$dates[0]} 00:00:00", "{$dates[1]} 23:59:59"]
+                                    );
+                                });
+                            } else {
+                                $query->whereBetween($relations[1], ["$dates[0] 00:00:00", "$dates[1] 23:59:59"]);
+                            }
+                        });
+                    } else {
+                        $query->whereBetween($between[0], ["$between[1] 00:00:00", "$between[2] 23:59:59"]);
                     }
                 }
+            }
 
-                if (is_array($betweens_time)) {
-                    foreach ($betweens_time as $time) {
-                        $time = explode(',', $time);
-                        if (count($time) != 3) throw new \Exception('Invalid "between_time" parameters, expected 3 passes ' . count($time));
+            if (is_array($betweens_time)) {
+                foreach ($betweens_time as $time) {
+                    $time = explode(',', $time);
+                    if (count($time) != 3) {
+                        throw new \Exception('Invalid "between_time" parameters, expected 3 passes ' . count($time));
+                    }
 
-                        if (str_contains($time[0], '.') && $canQueryRelations) {
-                            $relations = explode('.', $time[0]);
+                    if (str_contains($time[0], '.') && $canQueryRelations) {
+                        $relations = explode('.', $time[0]);
 
-                            $query->whereHas($relations[0], function ($query) use ($relations, $time) {
-                                $times = array_slice($time, 1);
+                        $query->whereHas($relations[0], function ($query) use ($relations, $time) {
+                            $times = array_slice($time, 1);
 
-                                if (count($relations) > 2) {
-                                    $query->whereHas($relations[1], function ($query) use ($relations, $times) {
-                                        $query->whereBetween($relations[2], [$times[0], $times[1]]);
-                                    });
-                                } else {
-                                    $query->whereBetween($relations[1], [$times[0], $times[1]]);
-                                }
-                            });
-                        } else {
-                            $query->whereBetween($time[0], [$time[1], $time[2]]);
-                        }
+                            if (count($relations) > 2) {
+                                $query->whereHas($relations[1], function ($query) use ($relations, $times) {
+                                    $query->whereBetween($relations[2], [$times[0], $times[1]]);
+                                });
+                            } else {
+                                $query->whereBetween($relations[1], [$times[0], $times[1]]);
+                            }
+                        });
+                    } else {
+                        $query->whereBetween($time[0], [$time[1], $time[2]]);
                     }
                 }
+            }
 
-
-//                dd($query->toSql(), $query->getBindings());
-                return $query;
-            });
+            return $query;
+        });
 
         $query->where(function ($query) use ($searchs, $canQueryRelations) {
             if (is_array($searchs)) {
                 foreach ($searchs as $item) {
                     $item = explode(',', $item);
-                    if (count($item) != 2) throw new \Exception('Invalid "search" parameters, expected 2 passes ' . count($item));
+                    if (count($item) != 2) {
+                        throw new \Exception('Invalid "search" parameters, expected 2 passes ' . count($item));
+                    }
                     $item[1] = '%' . $item[1] . '%';
 
                     if (str_contains($item[0], '.') && $canQueryRelations) {
@@ -171,18 +178,29 @@ abstract class Helpers
                     }
                 }
             }
-//                dd($query->toSql(), $query->getBindings());
+
+//            dd($query->toSql(), $query->getBindings());
+            return $query;
         });
+
+
+
     }
 
-    public static function indexQueryBuilder(Request $request, array $relationships, $model, $order_by = 'asc', $fields = ['*'])
-    {
-
-        if ($request->paginate === "false")
+    public static function indexQueryBuilder(
+        Request $request,
+        array $relationships,
+        $model,
+        $order_by = 'asc',
+        $fields = ['*']
+    ) {
+        if ($request->paginate === "false") {
             $request->merge(['paginate' => false]);
+        }
 
-        if (!$request->order)
+        if (!$request->order) {
             $request->merge(['order' => "id,$order_by"]);
+        }
 
         $limit = $request->input('limit', 20);
 
@@ -201,22 +219,24 @@ abstract class Helpers
 
     public static function paginateCollection($collection, $perPage = 20, $pageName = 'page', $fragment = null)
     {
-        $currentPage = \Illuminate\Pagination\LengthAwarePaginator::resolveCurrentPage($pageName);
+        $currentPage      = \Illuminate\Pagination\LengthAwarePaginator::resolveCurrentPage($pageName);
         $currentPageItems = $collection->slice(($currentPage - 1) * $perPage, $perPage);
         parse_str(request()->getQueryString(), $query);
         unset($query[$pageName]);
-        return DefaultResource::collection(new \Illuminate\Pagination\LengthAwarePaginator(
-            $currentPageItems,
-            $collection->count(),
-            $perPage,
-            $currentPage,
-            [
-                'pageName' => $pageName,
-                'path' => \Illuminate\Pagination\LengthAwarePaginator::resolveCurrentPath(),
-                'query' => $query,
-                'fragment' => $fragment
-            ]
-        ));
+        return DefaultResource::collection(
+            new \Illuminate\Pagination\LengthAwarePaginator(
+                $currentPageItems,
+                $collection->count(),
+                $perPage,
+                $currentPage,
+                [
+                    'pageName' => $pageName,
+                    'path'     => \Illuminate\Pagination\LengthAwarePaginator::resolveCurrentPath(),
+                    'query'    => $query,
+                    'fragment' => $fragment
+                ]
+            )
+        );
     }
 
     public static function legalEntity($document)
@@ -300,7 +320,6 @@ abstract class Helpers
         }
 
         if ((int)$cents > 0) {
-
             $text .= ' e ' . self::numberToText((int)$cents);
 
             if ((int)$cents === 1) {
@@ -316,9 +335,9 @@ abstract class Helpers
     public static function genRandomString($length = 10, $steps = 3)
     {
         $characters = '';
-        $numbers = '0123456789';
-        $lowercase = 'abcdefghijklmnopqrstuvwxyz';
-        $uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $numbers    = '0123456789';
+        $lowercase  = 'abcdefghijklmnopqrstuvwxyz';
+        $uppercase  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
         if ($steps == 1) {
             $characters .= $numbers;
@@ -329,7 +348,7 @@ abstract class Helpers
         }
 
         $charactersLength = strlen($characters);
-        $randomString = '';
+        $randomString     = '';
 
         for ($i = 0; $i < $length; $i++) {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
