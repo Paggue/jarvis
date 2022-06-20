@@ -167,14 +167,14 @@ abstract class Helpers
 
                                 if (count($relations) > 2) {
                                     $query->whereHas($relations[1], function ($query) use ($relations, $times) {
-                                        $query->whereBetween($relations[2], [$times[0], $times[1]]);
+                                        $query->whereBetween($relations[2], ["$times[0]:00", "$times[1]:59"]);
                                     });
                                 } else {
-                                    $query->whereBetween($relations[1], [$times[0], $times[1]]);
+                                    $query->whereBetween($relations[1], ["$times[0]:00", "$times[1]:59"]);
                                 }
                             });
                         } else {
-                            $query->whereBetween($time[0], [$time[1], $time[2]]);
+                            $query->whereBetween($time[0], ["$time[1]:00", "$time[2]:59"]);
                         }
                     }
                 }
