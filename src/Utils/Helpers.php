@@ -5,6 +5,7 @@ namespace Lara\Jarvis\Utils;
 use geekcom\ValidatorDocs\Rules\Cnpj;
 use geekcom\ValidatorDocs\Rules\Cpf;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 use Lara\Jarvis\Enums\Enums;
 use Lara\Jarvis\Http\Resources\DefaultResource;
@@ -13,7 +14,7 @@ abstract class Helpers
 {
     public static function addQueryFilters(array $filters, $query)
     {
-        $canQueryRelations = $query instanceof Model;
+        $canQueryRelations = $query instanceof Model || $query instanceof Relation;
 
         $filters       = collect($filters);
         $wheres        = $filters->get('where', []);
@@ -178,7 +179,6 @@ abstract class Helpers
                         }
                     }
                 }
-
             });
 
 
