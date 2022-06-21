@@ -2,6 +2,7 @@
 
 namespace Lara\Jarvis\Utils;
 
+use Carbon\Carbon;
 use geekcom\ValidatorDocs\Rules\Cnpj;
 use geekcom\ValidatorDocs\Rules\Cpf;
 use Illuminate\Database\Eloquent\Model;
@@ -12,16 +13,40 @@ use Lara\Jarvis\Http\Resources\DefaultResource;
 
 abstract class Helpers
 {
+    public static function formatDateInterval($start, $end)
+    {
+        $startDate = new Carbon($start);
+        $endDate   = new Carbon($end);
+
+        $emptyDate   = empty($start) || empty($end);
+        $emptyHour   = empty($startDate->hour) || empty($endDate->hour);
+        $emptySecond = empty($startDate->second) || empty($endDate->second);
+
+        if ($emptyHour || $emptyDate) {
+            $startDate->startOfDay();
+            $endDate->endOfDay();
+        }
+
+        if ($emptySecond) {
+            $startDate->startOfMinute();
+            $endDate->endOfMinute();
+        }
+
+        return [
+            $startDate->toDateTimeString(),
+            $endDate->toDateTimeString()
+        ];
+    }
+
     public static function addQueryFilters(array $filters, $query)
     {
         $canQueryRelations = $query instanceof Model || $query instanceof Relation;
 
-        $filters       = collect($filters);
-        $wheres        = $filters->get('where', []);
-        $betweens      = $filters->get('between', []);
-        $betweens_time = $filters->get('between_time', []);
-        $likes         = $filters->get('like', null);
-        $searchs       = $filters->get('search', null);
+        $filters  = collect($filters);
+        $wheres   = $filters->get('where', []);
+        $betweens = $filters->get('between', []);
+        $likes    = $filters->get('like', null);
+        $searchs  = $filters->get('search', null);
 
         $order = $filters->get('order', 'id,DESC');
 
@@ -49,7 +74,7 @@ abstract class Helpers
                     }
                 }
             })
-            ->where(function ($query) use ($wheres, $likes, $betweens, $betweens_time, $canQueryRelations) {
+            ->where(function ($query) use ($wheres, $likes, $betweens, $canQueryRelations) {
                 if (is_array($likes)) {
                     foreach ($likes as $like) {
                         $like = explode(',', $like);
@@ -138,49 +163,19 @@ abstract class Helpers
                                     $query->whereHas($relations[1], function ($query) use ($relations, $dates) {
                                         $query->whereBetween(
                                             $relations[2],
-                                            ["{$dates[0]} 00:00:00", "{$dates[1]} 23:59:59"]
+                                            self::formatDateInterval($dates[0], $dates[1])
                                         );
                                     });
                                 } else {
-                                    $query->whereBetween($relations[1], ["$dates[0] 00:00:00", "$dates[1] 23:59:59"]);
+                                    $query->whereBetween($relations[1], self::formatDateInterval($dates[0], $dates[1]));
                                 }
                             });
                         } else {
-                            $query->whereBetween($between[0], ["$between[1] 00:00:00", "$between[2] 23:59:59"]);
-                        }
-                    }
-                }
-
-                if (is_array($betweens_time)) {
-                    foreach ($betweens_time as $time) {
-                        $time = explode(',', $time);
-                        if (count($time) != 3) {
-                            throw new \Exception(
-                                'Invalid "between_time" parameters, expected 3 passes ' . count($time)
-                            );
-                        }
-
-                        if (str_contains($time[0], '.') && $canQueryRelations) {
-                            $relations = explode('.', $time[0]);
-
-                            $query->whereHas($relations[0], function ($query) use ($relations, $time) {
-                                $times = array_slice($time, 1);
-
-                                if (count($relations) > 2) {
-                                    $query->whereHas($relations[1], function ($query) use ($relations, $times) {
-                                        $query->whereBetween($relations[2], ["$times[0]:00", "$times[1]:59"]);
-                                    });
-                                } else {
-                                    $query->whereBetween($relations[1], ["$times[0]:00", "$times[1]:59"]);
-                                }
-                            });
-                        } else {
-                            $query->whereBetween($time[0], ["$time[1]:00", "$time[2]:59"]);
+                            $query->whereBetween($between[0], self::formatDateInterval($between[1], $between[2]));
                         }
                     }
                 }
             });
-
 
         return $query;
     }

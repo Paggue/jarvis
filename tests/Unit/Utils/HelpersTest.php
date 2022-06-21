@@ -2,6 +2,7 @@
 
 namespace Lara\Jarvis\Tests\Unit\Utils;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Lara\Jarvis\Enums\Enums;
 use Lara\Jarvis\Http\Resources\DefaultCollection;
@@ -272,6 +273,40 @@ class HelpersTest extends TestCase
         $response = Helpers::legalEntity($document);
 
         self::assertEquals('PJ', $response);
+    }
+
+
+    /**
+     * @test
+     */
+    public function can_format_partial_date ()
+    {
+        $dateTime = "2022-11-27 10:10:10";
+        $dateWithoutSeconds = "2022-11-27 10:10";
+        $dateWithoutHour = "2022-11-27";
+        $emptyDate = '';
+
+
+        $interval = Helpers::formatDateInterval($dateTime, $dateTime);
+
+        self::assertEquals($interval[0], $dateTime);
+        self::assertEquals($interval[1], $dateTime);
+
+        $interval = Helpers::formatDateInterval($dateWithoutSeconds, $dateWithoutSeconds);
+
+        self::assertEquals($interval[0], $dateWithoutSeconds.':00');
+        self::assertEquals($interval[1], $dateWithoutSeconds.':59');
+
+        $interval = Helpers::formatDateInterval($dateWithoutHour, $dateWithoutHour);
+
+        self::assertEquals($interval[0], $dateWithoutHour.' 00:00:00');
+        self::assertEquals($interval[1], $dateWithoutHour.' 23:59:59');
+
+        $interval = Helpers::formatDateInterval($emptyDate, $emptyDate);
+
+        self::assertEquals($interval[0], Carbon::now()->startOfDay()->toDateTimeString());
+        self::assertEquals($interval[1], Carbon::now()->endOfDay()->toDateTimeString());
+
     }
 
     /**
