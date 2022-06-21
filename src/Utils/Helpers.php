@@ -203,7 +203,7 @@ abstract class Helpers
             $query->with($relationships);
         }
 
-        if ($request->get('paginate', true)) {
+        if ($request->input('paginate', true)) {
             return $query->paginate($limit, $fields);
         } else {
             return $query->get($fields);
