@@ -49,8 +49,10 @@ abstract class Helpers
         $searchs  = $filters->get('search', null);
 
         $order = $filters->get('order', 'id,DESC');
+        $order = explode(',', $order);
 
-        [$orderField, $orderDirection] = explode(',', $order);
+        $orderField     = $order[0] ?? 'id';
+        $orderDirection = $order[1] ?? 'DESC';
 
         $query = $query->orderBy($orderField, $orderDirection)
             ->where(function ($query) use ($searchs, $canQueryRelations) {
