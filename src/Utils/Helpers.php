@@ -184,7 +184,7 @@ abstract class Helpers
                     foreach ($orWheres as $orWhere) {
                         $orWhere = explode(',', $orWhere);
 
-                        if (count($orWhere) == 2) {
+                        if (count($orWhere) !== 2) {
                             throw new \Exception('Invalid "orWhere" parameters, expected 2 passes ' . count($orWhere));
                         }
 
