@@ -44,6 +44,7 @@ abstract class Helpers
 
         $filters  = collect($filters);
         $wheres   = $filters->get('where', []);
+        $orWheres   = $filters->get('orWhere', []);
         $betweens = $filters->get('between', []);
         $likes    = $filters->get('like', null);
         $searchs  = $filters->get('search', null);
@@ -175,6 +176,20 @@ abstract class Helpers
                         } else {
                             $query->whereBetween($between[0], self::formatDateInterval($between[1], $between[2]));
                         }
+                    }
+                }
+            })
+            ->orWhere(function ($query) use ($orWheres){
+                if (is_array($orWheres)) {
+                    foreach ($orWheres as $orWhere) {
+                        $orWhere = explode(',', $orWhere);
+
+                        if (count($orWhere) !== 2) {
+                            throw new \Exception('Invalid "orWhere" parameters, expected 2 passes ' . count($orWhere));
+                        }
+
+                        $query->orWhere($orWhere[0], $orWhere[1]);
+
                     }
                 }
             });
