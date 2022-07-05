@@ -57,7 +57,7 @@ class UploadFile
             $contantType = 'application/' . $extension;
         }
 
-        Log::info(`s3->credentials`, config(`aws`));
+        Log::info(`s3->credentials`, (array)config(`aws`));
 
         Log::info(`s3->putObject`, array(
             'Bucket'          => config('filesystems.disks.s3.bucket'),
