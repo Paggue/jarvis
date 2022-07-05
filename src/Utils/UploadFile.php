@@ -3,6 +3,7 @@
 namespace Lara\Jarvis\Utils;
 
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
@@ -55,6 +56,16 @@ class UploadFile
         } elseif (in_array($extension, ['pdf', 'xhtml+xml', 'xml', 'vnd.mspowerpoint', 'pkcs12', 'octet-stream'])) {
             $contantType = 'application/' . $extension;
         }
+
+        Log::info(`s3->credentials`, config(`aws`));
+
+        Log::info(`s3->putObject`, array(
+            'Bucket'          => config('filesystems.disks.s3.bucket'),
+            'ContentEncoding' => $extension,
+            'ContentType'     => $contantType,
+            'Key'             => $folder . $fileName . '.' . $extension,
+            'Body'            => $data,
+        ));
 
         $path = $s3->putObject(array(
             'Bucket'          => config('filesystems.disks.s3.bucket'),
