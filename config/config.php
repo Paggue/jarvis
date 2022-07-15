@@ -83,5 +83,12 @@ return [
         'url'        => env('WHATSAPP_URL'),
         'token'      => env('WHATSAPP_TOKEN'),
         'production' => env('WHATSAPP_PRODUCTION'),
-    ]
+    ],
+
+    'providers' => [
+        'users' => [
+            'driver' => 'eloquent',
+            'model' => User::class,
+        ],
+    ],
 ];
