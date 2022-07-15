@@ -3,6 +3,7 @@
 namespace Lara\Jarvis\Utils;
 
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
