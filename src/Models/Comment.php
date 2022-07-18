@@ -16,9 +16,6 @@ class Comment extends Model
         return \Lara\Jarvis\Database\Factories\CommentFactory::new();
     }
 
-    /**
-     * Get the parent commentable model (post or video).
-     */
     public function commentable ()
     {
         return $this->morphTo();
@@ -26,6 +23,6 @@ class Comment extends Model
 
     public function user ()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(config('jarvis.providers.users.model'));
     }
 }
