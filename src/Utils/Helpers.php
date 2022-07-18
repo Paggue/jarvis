@@ -44,7 +44,7 @@ abstract class Helpers
 
         $filters  = collect($filters);
         $wheres   = $filters->get('where', []);
-        $orWheres   = $filters->get('orWhere', []);
+        $orWheres = $filters->get('orWhere', []);
         $betweens = $filters->get('between', []);
         $likes    = $filters->get('like', null);
         $searchs  = $filters->get('search', null);
@@ -179,7 +179,7 @@ abstract class Helpers
                     }
                 }
             })
-            ->orWhere(function ($query) use ($orWheres){
+            ->orWhere(function ($query) use ($orWheres) {
                 if (is_array($orWheres)) {
                     foreach ($orWheres as $orWhere) {
                         $orWhere = explode(',', $orWhere);
@@ -189,12 +189,56 @@ abstract class Helpers
                         }
 
                         $query->orWhere($orWhere[0], $orWhere[1]);
-
                     }
                 }
             });
 
         return $query;
+    }
+
+    public static function validateDates($dates, $interval)
+    {
+        $dateStart = Carbon::parse(explode(',', $dates[0])[1]);
+        $dateEnd   = Carbon::parse(explode(',', $dates[0])[2]);
+
+        if ($dateEnd < $dateStart) {
+            abort(400, "Data selecionada inválida");
+        }
+
+        if ($dateEnd->diffInDays($dateStart) > $interval) {
+            abort(400, "Não é permitido intervalo superior à $interval dias.");
+        }
+    }
+
+    public static function filterDate($data, $field)
+    {
+        return in_array(
+            $field,
+            array_map(function ($item) {
+                return explode(',', $item)[0];
+            }, $data)
+        );
+    }
+
+    public static function getDateInterval($data, $field, $interval, $month = null)
+    {
+        if (!$month) {
+            $month = Carbon::now();
+        }
+
+        if (!isset($data['between']) || !self::filterDate($data['between'], $field)) {
+            if ($interval < 31) {
+                $dateStart = $month->subDays($interval - 1)->format('Y-m-d');
+                $dateEnd   = $month->format('Y-m-d');
+            } else {
+                $dateStart = $month->startOfMonth()->format('Y-m-d');
+                $dateEnd   = $month->endOfMonth()->format('Y-m-d');
+            }
+            return ["$field,$dateStart,$dateEnd"];
+        } else {
+            self::validateDates($data['between'], $interval);
+        }
+        return true;
     }
 
     public static function indexQueryBuilder(
